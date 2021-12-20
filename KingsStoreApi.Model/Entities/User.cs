@@ -1,9 +1,10 @@
 ﻿using System;
+using KingsStoreApi.Model.ModelHelpers;
 using Microsoft.AspNetCore.Identity;
 
 namespace KingsStoreApi.Model.Entities
 {
-    public class User : IdentityUser
+    public class User : IdentityUser, ISoftDelete
     {
         public string FullName { get; set; }
         public bool isAdmin { get; set; }
@@ -14,7 +15,7 @@ namespace KingsStoreApi.Model.Entities
         public byte[] ProfilePicture { get; set; }
         public string Bio { get; set; }
         public bool isActive { get; set; }
-
+        public bool IsDeleted { get; set; }
 
     }
 }
