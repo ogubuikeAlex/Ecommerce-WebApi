@@ -5,16 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Implementations\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\KingsStoreApi.Data\KingsStoreApi.Data.csproj" />
+    <ProjectReference Include="..\KingsStoreApi.Helpers\KingsStoreApi.Helpers.csproj" />
     <ProjectReference Include="..\KingsStoreApi.Model\KingsStoreApi.Model.csproj" />
   </ItemGroup>
 
