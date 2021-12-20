@@ -11,7 +11,8 @@ namespace KingsStoreApi.Data.Interfaces
         Task<T> AddAsync(T t);
         Task<IEnumerable<T>> AddRangAsync(IEnumerable<T> t);
         Task<bool> AnyAsync(Expression<Func<T, bool>> predicate);
-        T GetSingleByCondition(Expression<Func<T, bool>> predicate, Func<IQueryable, IOrderedQueryable> orderBy, params string[] includeProperties);
-        IEnumerable<T> GetAllByCondition(Expression<Func<T, bool>> predicate, Func<IQueryable, IOrderedQueryable> orderBy, params string[] includeProperties);
+        T GetSingleByCondition(Expression<Func<T, bool>> predicate = null, Func<IQueryable , IOrderedQueryable> orderBy = null, params string[] includeProperties);
+        IEnumerable<T> GetAllByCondition(Expression<Func<T, bool>> predicate = null, Func<IQueryable, IOrderedQueryable> orderBy = null, params string[] includeProperties);
+        Task<bool> ToggleSoftDeleteAsync(T t);
     }
 }

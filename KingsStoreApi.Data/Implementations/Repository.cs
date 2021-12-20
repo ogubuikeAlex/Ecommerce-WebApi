@@ -1,17 +1,20 @@
-﻿using System;
+﻿using KingsStoreApi.Data.Interfaces;
+using KingsStoreApi.Model.ModelHelpers;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using KingsStoreApi.Data.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace KingsStoreApi.Data.Implementations
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : class, ISoftDelete
     {
         private readonly DbContext _context;
         private readonly DbSet<T> _dbSet;
+        private Expression<Func<T, bool>> _isDeleted = s => !s.IsDeleted;
+
 
         public Repository(DbContext context)
         {
@@ -36,17 +39,17 @@ namespace KingsStoreApi.Data.Implementations
         public async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate)
         {
             if (predicate is null)
-                return await _dbSet.AnyAsync();
+                return await _dbSet.Where(_isDeleted).AnyAsync();
 
-            return await _dbSet.AnyAsync(predicate);
+            return await _dbSet.Where(_isDeleted).AnyAsync(predicate);
         }
 
         public IEnumerable<T> GetAllByCondition(Expression<Func<T, bool>> predicate = null, Func<IQueryable, IOrderedQueryable> orderBy = null, params string[] includeProperties)
         {
             if (predicate is null)
-                return _dbSet.ToList();
+                return _dbSet.Where(_isDeleted).ToList();
 
-            var model = _dbSet.Where(predicate);
+            var model = _dbSet.Where(_isDeleted).Where(predicate);
 
             foreach (var property in includeProperties)
             {
@@ -58,13 +61,12 @@ namespace KingsStoreApi.Data.Implementations
             return model;
         }
 
-
         public T GetSingleByCondition(Expression<Func<T, bool>> predicate, Func<IQueryable, IOrderedQueryable> orderBy, params string[] includeProperties)
         {
             if (predicate is null)
-                return _dbSet.ToList().FirstOrDefault();
+                return _dbSet.Where(_isDeleted).ToList().FirstOrDefault();
 
-            var model = _dbSet.Where(predicate).FirstOrDefault();
+            var model = _dbSet.Where(_isDeleted).Where(predicate).FirstOrDefault();
 
             foreach (var property in includeProperties)
             {
@@ -72,6 +74,19 @@ namespace KingsStoreApi.Data.Implementations
             }
             return model;
         }
-        
+
+        public async Task<bool> ToggleSoftDeleteAsync(T t)
+        {
+            if (t.IsDeleted)
+            {
+                t.IsDeleted = false;
+                await _context.SaveChangesAsync();
+                return t.IsDeleted;
+            }
+
+            t.IsDeleted = true;
+            await _context.SaveChangesAsync();
+            return t.IsDeleted;
+        }
     }
 }

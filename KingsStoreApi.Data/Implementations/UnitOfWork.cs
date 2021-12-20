@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using KingsStoreApi.Data.Interfaces;
+﻿using KingsStoreApi.Data.Interfaces;
+using KingsStoreApi.Model.ModelHelpers;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 
 namespace KingsStoreApi.Data.Implementations
 {
@@ -15,7 +15,7 @@ namespace KingsStoreApi.Data.Implementations
         {
            _context = context;
         }
-        public IRepository<TEntity> GetRepository<TEntity>() where TEntity : class
+        public IRepository<TEntity> GetRepository<TEntity>() where TEntity : class, ISoftDelete
         {
             _repositories ??= _repositories = new Dictionary<Type, object>();
 
