@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using KingsStoreApi.Model.DataTransferObjects.UserServiceDTO;
+using KingsStoreApi.Model.Entities;
 
 namespace KingsStoreApi.Helpers.Implementations
 {
@@ -6,7 +8,8 @@ namespace KingsStoreApi.Helpers.Implementations
     {
         public MappingProfile()
         {
-           // CreateMap<From, To>()
+            // CreateMap<From, To>()
+            CreateMap<RegisterDTO, User>();
         }
     }
 }
