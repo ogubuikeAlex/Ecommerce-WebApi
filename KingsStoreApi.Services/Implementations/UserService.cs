@@ -65,11 +65,34 @@ namespace KingsStoreApi.Services.Implementations
             return new ReturnModel { Success = true, Object = users };
         }
 
-        //Include getAllActiveUsers
-        //get all vendors
-        //get all customers
-        //Explore usermanger
-        //Explore signinmanager//
+        public ReturnModel GetAllVendors()
+        {
+            var users = _repository.GetAllByCondition(u => u.isVendor).ToList();
+
+            if (users.Count < 1)
+                return new ReturnModel { Success = false, Message = "No vendors are on this system yet" };
+
+            return new ReturnModel { Success = true, Object = users };
+        }
+        public ReturnModel GetAllCustomers()
+        {
+            var users = _repository.GetAllByCondition(u => !u.isVendor && !u.isAdmin).ToList();
+
+            if (users.Count < 1)
+                return new ReturnModel { Success = false, Message = "No customers are on this system yet" };
+
+            return new ReturnModel { Success = true, Object = users };
+        }
+
+        public ReturnModel GetAllActiveUsers()
+        {
+            var users = _repository.GetAllByCondition(u => u.isActive).ToList();
+
+            if (users.Count < 1)
+                return new ReturnModel { Success = false, Message = "No active users are on this system yet" };
+
+            return new ReturnModel { Success = true, Object = users };
+        }
 
         public async Task<ReturnModel> GetUserAsync(string email)
         {
@@ -163,6 +186,9 @@ namespace KingsStoreApi.Services.Implementations
         public async Task<ReturnModel> UnMakeUserAVendorAsync(string email)
         {
             var user = await _userManager.FindByNameAsync(email);
+            if (user is null)
+                return new ReturnModel { Message = "User not found", Success = false };
+
             user.isVendor = false;
             await _userManager.UpdateAsync(user);
 
@@ -190,13 +216,17 @@ namespace KingsStoreApi.Services.Implementations
         public async Task<ReturnModel> UpdateUserProfilePic(UploadImageDTO model)
         {
             var user = await _userManager.FindByNameAsync(model.Email);
+            IdentityResult result;
 
-            using (var memorySTream = new MemoryStream())
+            using (var memoryStream = new MemoryStream())
             {
-                await model.File.CopyToAsync(memorySTream);
-                user.ProfilePicture = memorySTream.ToArray();
-                await _userManager.UpdateAsync(user);
+                await model.File.CopyToAsync(memoryStream);
+                user.ProfilePicture = memoryStream.ToArray();
+                result = await _userManager.UpdateAsync(user);
             }
+
+            if (!result.Succeeded)
+                return new ReturnModel { Message = result.Errors.FirstOrDefault().ToString(), Success = false };
 
             return new ReturnModel { Message = "Profile image added Successfully", Object = user, Success = true };
         }
@@ -216,21 +246,7 @@ namespace KingsStoreApi.Services.Implementations
             await _userManager.UpdateAsync(user);
 
             return new ReturnModel { Message = $"User: {user.FullName} is now an Admin", Success = true, Object = user };
-        }
-
-        public ReturnModel GetAllVendors()
-        {
-            var vendors = _repository.GetAllByCondition(u => u.isVendor);
-
-            return new ReturnModel { Object = vendors };
-        }
-
-        public ReturnModel GetAllActiveUsers()
-        {
-            var vendors = _repository.GetAllByCondition(u => u.isActive);
-
-            return new ReturnModel { Object = vendors };
-        }
+        }      
     }
 }
 

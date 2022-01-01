@@ -11,6 +11,7 @@ namespace KingsStoreApi.Services.Interfaces
         ReturnModel GetAllUsers();
         ReturnModel GetAllVendors();
         ReturnModel GetAllActiveUsers();
+        ReturnModel GetAllCustomers();
         //Explore usermanger
         //Explore signinmanager//
         Task<ReturnModel> LogIn(LogInDTO model);
