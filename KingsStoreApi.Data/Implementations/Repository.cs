@@ -15,7 +15,6 @@ namespace KingsStoreApi.Data.Implementations
         private readonly DbSet<T> _dbSet;
         private Expression<Func<T, bool>> _isDeleted = s => !s.IsDeleted;
 
-
         public Repository(DbContext context)
         {
             _context = context;
