@@ -1,20 +1,25 @@
 using KingsStoreApi.Configuration;
+using KingsStoreApi.Data.Implementations;
+using KingsStoreApi.Data.Interfaces;
 using KingsStoreApi.Extensions;
+using KingsStoreApi.Model.Entities;
+using KingsStoreApi.Services.Implementations;
+using KingsStoreApi.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
 namespace KingsStoreApi
 {
     public class Startup
     {
-         public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;           
+            Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -24,7 +29,12 @@ namespace KingsStoreApi
         {
             services.SetupServices(Configuration);
             services.ConfigureJWT(Configuration);
-            services.AddControllers();
+            services.AddControllers(config =>
+            {
+                config.RespectBrowserAcceptHeader = true;
+                config.ReturnHttpNotAcceptable = true;
+            }).AddNewtonsoftJson()
+            .AddXmlDataContractSerializerFormatters();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "KingsStoreApi", Version = "v1" });
@@ -48,12 +58,22 @@ namespace KingsStoreApi
                                 Id = "bearer",
                                 Type = ReferenceType.SecurityScheme
                             }
-                        }, 
+                        },
                         new string[] {}
                     }
 
                 });
             });
+            services.AddTransient<DbContext, KingsStoreContext>();
+            services.AddTransient<IAuthenticationManager, AuthenticationManager>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<ICartService, CartService>();
+            services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<ITransactionService, TransactionService>();
+            services.AddTransient<IServiceFactory, ServiceFactory>();
+            services.AddTransient<IUnitOfWork, UnitOfWork<KingsStoreContext>>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
