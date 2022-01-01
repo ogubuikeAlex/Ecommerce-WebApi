@@ -1,5 +1,6 @@
 ﻿using KingsStoreApi.Helpers.Implementations;
 using KingsStoreApi.Model.DataTransferObjects.CategoryServicesDTO;
+using System.Threading.Tasks;
 
 namespace KingsStoreApi.Services.Interfaces
 {
@@ -7,8 +8,9 @@ namespace KingsStoreApi.Services.Interfaces
     {
         ReturnModel GetCategory(string categoryName);
         ReturnModel GetAllCategories();
-        ReturnModel CreateCategory(CreateCategoryDTO model);
-        ReturnModel SoftDeleteCategory(string id);
+        Task<ReturnModel> CreateCategory(CreateCategoryDTO model);
+        Task<ReturnModel> ToggleSoftDeleteCategory(string id);
         ReturnModel UpdateCategory(UpdateCategoryDTO model);
+
     }
 }

@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
 using KingsStoreApi.Data.Interfaces;
 using KingsStoreApi.Helpers.Implementations;
+using KingsStoreApi.Model.DataTransferObjects.SharedDTO;
 using KingsStoreApi.Model.DataTransferObjects.UserServiceDTO;
 using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Model.Enums;
 using KingsStoreApi.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,17 +16,20 @@ namespace KingsStoreApi.Services.Implementations
 {
     public class UserService : IUserService
     {
+        private readonly IServiceFactory _serviceFactory;
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
-        private readonly IAuthenticationManager _authenticationManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IRepository<User> _repository;
-
-        public UserService(IMapper mapper, UserManager<User> userManager, IUnitOfWork unitOfWork, IAuthenticationManager authenticationManager, SignInManager<User> signInManager)
+        private User _user;
+        
+        public UserService(IServiceFactory serviceFactory, IMapper mapper, UserManager<User> userManager, 
+            IUnitOfWork unitOfWork,
+           SignInManager<User> signInManager)
         {
+            _serviceFactory = serviceFactory;
             _mapper = mapper;
-            _userManager = userManager;
-            _authenticationManager = authenticationManager;
+            _userManager = userManager;           
             _signInManager = signInManager;
             _repository = unitOfWork.GetRepository<User>();
         }
@@ -48,8 +54,6 @@ namespace KingsStoreApi.Services.Implementations
 
             return new ReturnModel { Success = true, Message = $"User : {user.FullName} is now a vendor" };
         }
-
-        //Add make existing user a vendor
 
         public ReturnModel GetAllUsers()
         {
@@ -77,19 +81,19 @@ namespace KingsStoreApi.Services.Implementations
             return new ReturnModel { Message = "User found", Success = true, Object = user };
         }
 
-
         public async Task<ReturnModel> LogIn(LogInDTO model)
         {
+            var authenticationManager = _serviceFactory.GetServices<IAuthenticationManager>();
             var user = await _userManager.FindByNameAsync(model.Email);
             if (user is null)
                 return new ReturnModel { Message = "User Not found please register to continue", Success = false };
 
-            var isUserValid = await _authenticationManager.ValidateUser(model);
+            var isUserValid = await authenticationManager.ValidateUser(model);
             if (!isUserValid)
                 return new ReturnModel { Message = "Invalid email or password", Success = false };
             await _signInManager.SignInAsync(user, false);
-            var token = await _authenticationManager.CreateToken();
-
+            var token = await authenticationManager.CreateToken();
+            _user = user;
             return new ReturnModel { Message = "Your login was successful", Success = true, Object = token };
         }
 
@@ -115,9 +119,13 @@ namespace KingsStoreApi.Services.Implementations
             return new ReturnModel { Message = $"{ newUser.FullName } Added successfully", Success = true };
         }
 
-        public ReturnModel RemoveProfilePicture()
+        public async Task<ReturnModel> RemoveProfilePicture(string email)
         {
-            throw new System.NotImplementedException();
+            var user = await _userManager.FindByNameAsync(email);
+            user.ProfilePicture = null;
+            await _userManager.UpdateAsync(user);
+
+            return new ReturnModel { Message = "Profile pic successfully removed", Success = true };
         }
 
         public async Task<ReturnModel> ToggleUserSoftDeleteAsync(string email)
@@ -150,7 +158,78 @@ namespace KingsStoreApi.Services.Implementations
 
             user.isActive = true;
             return new ReturnModel { Message = $"User: {email} has been Activated", Success = true };
+        }
 
+        public async Task<ReturnModel> UnMakeUserAVendorAsync(string email)
+        {
+            var user = await _userManager.FindByNameAsync(email);
+            user.isVendor = false;
+            await _userManager.UpdateAsync(user);
+
+            return new ReturnModel { Message = $"User: {user.FullName} is no longer a vendor", Success= true, Object = user };
+        }
+
+        public async Task<ReturnModel> MakeUserAnAdminAsync(string email)
+        {
+            var user = await _userManager.FindByNameAsync(email);
+            user.isAdmin = true;
+            await _userManager.UpdateAsync(user);
+
+            return new ReturnModel { Message = $"User: {user.FullName} is now an Admin", Success= true, Object= user};
+        }
+
+        public async Task<ReturnModel> UnMakeUserAnAdminAsync(string email)
+        {
+            var user = await _userManager.FindByNameAsync(email);
+            user.isAdmin = false;
+            await _userManager.UpdateAsync(user);
+
+            return new ReturnModel { Message = $"User: {user.FullName} is no longer an Admin", Success = true, Object = user };
+        }
+
+        public async Task<ReturnModel> UpdateUserProfilePic(UploadImageDTO model)
+        {
+            var user = await _userManager.FindByNameAsync(model.Email);
+
+            using (var memorySTream = new MemoryStream())
+            {
+                await model.File.CopyToAsync(memorySTream);
+                user.ProfilePicture = memorySTream.ToArray();
+                await _userManager.UpdateAsync(user);
+            }
+
+            return new ReturnModel { Message = "Profile image added Successfully", Object = user, Success = true };
+        }
+
+        public async Task<ReturnModel> UpdateUserBio(string newBio)
+        {
+            _user.Bio = newBio;
+            await _userManager.UpdateAsync(_user);
+
+            return new ReturnModel { Message = $"User: {_user.FullName} is now an Admin", Success = true, Object = _user };
+        }
+
+        public async Task<ReturnModel> UpdateUserFullName(UpdateFullNameDTO model)
+        {
+            var user = await _userManager.FindByNameAsync(model.Email);
+            user.FullName = model.NewFullName;
+            await _userManager.UpdateAsync(user);
+
+            return new ReturnModel { Message = $"User: {user.FullName} is now an Admin", Success = true, Object = user };
+        }
+
+        public ReturnModel GetAllVendors()
+        {
+            var vendors = _repository.GetAllByCondition(u => u.isVendor);
+
+            return new ReturnModel { Object = vendors };
+        }
+
+        public ReturnModel GetAllActiveUsers()
+        {
+            var vendors = _repository.GetAllByCondition(u => u.isActive);
+
+            return new ReturnModel { Object = vendors };
         }
     }
 }

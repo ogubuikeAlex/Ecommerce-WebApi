@@ -1,4 +1,6 @@
 ﻿using KingsStoreApi.Helpers.Implementations;
+using KingsStoreApi.Model.DataTransferObjects.ProductServiceDTO;
+using KingsStoreApi.Model.DataTransferObjects.SharedDTO;
 
 namespace KingsStoreApi.Services.Interfaces
 {
@@ -9,7 +11,10 @@ namespace KingsStoreApi.Services.Interfaces
         ReturnModel GetAllProducts();
         ReturnModel UploadProduct(UploadProductDTO model);
         ReturnModel RemoveProduct(RemoveProductDTO model);
-        ReturnModel EditProduct(EditProductDTO model);
+        ReturnModel UplaodProductImage(UploadImageDTO model);//patch
+        ReturnModel EditProductPrice(EditProductPriceDTO model);//patch
+        ReturnModel EditProductSummary(EditProductSummaryDTO model);//patch
+        ReturnModel EditProductTitle(EditProductTitleDTO model);//patch
         ReturnModel SoftDeleteProduct(DeleteProductDTO model);        
     }
 }

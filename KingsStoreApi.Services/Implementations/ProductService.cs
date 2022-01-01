@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using KingsStoreApi.Data.Interfaces;
 using KingsStoreApi.Helpers.Implementations;
+using KingsStoreApi.Model.DataTransferObjects.ProductServiceDTO;
+using KingsStoreApi.Model.DataTransferObjects.SharedDTO;
 using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -25,9 +27,24 @@ namespace KingsStoreApi.Services.Implementations
             _repository = unitOfWork.GetRepository<Product>();
         }
 
-        public ReturnModel EditProduct(EditProductDTO model)
+        public ReturnModel UplaodProductImage(UploadImageDTO model)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
+        }
+
+        public ReturnModel EditProductPrice(EditProductPriceDTO model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ReturnModel EditProductSummary(EditProductSummaryDTO model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ReturnModel EditProductTitle(EditProductTitleDTO model)
+        {
+            throw new NotImplementedException();
         }
 
         public ReturnModel GetAllProducts()
@@ -45,34 +62,33 @@ namespace KingsStoreApi.Services.Implementations
             var product = _repository.GetSingleByCondition(p => p.Id == Guid.Parse(id));
 
             if (product is null)
-                return new ReturnModel { Success = false, Message = "Product not found"};
+                return new ReturnModel { Success = false, Message = "Product not found" };
 
             return new ReturnModel { Success = true, Object = product };
         }
 
-        public ReturnModel GetProductsByName(string name)
+        public ReturnModel GetProductByName(string name)
         {
             var products = _repository.GetAllByCondition(p => p.Title == name);
 
             if (products is null)
-                return new ReturnModel { Success = false, Message = "No product in our store has that title"};
+                return new ReturnModel { Success = false, Message = "No product in our store has that title" };
 
             return new ReturnModel { Success = true, Object = products };
         }
-
-        public ReturnModel GetProductsByName(string name)
-        {
-            throw new System.NotImplementedException();
-        }
-
+        //Get product by vendor
+        //Get all disabled products by a vendor
+        //Seach
+        //filter/
+        //buynow
         public ReturnModel RemoveProduct(RemoveProductDTO model)
         {
             throw new System.NotImplementedException();
         }
 
-        public ReturnModel SoftDeleteProduct()
+        public ReturnModel SoftDeleteProduct(DeleteProductDTO model)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public ReturnModel UploadProduct(UploadProductDTO model)

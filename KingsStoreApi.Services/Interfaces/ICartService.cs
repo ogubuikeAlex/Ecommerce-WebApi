@@ -1,15 +1,19 @@
-﻿using KingsStoreApi.Helpers.Implementations;
-using KingsStoreApi.Model.Entities;
+﻿using KingsStoreApi.Model.Entities;
+using KingsStoreApi.Model.Enums;
+using System;
 
 namespace KingsStoreApi.Services.Interfaces
 {
     public interface ICartService
     {
-        ReturnModel GetCart(string id);
-        ReturnModel GetAllCarts();
-        ReturnModel CreateCart(CreateCartDTO model);
-        ReturnModel AddToCart(params Product[] products);
-        ReturnModel RemoveFromCart(params Product[] products);
-        ReturnModel UpdateCart(UpdateCartDTO model);
+        public void AddCartItem(Product product, int quantity);
+        public void RemoveCartItem(string cartItemId);
+        public void ClearCart();
+        public decimal GetTotalCartPrice();
+        public Guid Id { get; set; }
+        public Guid? UserId { get; set; }
+        public string SessionId { get; set; }
+        public CartStatus CartStatus { get; set; }
     }
 }
+
