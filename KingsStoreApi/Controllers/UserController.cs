@@ -92,6 +92,7 @@ namespace KingsStoreApi.Controllers
         {
             var result = await _userService.UnMakeUserAVendorAsync(email);
 
+
             if (!result.Success)
                 return NotFound(result.Message);
 
