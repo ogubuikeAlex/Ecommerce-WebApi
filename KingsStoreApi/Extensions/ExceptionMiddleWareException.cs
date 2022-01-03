@@ -20,8 +20,7 @@ namespace KingsStoreApi.Extensions
 
                     var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
                     if (contextFeature is not null)
-                    {                       
-
+                    { 
                         await context.Response.WriteAsync(new ErrorDetails
                         {
                             Message = contextFeature.Error.Message,

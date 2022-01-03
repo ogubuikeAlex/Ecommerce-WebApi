@@ -16,6 +16,5 @@ namespace KingsStoreApi.Model.Entities
         public string Bio { get; set; }
         public bool isActive { get; set; }
         public bool IsDeleted { get; set; }
-
     }
 }

@@ -31,7 +31,7 @@ namespace KingsStoreApi.Controllers
             _userService = service;
         }
 
-        [HttpGet("{email}")]
+        [HttpGet("{email}")] //working
         public async Task<IActionResult> GetUser(string email)
         {
             var result = await _userService.GetUserAsync(email);
@@ -43,7 +43,7 @@ namespace KingsStoreApi.Controllers
             return Ok(user);
         }
 
-        [HttpGet]
+        [HttpGet] //working
         public IActionResult GetAllUsers()
         {
             var result = _userService.GetAllUsers();
@@ -54,7 +54,7 @@ namespace KingsStoreApi.Controllers
             var users = result.Object as IEnumerable<User>;
             return Ok(users);
         }
-        [HttpGet("vendors")]
+        [HttpGet("vendors")] //working
         public IActionResult GetAllVendors()
         {
             var result = _userService.GetAllVendors();
@@ -65,7 +65,7 @@ namespace KingsStoreApi.Controllers
 
             return Ok(vendors);
         }
-        [HttpGet("activeUsers")]
+        [HttpGet("activeUsers")] //working
         public IActionResult GetAllActiveUsers()
         {
             var result = _userService.GetAllActiveUsers();
@@ -76,7 +76,7 @@ namespace KingsStoreApi.Controllers
 
             return Ok(users);
         }
-        [HttpGet("customers")]
+        [HttpGet("customers")] //working
         public IActionResult GetAllCustomers()
         {
             var result = _userService.GetAllCustomers();
@@ -92,31 +92,33 @@ namespace KingsStoreApi.Controllers
         {
             var result = await _userService.UnMakeUserAVendorAsync(email);
 
-
             if (!result.Success)
-                return NotFound(result.Message);
+                return result.Message.Contains("not found") ?
+                    NotFound(result.Message) : BadRequest(result.Message);
 
             return Ok(result.Message);
         }
 
-        [HttpPost("makeAdmin")]
+        [HttpPost("makeAdmin")] //working
         public async Task<IActionResult> MakeUserAnAdminAsync(string email)
         {
             var result = await _userService.MakeUserAnAdminAsync(email);
 
             if (!result.Success)
-                return BadRequest(result.Message);
+                return result.Message.Contains("not found") ?
+                     NotFound(result.Message) : BadRequest(result.Message);
 
             return Ok(result.Message);
         }
 
-        [HttpPost("removeAdmin")]
+        [HttpPost("removeAdmin")]//working
         public async Task<IActionResult> UnmakeUserAnAdminAsync(string email)
         {
             var result = await _userService.UnMakeUserAnAdminAsync(email);
 
             if (!result.Success)
-                return BadRequest(result.Message);
+                return result.Message.Contains("not found") ?
+                    NotFound(result.Message) : BadRequest(result.Message);
 
             return Ok(result.Message);
         }
@@ -165,7 +167,7 @@ namespace KingsStoreApi.Controllers
             return Ok(result.Message);
         }
 
-        [HttpPost]
+        [HttpPost] //working
         public async Task<IActionResult> Login(LogInDTO model)
         {
             var result = await _userService.LogIn(model);
@@ -176,17 +178,17 @@ namespace KingsStoreApi.Controllers
             }
 
             var token = result.Object as string;
-            return Ok(token);
+            return Ok($"{result.Message}\nToken: {token}");
         }
 
-        [HttpPost("logout")]
+        [HttpPost("logout")] //working
         public async Task<IActionResult> LogOut()
         {
             await _signInManager.SignOutAsync();
             return NoContent();
         }
 
-        [HttpPost("register")]
+        [HttpPost("register")] //working
         public async Task<IActionResult> Register(RegisterDTO model)
         {
             var registrationResult = await _userService.RegisterAsync(model);
@@ -197,7 +199,7 @@ namespace KingsStoreApi.Controllers
             return Ok(registrationResult.Message);
         }
 
-        [HttpPost("makeVendor")]
+        [HttpPost("makeVendor")] //working
         public async Task<IActionResult> MakeUserAVendorAsync(string email)
         {
             var result = await _userService.MakeUserAVendorAsync(email);

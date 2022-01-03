@@ -6,8 +6,8 @@ using KingsStoreApi.Model.DataTransferObjects.UserServiceDTO;
 using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Model.Enums;
 using KingsStoreApi.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,14 +22,14 @@ namespace KingsStoreApi.Services.Implementations
         private readonly SignInManager<User> _signInManager;
         private readonly IRepository<User> _repository;
         private User _user;
-        
-        public UserService(IServiceFactory serviceFactory, IMapper mapper, UserManager<User> userManager, 
+
+        public UserService(IServiceFactory serviceFactory, IMapper mapper, UserManager<User> userManager,
             IUnitOfWork unitOfWork,
            SignInManager<User> signInManager)
         {
             _serviceFactory = serviceFactory;
             _mapper = mapper;
-            _userManager = userManager;           
+            _userManager = userManager;
             _signInManager = signInManager;
             _repository = unitOfWork.GetRepository<User>();
         }
@@ -48,8 +48,8 @@ namespace KingsStoreApi.Services.Implementations
             var result = await _userManager.AddToRoleAsync(user, Roles.Vendor.ToString());
 
             if (!result.Succeeded)
-                return new ReturnModel { Message = $"Vendor role not added to User : {user.FullName}", Success = false };
-
+                return new ReturnModel { Message = $"Vendor role not added to User : {user.FullName}\n {result.Errors.FirstOrDefault().Description}", Success = false };/*
+*/
             await _userManager.UpdateAsync(user);
 
             return new ReturnModel { Success = true, Message = $"User : {user.FullName} is now a vendor" };
@@ -111,7 +111,10 @@ namespace KingsStoreApi.Services.Implementations
             if (user is null)
                 return new ReturnModel { Message = "User Not found please register to continue", Success = false };
 
-            var isUserValid = await authenticationManager.ValidateUser(model);
+            var validateUserDTO = new ValidateUserDTO { User = user, Password = model.Password };
+
+            var isUserValid = await authenticationManager.ValidateUser(validateUserDTO);
+
             if (!isUserValid)
                 return new ReturnModel { Message = "Invalid email or password", Success = false };
             await _signInManager.SignInAsync(user, false);
@@ -129,6 +132,13 @@ namespace KingsStoreApi.Services.Implementations
         public async Task<ReturnModel> RegisterAsync(RegisterDTO model)
         {
             var newUser = _mapper.Map<User>(model);
+
+            newUser.LastLogin = DateTime.Now;
+            newUser.CreatedAt = DateTime.Now;
+            newUser.UpdatedAt = DateTime.Now;
+            newUser.isActive = true;
+            newUser.UserName = model.Email;            
+
             var result = await _userManager.CreateAsync(newUser, model.Password);
 
             if (!result.Succeeded)
@@ -189,27 +199,58 @@ namespace KingsStoreApi.Services.Implementations
             if (user is null)
                 return new ReturnModel { Message = "User not found", Success = false };
 
+            if (!user.isVendor)
+                return new ReturnModel { Message = $"User : {user.FullName} is Not a vendor", Success = false };
+
+           var result = await _userManager.RemoveFromRoleAsync(user, Roles.Vendor.ToString());
+
+            if (!result.Succeeded)
+                return new ReturnModel { Message = result.Errors.FirstOrDefault().Description , Success = false };
+
             user.isVendor = false;
             await _userManager.UpdateAsync(user);
 
-            return new ReturnModel { Message = $"User: {user.FullName} is no longer a vendor", Success= true, Object = user };
+            return new ReturnModel { Message = $"User: {user.FullName} is no longer a vendor", Success = true, Object = user };
         }
 
         public async Task<ReturnModel> MakeUserAnAdminAsync(string email)
         {
-            var user = await _userManager.FindByNameAsync(email);
-            user.isAdmin = true;
-            await _userManager.UpdateAsync(user);
+            var user = await _userManager.FindByNameAsync(email);            
 
-            return new ReturnModel { Message = $"User: {user.FullName} is now an Admin", Success= true, Object= user};
+            if (user is null)
+                return new ReturnModel { Message = $"User : {email} is not found\nTry to register first! ", Success = false };
+
+            if (user.isAdmin)
+                return new ReturnModel { Message = $"User : {user.FullName} is already an admmin", Success = false };
+           
+            user.isAdmin = true;
+            var result = await _userManager.AddToRoleAsync(user, Roles.Admin.ToString());
+
+            if (!result.Succeeded)
+                return new ReturnModel { Message = $"Admin role not added to User : {user.FullName}", Success = false };
+
+            await _userManager.UpdateAsync(user);         
+
+            return new ReturnModel { Message = $"User: {user.FullName} is now an Admin", Success = true, Object = user };
         }
 
         public async Task<ReturnModel> UnMakeUserAnAdminAsync(string email)
         {
             var user = await _userManager.FindByNameAsync(email);
+
+            if (user is null)
+                return new ReturnModel { Message = $"User : {email} is not found\nTry to register first! ", Success = false };
+
+            if (!user.isAdmin)
+                return new ReturnModel { Message = $"User : {user.FullName} is Not an admin", Success = false };
+
+            var result = await _userManager.RemoveFromRoleAsync(user, Roles.Admin.ToString());
+
+            if (!result.Succeeded)
+                return new ReturnModel { Message = result.Errors.FirstOrDefault().Description, Success = false };
+
             user.isAdmin = false;
             await _userManager.UpdateAsync(user);
-
             return new ReturnModel { Message = $"User: {user.FullName} is no longer an Admin", Success = true, Object = user };
         }
 
@@ -246,7 +287,7 @@ namespace KingsStoreApi.Services.Implementations
             await _userManager.UpdateAsync(user);
 
             return new ReturnModel { Message = $"User: {user.FullName} is now an Admin", Success = true, Object = user };
-        }      
+        }
     }
 }
 

@@ -64,6 +64,7 @@ namespace KingsStoreApi
 
                 });
             });
+            services.AddAutoMapper(typeof(Startup));
             services.AddTransient<DbContext, KingsStoreContext>();
             services.AddTransient<IAuthenticationManager, AuthenticationManager>();
             services.AddTransient<IUserService, UserService>();
