@@ -33,9 +33,9 @@ namespace KingsStoreApi.Data.Implementations
 
         }
 
-        public async Task<bool> ValidateUser(LogInDTO credential)
+        public async Task<bool> ValidateUser(ValidateUserDTO credential)
         {
-            _user = await _userManager.FindByNameAsync(credential.Email);
+            _user = credential.User;
 
             return _user != null && await _userManager.CheckPasswordAsync(_user, credential.Password);
         }

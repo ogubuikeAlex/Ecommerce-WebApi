@@ -7,7 +7,7 @@ namespace KingsStoreApi.Data.Interfaces
 {
     public interface IAuthenticationManager
     {
-        Task<bool> ValidateUser(LogInDTO credential);
+        Task<bool> ValidateUser(ValidateUserDTO credential);
         Task<string> CreateToken();
     }
 }
