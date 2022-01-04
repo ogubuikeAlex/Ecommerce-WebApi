@@ -1,5 +1,6 @@
 ﻿using KingsStoreApi.Data.Implementations;
 using KingsStoreApi.Data.Interfaces;
+using KingsStoreApi.Extensions;
 using KingsStoreApi.Model.DataTransferObjects.SharedDTO;
 using KingsStoreApi.Model.DataTransferObjects.UserServiceDTO;
 using KingsStoreApi.Model.Entities;
@@ -87,7 +88,7 @@ namespace KingsStoreApi.Controllers
 
             return Ok(users);
         }
-        [HttpPost("removeVendor")]
+        [HttpPost("removeVendor")]////working
         public async Task<IActionResult> UnmakeUserAVendorAsync(string email)
         {
             var result = await _userService.UnMakeUserAVendorAsync(email);
@@ -123,8 +124,8 @@ namespace KingsStoreApi.Controllers
             return Ok(result.Message);
         }
 
-        [HttpPost("updatePic")]
-        public async Task<IActionResult> UpdateUserProfilePic(UploadImageDTO model)
+        [HttpPost("updatePic")]//working
+        public async Task<IActionResult> UpdateUserProfilePic([FromForm]UploadImageDTO model)
         {
             var result = await _userService.UpdateUserProfilePic(model);
 
@@ -137,6 +138,7 @@ namespace KingsStoreApi.Controllers
         [HttpPost("updateBio")]
         public async Task<IActionResult> UpdateUserBio(string newBio)
         {
+            var _user = HttpContext.User.GetLoggedInUserInfo();
             var result = await _userService.UpdateUserBio(newBio);
 
             if (!result.Success)
