@@ -6,6 +6,7 @@ using KingsStoreApi.Model.DataTransferObjects.UserServiceDTO;
 using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Model.Enums;
 using KingsStoreApi.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.IO;
@@ -272,12 +273,12 @@ namespace KingsStoreApi.Services.Implementations
             return new ReturnModel { Message = "Profile image added Successfully", Object = user, Success = true };
         }
 
-        public async Task<ReturnModel> UpdateUserBio(string newBio)
-        {
-            _user.Bio = newBio;
-            await _userManager.UpdateAsync(_user);
+        public async Task<ReturnModel> UpdateUserBio(string newBio, User user)
+        {           
+            user.Bio = newBio;
+            await _userManager.UpdateAsync(user);
 
-            return new ReturnModel { Message = $"User: {_user.FullName} is now an Admin", Success = true, Object = _user };
+            return new ReturnModel { Message = $"User: {user.FullName} is now an Admin", Success = true, Object = user };
         }
 
         public async Task<ReturnModel> UpdateUserFullName(UpdateFullNameDTO model)
