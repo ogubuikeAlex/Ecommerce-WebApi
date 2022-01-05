@@ -76,7 +76,7 @@ namespace KingsStoreApi.Data.Implementations
 
         public async Task<bool> ToggleSoftDeleteAsync(T t)
         {
-            if (t.IsDeleted)
+            if (t.IsDeleted) 
             {
                 t.IsDeleted = false;
                 await _context.SaveChangesAsync();
