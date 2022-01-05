@@ -136,7 +136,7 @@ namespace KingsStoreApi.Controllers
             return Ok(result.Message);
         }
 
-        [HttpPost("updateBio"), Authorize]
+        [HttpPost("updateBio"), Authorize] //Working
         public async Task<IActionResult> UpdateUserBio(string newBio)
         {            
             var user = await GetLoggedInUserAsync();
@@ -148,7 +148,7 @@ namespace KingsStoreApi.Controllers
             return Ok(result.Message);
         }
 
-        [HttpPost("updateName"), Authorize]
+        [HttpPost("updateName"), Authorize]//working
         public async Task<IActionResult> UpdateUserFullName(string newName)
         {
             var user = await GetLoggedInUserAsync();
@@ -161,10 +161,11 @@ namespace KingsStoreApi.Controllers
             return Ok(result.Message);
         }
 
-        [HttpPost("removePic")]
-        public async Task<IActionResult> RemoveUserProfilePicture(string email)
+        [HttpPost("removePic"), Authorize]//working
+        public async Task<IActionResult> RemoveUserProfilePicture()
         {
-            var result = await _userService.RemoveProfilePicture(email);
+            var user = await GetLoggedInUserAsync();
+            var result = await _userService.RemoveProfilePicture(user);
 
             if (!result.Success)
                 return BadRequest(result.Message);
@@ -218,7 +219,7 @@ namespace KingsStoreApi.Controllers
             return Ok(result.Message);
         }
 
-        [HttpPost("toggleActiveStatus")]
+        [HttpPost("toggleActiveStatus")]//working
         public async Task<IActionResult> ToggleUserActivationStatusAsync(string email)
         {
             var result = await _userService.ToggleUserActivationStatusAsync(email);
@@ -228,7 +229,7 @@ namespace KingsStoreApi.Controllers
             return Ok(result.Message);
         }
 
-        [HttpPost("toggleSoftDelete")]
+        [HttpPost("toggleSoftDelete")]//working
         public async Task<IActionResult> ToggleUserSoftDeleteAsync(string email)
         {
             var result = await _userService.ToggleUserSoftDeleteAsync(email);
