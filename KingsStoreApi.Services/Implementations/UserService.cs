@@ -273,7 +273,7 @@ namespace KingsStoreApi.Services.Implementations
             return new ReturnModel { Message = "Profile image added Successfully", Object = user, Success = true };
         }
 
-        public async Task<ReturnModel> UpdateUserBio(string newBio, User user)
+        public async Task<ReturnModel> UpdateUserBio(User user, string newBio)
         {           
             user.Bio = newBio;
             await _userManager.UpdateAsync(user);
@@ -281,10 +281,9 @@ namespace KingsStoreApi.Services.Implementations
             return new ReturnModel { Message = $"User: {user.FullName} is now an Admin", Success = true, Object = user };
         }
 
-        public async Task<ReturnModel> UpdateUserFullName(UpdateFullNameDTO model)
-        {
-            var user = await _userManager.FindByNameAsync(model.Email);
-            user.FullName = model.NewFullName;
+        public async Task<ReturnModel> UpdateUserFullName(User user, string newName)
+        {           
+            user.FullName = newName;
             await _userManager.UpdateAsync(user);
 
             return new ReturnModel { Message = $"User: {user.FullName} is now an Admin", Success = true, Object = user };

@@ -1,6 +1,7 @@
 ﻿using KingsStoreApi.Helpers.Implementations;
 using KingsStoreApi.Model.DataTransferObjects.SharedDTO;
 using KingsStoreApi.Model.DataTransferObjects.UserServiceDTO;
+using KingsStoreApi.Model.Entities;
 using System.Threading.Tasks;
 
 namespace KingsStoreApi.Services.Interfaces
@@ -22,8 +23,8 @@ namespace KingsStoreApi.Services.Interfaces
         Task<ReturnModel> MakeUserAnAdminAsync(string email);
         Task<ReturnModel> UnMakeUserAnAdminAsync(string email);
         Task<ReturnModel> UpdateUserProfilePic(UploadImageDTO model);
-        Task<ReturnModel> UpdateUserBio(string email);
-        Task<ReturnModel> UpdateUserFullName(UpdateFullNameDTO model);
+        Task<ReturnModel> UpdateUserBio(User user, string email);
+        Task<ReturnModel> UpdateUserFullName(User user, string name);
         Task<ReturnModel> RemoveProfilePicture(string email);
         Task<ReturnModel> ToggleUserActivationStatusAsync(string email);
         Task<ReturnModel> ToggleUserSoftDeleteAsync (string email);
