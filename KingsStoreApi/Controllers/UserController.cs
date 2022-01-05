@@ -5,6 +5,7 @@ using KingsStoreApi.Model.DataTransferObjects.SharedDTO;
 using KingsStoreApi.Model.DataTransferObjects.UserServiceDTO;
 using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -135,11 +136,11 @@ namespace KingsStoreApi.Controllers
             return Ok(result.Message);
         }
 
-        [HttpPost("updateBio")]
+        [HttpPost("updateBio"), Authorize]
         public async Task<IActionResult> UpdateUserBio(string newBio)
-        {
-            var _user = HttpContext.User.GetLoggedInUserInfo();
-            var result = await _userService.UpdateUserBio(newBio);
+        {            
+            var user = await GetLoggedInUserAsync();
+            var result = await _userService.UpdateUserBio(user, newBio);
 
             if (!result.Success)
                 return BadRequest(result.Message);
@@ -147,10 +148,12 @@ namespace KingsStoreApi.Controllers
             return Ok(result.Message);
         }
 
-        [HttpPost("updateName")]
-        public async Task<IActionResult> UpdateUserFullName(UpdateFullNameDTO model)
+        [HttpPost("updateName"), Authorize]
+        public async Task<IActionResult> UpdateUserFullName(string newName)
         {
-            var result = await _userService.UpdateUserFullName(model);
+            var user = await GetLoggedInUserAsync();
+
+            var result = await _userService.UpdateUserFullName(user, newName);
 
             if (!result.Success)
                 return BadRequest(result.Message);
@@ -231,6 +234,13 @@ namespace KingsStoreApi.Controllers
             var result = await _userService.ToggleUserSoftDeleteAsync(email);
 
             return Ok(result.Message);
+        }
+
+        private async Task<User> GetLoggedInUserAsync()
+        {
+            var (userId, userEmail) = HttpContext.User.GetLoggedInUserInfo();
+            var user = await _userManager.FindByNameAsync(userEmail);
+            return user;
         }
     }
 }

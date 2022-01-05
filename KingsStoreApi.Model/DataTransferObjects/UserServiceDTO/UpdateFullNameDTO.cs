@@ -1,8 +1,10 @@
-﻿namespace KingsStoreApi.Model.DataTransferObjects.UserServiceDTO
+﻿using KingsStoreApi.Model.Entities;
+
+namespace KingsStoreApi.Model.DataTransferObjects.UserServiceDTO
 {
     public class UpdateFullNameDTO
     {
-        public string Email { get; set; }
+        public User User { get; set; }
         public string NewFullName { get; set; }
     }
 }

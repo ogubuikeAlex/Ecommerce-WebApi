@@ -72,12 +72,12 @@ namespace KingsStoreApi.Extensions
                 });
         }
 
-        public static User GetLoggedInUserInfo (this ClaimsPrincipal user)
+        public static (string userId, string userEmail) GetLoggedInUserInfo (this ClaimsPrincipal user)
         {
             var userId = user.Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.NameIdentifier, StringComparison.InvariantCulture)).Value;
             var userEmail = user.Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Email, StringComparison.InvariantCulture)).Value;
-
-            return new User { Id = userId, Email = userEmail };
+            
+            return (userId, userEmail);
         }
     }
 }
