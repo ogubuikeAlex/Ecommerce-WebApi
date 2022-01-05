@@ -25,7 +25,7 @@ namespace KingsStoreApi.Services.Interfaces
         Task<ReturnModel> UpdateUserProfilePic(UploadImageDTO model);
         Task<ReturnModel> UpdateUserBio(User user, string email);
         Task<ReturnModel> UpdateUserFullName(User user, string name);
-        Task<ReturnModel> RemoveProfilePicture(string email);
+        Task<ReturnModel> RemoveProfilePicture(User user);
         Task<ReturnModel> ToggleUserActivationStatusAsync(string email);
         Task<ReturnModel> ToggleUserSoftDeleteAsync (string email);
     }

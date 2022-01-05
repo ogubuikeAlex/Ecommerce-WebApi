@@ -153,9 +153,8 @@ namespace KingsStoreApi.Services.Implementations
             return new ReturnModel { Message = $"{ newUser.FullName } Added successfully", Success = true };
         }
 
-        public async Task<ReturnModel> RemoveProfilePicture(string email)
+        public async Task<ReturnModel> RemoveProfilePicture(User user)
         {
-            var user = await _userManager.FindByNameAsync(email);
             user.ProfilePicture = null;
             await _userManager.UpdateAsync(user);
 
@@ -168,11 +167,12 @@ namespace KingsStoreApi.Services.Implementations
 
             var user = result.Object as User;
             var isDeleted = await _repository.ToggleSoftDeleteAsync(user);
+            await _userManager.UpdateAsync(user);
 
             if (isDeleted)
-                return new ReturnModel { Message = "User has been deleted", Success = true };
+                return new ReturnModel { Message = $"User {user.Email} has been deleted", Success = true };
 
-            return new ReturnModel { Message = "User account has been restored", Success = false };
+            return new ReturnModel { Message = $"User {user.Email} has been restored", Success = false };
         }
 
         public async Task<ReturnModel> ToggleUserActivationStatusAsync(string email)
@@ -278,7 +278,7 @@ namespace KingsStoreApi.Services.Implementations
             user.Bio = newBio;
             await _userManager.UpdateAsync(user);
 
-            return new ReturnModel { Message = $"User: {user.FullName} is now an Admin", Success = true, Object = user };
+            return new ReturnModel { Message = $"User: Bio Update Successful", Success = true, Object = user };
         }
 
         public async Task<ReturnModel> UpdateUserFullName(User user, string newName)
@@ -286,7 +286,7 @@ namespace KingsStoreApi.Services.Implementations
             user.FullName = newName;
             await _userManager.UpdateAsync(user);
 
-            return new ReturnModel { Message = $"User: {user.FullName} is now an Admin", Success = true, Object = user };
+            return new ReturnModel { Message = $"User: Name updated", Success = true, Object = user };
         }
     }
 }
