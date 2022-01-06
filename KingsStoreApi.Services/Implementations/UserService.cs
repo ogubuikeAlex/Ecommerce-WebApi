@@ -173,6 +173,7 @@ namespace KingsStoreApi.Services.Implementations
                 return new ReturnModel { Message = $"User {user.Email} has been deleted", Success = true };
 
             return new ReturnModel { Message = $"User {user.Email} has been restored", Success = false };
+
         }
 
         public async Task<ReturnModel> ToggleUserActivationStatusAsync(string email)
