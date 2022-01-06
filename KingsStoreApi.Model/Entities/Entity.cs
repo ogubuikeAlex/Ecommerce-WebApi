@@ -15,6 +15,7 @@ namespace KingsStoreApi.Model.Entities
         public bool HasBeenRemovedOver30Days
         {
             get => _hasBeenDeletedOver30Days;
+
             set
             {
                 _hasBeenDeletedOver30Days = _isDeletedTimeStamp - DateTime.Now >= TimeSpan.FromDays(30);
