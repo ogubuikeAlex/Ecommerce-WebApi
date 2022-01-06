@@ -15,7 +15,7 @@ namespace KingsStoreApi.Data.Implementations
         {
            _context = context;
         }
-        public IRepository<TEntity> GetRepository<TEntity>() where TEntity : class, ISoftDelete
+        public IRepository<TEntity> GetRepository<TEntity>() where TEntity : class, IDelete
         {
             _repositories ??= _repositories = new Dictionary<Type, object>();
 
