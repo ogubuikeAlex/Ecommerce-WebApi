@@ -10,8 +10,7 @@ namespace KingsStoreApi.Services.Implementations
     public class CartService : ICartService 
     {
         private List<CartItem> _CartContent;
-        //
-
+        
         public CartService()
         {
             _CartContent = new List<CartItem>();
