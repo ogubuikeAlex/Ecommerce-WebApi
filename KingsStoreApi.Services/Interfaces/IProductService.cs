@@ -19,6 +19,5 @@ namespace KingsStoreApi.Services.Interfaces
         ReturnModel EditProductSummary(EditProductSummaryDTO model);//patch
         ReturnModel EditProductTitle(EditProductTitleDTO model);//patch
         Task<ReturnModel> TemporarilyDisableAProduct(string id);
-        Task<ReturnModel> PermanentlyDisableAProduct(DeleteProductDTO model);
     }
 }
