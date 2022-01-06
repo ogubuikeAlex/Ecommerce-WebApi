@@ -137,12 +137,25 @@ namespace KingsStoreApi.Services.Implementations
             if (!isDeleted)
                 return new ReturnModel { Message = "Product Disabling failed", Success = false };
 
-            return new ReturnModel { Message = $"Product\nName:{product.Title}\nTitle: {product.Id}\n has been disabled" };
+            return new ReturnModel { Message = $"Product\nName:{product.Title}\nTitle: {product.Id}\n has been deleted" };
         }
 
-        public ReturnModel PermanentlyDisableAProduct(DeleteProductDTO model)
+        public async Task<ReturnModel> PermanentlyDisableAProduct(string id)
         {
-            throw new NotImplementedException();
+            var product = _repository.GetSingleByCondition(p => p.Id.ToString() == id);
+
+            if (product is null)
+                return new ReturnModel { Message = "Product not found", Success = false };
+
+            if (!product.IsDeleted)
+                return new ReturnModel { Message = "A product must be deleted before it can be permanently removed", Success = false };
+
+            await _repository.ToggleSoftDeleteAsync(product);
+
+            if (!isDeleted)
+                return new ReturnModel { Message = "Product Disabling failed", Success = false };
+
+            return new ReturnModel { Message = $"Product\nName:{product.Title}\nTitle: {product.Id}\n has been disabled" };
         }
 
         public ReturnModel UploadProduct(UploadProductDTO model)
