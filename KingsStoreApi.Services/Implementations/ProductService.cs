@@ -29,9 +29,10 @@ namespace KingsStoreApi.Services.Implementations
             _repository = unitOfWork.GetRepository<Product>();
         }
 
-        public ReturnModel UplaodProductImage(UploadImageDTO model)
+        public ReturnModel UplaodProductImage(UploadImageDTO model, string id)
         {
-            throw new NotImplementedException();
+            var product = _repository.GetSingleByCondition(p => p.Id == id && p.UserId == )
+            //Get a product that belongs to the current logged in User
         }
 
         public ReturnModel EditProductPrice(EditProductPriceDTO model)
