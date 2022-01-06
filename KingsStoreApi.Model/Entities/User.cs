@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace KingsStoreApi.Model.Entities
 {
-    public class User : IdentityUser, ISoftDelete
+    public class User : IdentityUser, IDelete
     {
         public string FullName { get; set; }
         public bool isAdmin { get; set; }
