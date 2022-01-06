@@ -16,7 +16,7 @@ namespace KingsStoreApi.Controllers
 {
     [Route("api/User")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : ControllerBaseExtension
     {
         private readonly UserManager<User> _userManager;
         private readonly IAuthenticationManager _authenticationManager;
@@ -24,7 +24,7 @@ namespace KingsStoreApi.Controllers
         private readonly IUserService _userService;
         private readonly IWebHostEnvironment _environment;
 
-        public UserController(UserManager<User> userManager, IAuthenticationManager authenticationManager, SignInManager<User> signInManager, IUserService service, IWebHostEnvironment webHostEnvironment)
+        public UserController(UserManager<User> userManager, IAuthenticationManager authenticationManager, SignInManager<User> signInManager, IUserService service, IWebHostEnvironment webHostEnvironment): base(userManager)
         {
             _environment = webHostEnvironment;
             _userManager = userManager;
@@ -235,13 +235,6 @@ namespace KingsStoreApi.Controllers
             var result = await _userService.ToggleUserSoftDeleteAsync(email);
 
             return Ok(result.Message);
-        }
-
-        private async Task<User> GetLoggedInUserAsync()
-        {
-            var (userId, userEmail) = HttpContext.User.GetLoggedInUserInfo();
-            var user = await _userManager.FindByNameAsync(userEmail);
-            return user;
-        }
+        }       
     }
 }
