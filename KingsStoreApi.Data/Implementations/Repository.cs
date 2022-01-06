@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace KingsStoreApi.Data.Implementations
 {
-    public class Repository<T> : IRepository<T> where T : class, ISoftDelete
+    public class Repository<T> : IRepository<T> where T : class, IDelete
     {
         private readonly DbContext _context;
         private readonly DbSet<T> _dbSet;
