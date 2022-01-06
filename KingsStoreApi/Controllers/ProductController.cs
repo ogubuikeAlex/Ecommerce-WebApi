@@ -1,15 +1,17 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using KingsStoreApi.Extensions;
+using KingsStoreApi.Model.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace KingsStoreApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class ProductController : ControllerBaseExtension
     {
+        public ProductController(UserManager<User> userManager):base(userManager)
+        {
+
+        }
     }
 }
