@@ -7,6 +7,8 @@ using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace KingsStoreApi.Services.Implementations
 {
@@ -76,17 +78,69 @@ namespace KingsStoreApi.Services.Implementations
 
             return new ReturnModel { Success = true, Object = products };
         }
-        //Get product by vendor
-        //Get all disabled products by a vendor
-        //Seach
-        //filter/
-        //buynow
-        public ReturnModel RemoveProduct(RemoveProductDTO model)
+
+        public async Task<ReturnModel> GetProductsByVendor(string email)
         {
-            throw new System.NotImplementedException();
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user is null)
+                return new ReturnModel { Message = "User not found", Success = false };
+
+            if (!user.isVendor)
+                return new ReturnModel { Message = "This user is not a vendor", Success = false };
+
+            var products = _repository.GetAllByCondition(p => p.UserId == user.Id && !p.IsDeleted).ToList();
+
+            if (products is null)
+                return new ReturnModel { Message = "This vendor has not uploaded any product yet", Success = false };
+
+            return new ReturnModel { Message = "Successful", Object = products, Success = true };
         }
 
-        public ReturnModel SoftDeleteProduct(DeleteProductDTO model)
+        public async Task<ReturnModel> GetDiabledProductsByVendor(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user is null)
+                return new ReturnModel { Message = "User not found", Success = false };
+
+            if (!user.isVendor)
+                return new ReturnModel { Message = "This user is not a vendor", Success = false };
+
+            var products = _repository.GetAllByCondition(p => p.UserId == user.Id && p.IsDeleted).ToList();
+
+            if (products is null)
+                return new ReturnModel { Message = "This vendor does not have any disabled products yet", Success = false };
+
+            return new ReturnModel { Message = "Successful", Object = products, Success = true };
+        }
+
+        public async Task<ReturnModel> BuyNow ()
+        {
+            return new ReturnModel { };
+        }
+        //Search
+        //Filter
+        //Pagination       
+        public async Task<ReturnModel> TemporarilyDisableAProduct(string id)
+        {
+            var product = _repository.GetSingleByCondition(p => p.Id.ToString() == id);
+
+            if (product is null)
+                return new ReturnModel { Message = "Product not found", Success = false };
+
+            if (product.IsDeleted)
+                return new ReturnModel { Message = "This Produuct has already been Temporarily diasbled", Success = false };
+
+            var isDeleted = await _repository.ToggleSoftDeleteAsync(product);
+
+            if (!isDeleted)
+                return new ReturnModel { Message = "Product Disabling failed", Success = false };
+
+            return new ReturnModel { Message = $"Product\nName:{product.Title}\nTitle: {product.Id}\n has been disabled" };
+        }
+
+        public ReturnModel PermanentlyDisableAProduct(DeleteProductDTO model)
         {
             throw new NotImplementedException();
         }
