@@ -8,7 +8,6 @@ namespace KingsStoreApi.Model.Entities
         private static DateTime _isDeletedTimeStamp;
         private bool _hasBeenDeletedOver30Days;
         public DateTime? IsDeletedTimeStamp { get; set; }
-
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public bool IsDeleted { get; set; }
