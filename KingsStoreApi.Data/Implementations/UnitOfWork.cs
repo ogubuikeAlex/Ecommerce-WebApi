@@ -3,6 +3,7 @@ using KingsStoreApi.Model.ModelHelpers;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace KingsStoreApi.Data.Implementations
 {
@@ -26,7 +27,12 @@ namespace KingsStoreApi.Data.Implementations
 
             return (IRepository<TEntity>)_repositories[entityType];
          
-        }      
+        }
+
+        public async Task SaveChangesAsync()
+        {
+           await _context.SaveChangesAsync();
+        }
     }
     
 }
