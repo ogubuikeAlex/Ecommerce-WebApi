@@ -258,7 +258,7 @@ namespace KingsStoreApi.Services.Implementations
 
         public async Task<ReturnModel> UpdateUserProfilePic(UploadImageDTO model)
         {
-            var user = await _userManager.FindByNameAsync(model.Email);
+            var user = await _userManager.FindByNameAsync(model.UniqueIdentifier);
             IdentityResult result;
 
             using (var memoryStream = new MemoryStream())
