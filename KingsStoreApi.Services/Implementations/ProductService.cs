@@ -7,6 +7,7 @@ using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,6 +17,7 @@ namespace KingsStoreApi.Services.Implementations
     {
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IAuthenticationManager _authenticationManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IRepository<Product> _repository;
@@ -24,30 +26,66 @@ namespace KingsStoreApi.Services.Implementations
         {
             _mapper = mapper;
             _userManager = userManager;
+            _unitOfWork = unitOfWork;
             _authenticationManager = authenticationManager;
             _signInManager = signInManager;
-            _repository = unitOfWork.GetRepository<Product>();
+            _repository = _unitOfWork.GetRepository<Product>();
         }
 
-        public ReturnModel UplaodProductImage(UploadImageDTO model, string id)
+        public async Task<ReturnModel> UploadProductImage(UploadImageDTO model, User user)
         {
-            var product = _repository.GetSingleByCondition(p => p.Id == id && p.UserId == )
-            //Get a product that belongs to the current logged in User
+            var product = _repository.GetSingleByCondition(p => p.Id.ToString() == model.UniqueIdentifier && p.UserId == user.Id);
+
+            if (product is null)
+                return new ReturnModel { Message = "Product not Found or Current logged in user does not own this product", Success = false };
+            
+            using (var memoryStream = new MemoryStream())
+            {
+                await model.File.CopyToAsync(memoryStream);
+                product.ProductImage = memoryStream.ToArray();
+                await _unitOfWork.SaveChangesAsync();
+            }
+
+            return new ReturnModel { Message = "Product Image Uploaded Successfully", Success = true };
         }
 
-        public ReturnModel EditProductPrice(EditProductPriceDTO model)
+        public async Task<ReturnModel> EditProductPrice(EditProductDTO model, User user)
         {
-            throw new NotImplementedException();
+            var product = _repository.GetSingleByCondition(p => p.Id.ToString() == model.Id && p.UserId == user.Id);
+
+            if (product is null)
+                return new ReturnModel { Message = "Product not Found or Current logged in user does not own this product", Success = false };
+
+            product.Price = model.NewValue;
+            await _unitOfWork.SaveChangesAsync();
+
+            return new ReturnModel { Message = "Price Updated Successfully", Success = true };
         }
 
-        public ReturnModel EditProductSummary(EditProductSummaryDTO model)
+        public async Task<ReturnModel> EditProductSummary(EditProductDTO model, User user)
         {
-            throw new NotImplementedException();
+            var product = _repository.GetSingleByCondition(p => p.Id.ToString() == model.Id && p.UserId == user.Id);
+
+            if (product is null)
+                return new ReturnModel { Message = "Product not Found or Current logged in user does not own this product", Success = false };
+
+            product.Summary = model.NewValue;
+            await _unitOfWork.SaveChangesAsync();
+
+            return new ReturnModel { Message = "Product Summary Updated Successfully", Success = true };
         }
 
-        public ReturnModel EditProductTitle(EditProductTitleDTO model)
+        public async Task<ReturnModel> EditProductTitle(EditProductDTO model, User user)
         {
-            throw new NotImplementedException();
+            var product = _repository.GetSingleByCondition(p => p.Id.ToString() == model.Id && p.UserId == user.Id);
+
+            if (product is null)
+                return new ReturnModel { Message = "Product not Found or Current logged in user does not own this product", Success = false };
+
+            product.Title = model.NewValue;
+            await _unitOfWork.SaveChangesAsync();
+
+            return new ReturnModel { Message = "Product Title Updated Successfully", Success = true };
         }
 
         public ReturnModel GetAllProducts()
@@ -98,7 +136,7 @@ namespace KingsStoreApi.Services.Implementations
             return new ReturnModel { Message = "Successful", Object = products, Success = true };
         }
 
-        public async Task<ReturnModel> GetDiabledProductsByVendor(string email)
+        public async Task<ReturnModel> GetDisabledProductsByVendor(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
 
