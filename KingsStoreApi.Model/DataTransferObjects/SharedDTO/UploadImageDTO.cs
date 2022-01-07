@@ -5,6 +5,6 @@ namespace KingsStoreApi.Model.DataTransferObjects.SharedDTO
     public class UploadImageDTO
     {
         public IFormFile File { get; set; }
-        public string Email { get; set; }
+        public string UniqueIdentifier { get; set; }
     }
 }
