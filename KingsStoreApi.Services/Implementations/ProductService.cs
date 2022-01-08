@@ -182,6 +182,7 @@ namespace KingsStoreApi.Services.Implementations
         public ReturnModel UploadProduct(UploadProductDTO model)
         {
             var product = _mapper.Map<Product>(model);
+            product.CreatedAt = DateTime.Now;
         }
     }
 }
