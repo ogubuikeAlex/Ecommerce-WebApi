@@ -179,7 +179,7 @@ namespace KingsStoreApi.Services.Implementations
             return new ReturnModel { Message = $"Product\nName:{product.Title}\nTitle: {product.Id}\n has been deleted" };
         }
 
-        public ReturnModel UploadProduct(UploadProductDTO model, User user)
+        public async ReturnModel UploadProduct(UploadProductDTO model, User user)
         {
             var product = _mapper.Map<Product>(model);
             product.CreatedAt = DateTime.Now;
@@ -187,7 +187,7 @@ namespace KingsStoreApi.Services.Implementations
             product.UpdatedAt = DateTime.Now;
             product.UserId = user.Id;
 
-            _repository.AddAsync(product);
+            await _repository.AddAsync(product);
 
         }
     }
