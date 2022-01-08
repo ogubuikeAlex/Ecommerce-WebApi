@@ -186,6 +186,8 @@ namespace KingsStoreApi.Services.Implementations
             product.PublishedAt = DateTime.Now;
             product.UpdatedAt = DateTime.Now;
             product.UserId = user.Id;
+
+
         }
     }
 }
