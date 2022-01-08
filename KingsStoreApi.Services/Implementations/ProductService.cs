@@ -181,7 +181,7 @@ namespace KingsStoreApi.Services.Implementations
 
         public ReturnModel UploadProduct(UploadProductDTO model)
         {
-            throw new System.NotImplementedException();
+            var product = _mapper.Map<Product>(model);
         }
     }
 }
