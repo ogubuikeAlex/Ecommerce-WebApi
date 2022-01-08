@@ -184,6 +184,8 @@ namespace KingsStoreApi.Services.Implementations
             var product = _mapper.Map<Product>(model);
             product.CreatedAt = DateTime.Now;
             product.PublishedAt = DateTime.Now;
+            product.UpdatedAt = DateTime.Now;
+            product.UserId = 
         }
     }
 }
