@@ -179,13 +179,13 @@ namespace KingsStoreApi.Services.Implementations
             return new ReturnModel { Message = $"Product\nName:{product.Title}\nTitle: {product.Id}\n has been deleted" };
         }
 
-        public ReturnModel UploadProduct(UploadProductDTO model)
+        public ReturnModel UploadProduct(UploadProductDTO model, User user)
         {
             var product = _mapper.Map<Product>(model);
             product.CreatedAt = DateTime.Now;
             product.PublishedAt = DateTime.Now;
             product.UpdatedAt = DateTime.Now;
-            product.UserId = 
+            product.UserId = user.Id;
         }
     }
 }
