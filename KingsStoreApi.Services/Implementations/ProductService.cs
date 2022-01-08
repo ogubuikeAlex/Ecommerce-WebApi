@@ -189,6 +189,7 @@ namespace KingsStoreApi.Services.Implementations
 
             await _repository.AddAsync(product);
 
+            return new ReturnModel { Message = "Product added successfuly", Success = true, Object = product };
         }
     }
 }
