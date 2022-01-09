@@ -57,6 +57,10 @@ namespace KingsStoreApi.Controllers
         {
             return Ok();
         }
+        public IActionResult EditProductSummary()
+        {
+            return Ok();
+        }
 
 
 
