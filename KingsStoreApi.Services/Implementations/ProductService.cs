@@ -176,7 +176,7 @@ namespace KingsStoreApi.Services.Implementations
             if (!isDeleted)
                 return new ReturnModel { Message = "Product Disabling failed", Success = false };
 
-            return new ReturnModel { Message = $"Product\nName:{product.Title}\nTitle: {product.Id}\n has been deleted" };
+            return new ReturnModel { Message = $"Product\nName:{product.Title}\nTitle: {product.Id}\n has been deleted"};
         }
 
         public async Task<ReturnModel> UploadProduct(UploadProductDTO model, User user)
