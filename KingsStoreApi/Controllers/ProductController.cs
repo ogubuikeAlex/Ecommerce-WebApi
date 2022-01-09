@@ -41,6 +41,11 @@ namespace KingsStoreApi.Controllers
         {
             return Ok();
         }
+        public IActionResult BuyNow()
+        {
+            return Ok();
+        }
+
 
 
 
