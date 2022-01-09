@@ -76,10 +76,6 @@ namespace KingsStoreApi.Controllers
 
 
 
-        /*
-         * 
-         * 
-         * EditProductTitle(EditProductDTO model, User user);//patch
-        Task<ReturnModel> TemporarilyDisableAProduct*/
+       
     }
 }
