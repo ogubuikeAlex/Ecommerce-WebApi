@@ -33,6 +33,10 @@ namespace KingsStoreApi.Controllers
         {
             return Ok();
         }
+        public IActionResult GetAllProducts()
+        {
+            return Ok();
+        }
 
 
 
