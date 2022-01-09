@@ -37,6 +37,10 @@ namespace KingsStoreApi.Controllers
         {
             return Ok();
         }
+        public IActionResult GetDisabledProductsByVendo()
+        {
+            return Ok();
+        }
 
 
 
