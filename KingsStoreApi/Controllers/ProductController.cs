@@ -63,7 +63,7 @@ namespace KingsStoreApi.Controllers
         }
         public IActionResult EditProductTitl()
         {
-            return Ok();
+            return NotFound();
         }
         public IActionResult TemporarilyDisableAProduct()
         {
