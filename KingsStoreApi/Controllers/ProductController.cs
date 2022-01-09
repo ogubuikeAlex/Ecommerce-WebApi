@@ -71,14 +71,6 @@ namespace KingsStoreApi.Controllers
         /*
          * 
          * 
-         * UploadProduct(UploadProductDTO model, User user);
-        Task<ReturnModel> UplaodProductImage(UploadImageDTO model, User user);//patch
-        Task<ReturnModel> EditProductPrice(EditProductDTO model, User user);//patch
-        Task<ReturnModel> EditProductSummary(EditProductSummaryDTO model);//patchReturnModel GetProductByName(string name);
-        ReturnModel GetProductById(string id);
-        ReturnModel GetAllProducts();
-        Task<ReturnModel> GetDisabledProductsByVendor(string email);
-        Task<ReturnModel> GetProductsByVendor(string email);
-        Task<ReturnModel> BuyNow();*/
+         * */
     }
 }
