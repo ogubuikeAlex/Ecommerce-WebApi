@@ -24,5 +24,20 @@ namespace KingsStoreApi.Controllers
         {
             return Ok();
         }
+        
+        public IActionResult GetProductByName()
+        {
+            return Ok();
+        }
+
+
+
+
+        /*ReturnModel GetProductByName(string name);
+        ReturnModel GetProductById(string id);
+        ReturnModel GetAllProducts();
+        Task<ReturnModel> GetDisabledProductsByVendor(string email);
+        Task<ReturnModel> GetProductsByVendor(string email);
+        Task<ReturnModel> BuyNow();*/
     }
 }
