@@ -9,9 +9,15 @@ namespace KingsStoreApi.Controllers
     [ApiController]
     public class ProductController : ControllerBaseExtension
     {
-        public ProductController(UserManager<User> userManager):base(userManager)
+        public ProductController(UserManager<User> userManager) : base(userManager)
         {
 
+
+        }
+
+        public IActionResult GetProducts()
+        {
+            return Ok();
         }
     }
 }
