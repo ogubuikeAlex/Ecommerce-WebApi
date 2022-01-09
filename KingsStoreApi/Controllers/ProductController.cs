@@ -19,5 +19,10 @@ namespace KingsStoreApi.Controllers
         {
             return Ok();
         }
+
+        public IActionResult GetProductsVendor()
+        {
+            return Ok();
+        }
     }
 }
