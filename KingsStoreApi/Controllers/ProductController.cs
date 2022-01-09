@@ -61,6 +61,10 @@ namespace KingsStoreApi.Controllers
         {
             return Ok();
         }
+        public IActionResult EditProductTitl()
+        {
+            return Ok();
+        }
 
 
 
@@ -71,6 +75,7 @@ namespace KingsStoreApi.Controllers
         /*
          * 
          * 
-         * */
+         * EditProductTitle(EditProductDTO model, User user);//patch
+        Task<ReturnModel> TemporarilyDisableAProduct*/
     }
 }
