@@ -52,7 +52,13 @@ namespace KingsStoreApi.Controllers
         public IActionResult UplaodProductImage()
         {
             return Ok();
+        } 
+        public IActionResult EditProductPrice()
+        {
+            return Ok();
         }
+
+
 
 
 
