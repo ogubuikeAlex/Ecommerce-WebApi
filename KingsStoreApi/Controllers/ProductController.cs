@@ -49,6 +49,10 @@ namespace KingsStoreApi.Controllers
         {
             return Ok();
         }
+        public IActionResult UplaodProductImage()
+        {
+            return Ok();
+        }
 
 
 
