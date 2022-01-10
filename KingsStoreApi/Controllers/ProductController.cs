@@ -57,7 +57,13 @@ namespace KingsStoreApi.Controllers
         }
         public IActionResult GetProductById()
         {
-            return Ok();
+            var result = _productService.GetProductByName(name);
+            if (!result.Success)
+                return BadRequest(result.Message);
+
+            var product = result.Object as Product;
+
+            return Ok(product);
         }
         public IActionResult GetAllProducts()
         {
