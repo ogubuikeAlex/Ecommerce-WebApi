@@ -84,6 +84,7 @@ namespace KingsStoreApi.Controllers
         public IActionResult UploadProduct(UploadProductDTO model)
         {
             var product = _IMapper<Product>(model);
+            //configure mapper!
         }
         public IActionResult UplaodProductImage()
         {
