@@ -65,13 +65,16 @@ namespace KingsStoreApi.Controllers
 
             return Ok(product);
         }
-        public IActionResult GetAllProducts()
-        {
-            return Ok();
-        }
+        
         public IActionResult GetDisabledProductsByVendo()
         {
-            return Ok();
+            var result = _productService.GetProductById(id);
+            if (!result.Success)
+                return BadRequest(result.Message);
+
+            var product = result.Object as Product;
+
+            return Ok(product);
         }
         public IActionResult BuyNow()
         {
