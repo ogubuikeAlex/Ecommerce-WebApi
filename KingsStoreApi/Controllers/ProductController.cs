@@ -66,9 +66,9 @@ namespace KingsStoreApi.Controllers
             return Ok(product);
         }
         
-        public IActionResult GetDisabledProductsByVendo()
+        public IActionResult GetDisabledProductsByVendo(string email)
         {
-            var result = _productService.GetDisabledProductsByVendor(id);
+            var result = _productService.GetDisabledProductsByVendor(email);
             if (!result.Success)
                 return BadRequest(result.Message);
 
