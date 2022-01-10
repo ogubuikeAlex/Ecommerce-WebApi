@@ -1,7 +1,10 @@
-﻿using KingsStoreApi.Extensions;
+﻿using KingsStoreApi.Data.Implementations;
+using KingsStoreApi.Extensions;
 using KingsStoreApi.Model.Entities;
+using KingsStoreApi.Services.Implementations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace KingsStoreApi.Controllers
 {
@@ -9,10 +12,11 @@ namespace KingsStoreApi.Controllers
     [ApiController]
     public class ProductController : ControllerBaseExtension
     {
-        public ProductController(UserManager<User> userManager) : base(userManager)
+        private readonly ProductService productService;
+
+        public ProductController(ProductService productService, UserManager<User> userManager) : base(userManager)
         {
-
-
+            this.productService = productService;
         }
 
         public IActionResult GetProducts()
