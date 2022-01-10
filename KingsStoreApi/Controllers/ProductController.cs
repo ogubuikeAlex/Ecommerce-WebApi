@@ -5,6 +5,7 @@ using KingsStoreApi.Services.Implementations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace KingsStoreApi.Controllers
 {
@@ -25,6 +26,9 @@ namespace KingsStoreApi.Controllers
 
             if (!result.Success)
                 return BadRequest(result.Message);
+            var products = result.Object as List<Product>;
+
+            return Ok(products);
         }
 
         public IActionResult GetProductsVendor()
