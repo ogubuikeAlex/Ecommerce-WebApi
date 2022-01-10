@@ -1,5 +1,6 @@
 ﻿using KingsStoreApi.Data.Implementations;
 using KingsStoreApi.Extensions;
+using KingsStoreApi.Model.DataTransferObjects.ProductServiceDTO;
 using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Services.Implementations;
 using Microsoft.AspNetCore.Identity;
@@ -80,9 +81,9 @@ namespace KingsStoreApi.Controllers
         {
             return Ok();
         }
-        public IActionResult UploadProduct()
+        public IActionResult UploadProduct(UploadProductDTO model)
         {
-           
+            var product = _IMapper<Product>(model);
         }
         public IActionResult UplaodProductImage()
         {
