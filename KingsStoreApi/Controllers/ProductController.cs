@@ -82,7 +82,7 @@ namespace KingsStoreApi.Controllers
         }
         public IActionResult UploadProduct()
         {
-            return Ok();
+           
         }
         public IActionResult UplaodProductImage()
         {
