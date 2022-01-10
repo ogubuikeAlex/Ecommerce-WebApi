@@ -38,7 +38,10 @@ namespace KingsStoreApi.Controllers
 
             if (!result.Success)
                 return BadRequest(result.Message);
-            return Ok();
+
+            var products = result.Object as List<Product>;
+
+            return Ok(products);
         }
         
         public IActionResult GetProductByName()
