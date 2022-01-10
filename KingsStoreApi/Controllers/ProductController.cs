@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace KingsStoreApi.Controllers
 {
@@ -31,7 +32,7 @@ namespace KingsStoreApi.Controllers
             return Ok(products);
         }
 
-        public IActionResult GetProductsVendor(string email)
+        public async Task<IActionResult> GetProductsVendor(string email)
         {
             var result = await _productService.GetProductsByVendor(email);
             return Ok();
