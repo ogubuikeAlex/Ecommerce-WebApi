@@ -33,7 +33,7 @@ namespace KingsStoreApi.Controllers
 
         public IActionResult GetProductsVendor(string email)
         {
-            var result = _productService.GetProductsByVendor()
+            var result = await _productService.GetProductsByVendor(email);
             return Ok();
         }
         
