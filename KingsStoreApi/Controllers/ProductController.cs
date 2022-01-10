@@ -57,7 +57,7 @@ namespace KingsStoreApi.Controllers
         }
         public IActionResult GetProductById(string id)
         {
-            var result = _productService.GetProductByName(id);
+            var result = _productService.GetProductById(id);
             if (!result.Success)
                 return BadRequest(result.Message);
 
