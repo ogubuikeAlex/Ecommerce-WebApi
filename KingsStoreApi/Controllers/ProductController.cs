@@ -35,6 +35,9 @@ namespace KingsStoreApi.Controllers
         public async Task<IActionResult> GetProductsVendor(string email)
         {
             var result = await _productService.GetProductsByVendor(email);
+
+            if (!result.Success)
+                return BadRequest(result.Message);
             return Ok();
         }
         
