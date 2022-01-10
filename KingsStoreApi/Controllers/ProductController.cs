@@ -12,16 +12,19 @@ namespace KingsStoreApi.Controllers
     [ApiController]
     public class ProductController : ControllerBaseExtension
     {
-        private readonly ProductService productService;
+        private readonly ProductService _productService;
 
         public ProductController(ProductService productService, UserManager<User> userManager) : base(userManager)
         {
-            this.productService = productService;
+            _productService = productService;
         }
 
         public IActionResult GetProducts()
         {
-            var result = _repository.GetAllByCondition();
+            var result = _productService.GetAllProducts();
+
+            if (!result.Success)
+                return BadRequest(result.Message);
         }
 
         public IActionResult GetProductsVendor()
