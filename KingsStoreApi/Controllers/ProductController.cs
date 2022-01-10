@@ -51,6 +51,8 @@ namespace KingsStoreApi.Controllers
                 return BadRequest(result.Message);
 
             var product = result.Object as Product;
+
+            return Ok(product);
             
         }
         public IActionResult GetProductById()
