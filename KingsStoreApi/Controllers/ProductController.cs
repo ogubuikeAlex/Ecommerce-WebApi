@@ -68,7 +68,7 @@ namespace KingsStoreApi.Controllers
         
         public IActionResult GetDisabledProductsByVendo()
         {
-            var result = _productService.GetProductById(id);
+            var result = _productService.GetDisabledProductsByVendor(id);
             if (!result.Success)
                 return BadRequest(result.Message);
 
