@@ -17,7 +17,7 @@ namespace KingsStoreApi.Controllers
 
         public IActionResult GetProducts()
         {
-            return Ok();
+            var result = _repository.GetAllByCondition();
         }
 
         public IActionResult GetProductsVendor()
