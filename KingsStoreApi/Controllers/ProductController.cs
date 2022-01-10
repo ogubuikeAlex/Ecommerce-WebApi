@@ -44,7 +44,7 @@ namespace KingsStoreApi.Controllers
             return Ok(products);
         }
         
-        public IActionResult GetProductByName()
+        public IActionResult GetProductByName(string name)
         {
             var product = _productService.GetProductByName(name);
         }
