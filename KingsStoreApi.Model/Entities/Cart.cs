@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace KingsStoreApi.Model.Entities
 {
-    public class Cart : IEntity
+    public class Cart : Entity
     {
         private List<CartItem> _CartContent;
         public Guid Id { get; set; }
