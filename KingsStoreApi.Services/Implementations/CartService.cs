@@ -1,4 +1,5 @@
-﻿using KingsStoreApi.Model.Entities;
+﻿using KingsStoreApi.Data.Interfaces;
+using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Model.Enums;
 using KingsStoreApi.Services.Interfaces;
 using System;
@@ -9,9 +10,11 @@ namespace KingsStoreApi.Services.Implementations
 {
     public class CartService : ICartService 
     {
-        public CartService()
-        {
+        private readonly IUnitOfWork unitOfWork;
 
+        public CartService(IUnitOfWork unitOfWork)
+        {
+            this.unitOfWork = unitOfWork;
         }
         /*private List<CartItem> _CartContent;
         
