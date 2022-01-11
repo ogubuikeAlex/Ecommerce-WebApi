@@ -8,5 +8,9 @@ namespace KingsStoreApi.Model.Entities
 {
     public class Cart
     {
+        public Guid Id { get; set; }
+        public Guid? UserId { get; set; }
+        public string SessionId { get; set; }
+        public CartStatus CartStatus { get; set; }
     }
 }
