@@ -11,10 +11,12 @@ namespace KingsStoreApi.Services.Implementations
     public class CartService : ICartService 
     {
         private readonly IUnitOfWork unitOfWork;
+        private IRepository<Cart> _repository;
 
         public CartService(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
+            _repository = unitOfWork.GetRepository<Cart>();
         }
         /*private List<CartItem> _CartContent;
         
