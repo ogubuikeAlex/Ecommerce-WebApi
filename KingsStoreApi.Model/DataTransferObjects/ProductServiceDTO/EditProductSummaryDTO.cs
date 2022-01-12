@@ -2,5 +2,7 @@
 {
     public class EditProductSummaryDTO
     {
+        public string Id { get; set; }
+        public string NewValue { get; set; }
     }
 }
