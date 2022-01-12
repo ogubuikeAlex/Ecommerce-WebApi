@@ -191,5 +191,15 @@ namespace KingsStoreApi.Services.Implementations
 
             return new ReturnModel { Message = "Product added successfuly", Success = true, Object = product };
         }
+
+        public Task<ReturnModel> UplaodProductImage(UploadImageDTO model, User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ReturnModel> EditProductSummary(EditProductSummaryDTO model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
