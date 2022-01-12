@@ -199,7 +199,7 @@ namespace KingsStoreApi.Services.Implementations
 
         public Task<ReturnModel> EditProductSummary(EditProductSummaryDTO model)
         {
-            throw new NotImplementedException();
+            _product 
         }
     }
 }
