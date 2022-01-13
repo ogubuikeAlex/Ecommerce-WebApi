@@ -1,9 +1,10 @@
 ﻿using KingsStoreApi.Model.Entities;
+using System;
 using System.Linq;
 
 namespace KingsStoreApi.Helpers.Implementations.Extensions
 {
-    public static class ProductExtensions 
+    public static class ProductExtensionst
     {
         public static IQueryable<Product> Filter (this IQueryable<Product> products, uint maxPrice, uint minPrice)
         {
