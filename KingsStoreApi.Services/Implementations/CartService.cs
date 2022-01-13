@@ -1,4 +1,5 @@
 ﻿using KingsStoreApi.Data.Interfaces;
+using KingsStoreApi.Model.DataTransferObjects.CartServiceDTO;
 using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Services.Interfaces;
 
@@ -24,7 +25,7 @@ namespace KingsStoreApi.Services.Implementations
         {
 
         }
-        public void AddCartItem(Product product, int quantity)
+        public void AddCartItem(AddToCartDTO model)
         {
             /*var cartItem = _repository.GetSingleByCondition(p => p.Product.Id == product.Id).FirstOrDefault();
 
