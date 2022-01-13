@@ -4,6 +4,7 @@ using KingsStoreApi.Model.DataTransferObjects.CartServiceDTO;
 using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Services.Interfaces;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace KingsStoreApi.Services.Implementations
@@ -68,9 +69,11 @@ namespace KingsStoreApi.Services.Implementations
             return new ReturnModel { Message = "CartItem removed ", Success = true };
         }
 
-        public void ClearCart()
+        public void ClearCart(Cart cart)
         {
-            /*_CartContent.Clear();*/
+            var cartItems = _cartItemRepository.GetAllByCondition(c => c.CartId == cart.Id.ToString()).ToList();
+
+
         }
         public decimal GetTotalCartPrice()
         {
