@@ -7,8 +7,7 @@ namespace KingsStoreApi.Services.Interfaces
         public void AddCartItem(Product product, int quantity);
         public void RemoveCartItem(string cartItemId);
         public void ClearCart();
-        public decimal GetTotalCartPrice();
-        
+        public decimal GetTotalCartPrice();        
     }
 }
 
