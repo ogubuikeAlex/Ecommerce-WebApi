@@ -12,7 +12,7 @@ namespace KingsStoreApi.Data.Interfaces
         Task<IEnumerable<T>> AddRangAsync(IEnumerable<T> t);
         Task<bool> AnyAsync(Expression<Func<T, bool>> predicate);
         T GetSingleByCondition(Expression<Func<T, bool>> predicate = null, Func<IQueryable , IOrderedQueryable> orderBy = null, params string[] includeProperties);
-        IEnumerable<T> GetAllByCondition(Expression<Func<T, bool>> predicate = null, Func<IQueryable, IOrderedQueryable> orderBy = null, params string[] includeProperties);
+        IQueryable<T> GetAllByCondition(Expression<Func<T, bool>> predicate = null, Func<IQueryable, IOrderedQueryable> orderBy = null, params string[] includeProperties);
         Task<bool> ToggleSoftDeleteAsync(T t);
         Task UpdateAsync();
     }

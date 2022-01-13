@@ -43,10 +43,10 @@ namespace KingsStoreApi.Data.Implementations
             return await _dbSet.Where(_isDeleted).AnyAsync(predicate);
         }
 
-        public IEnumerable<T> GetAllByCondition(Expression<Func<T, bool>> predicate = null, Func<IQueryable, IOrderedQueryable> orderBy = null, params string[] includeProperties)
+        public IQueryable<T> GetAllByCondition(Expression<Func<T, bool>> predicate = null, Func<IQueryable, IOrderedQueryable> orderBy = null, params string[] includeProperties)
         {
             if (predicate is null)
-                return _dbSet.Where(_isDeleted).ToList();
+                return _dbSet.Where(_isDeleted);
 
             var model = _dbSet.Where(_isDeleted).Where(predicate);
 
