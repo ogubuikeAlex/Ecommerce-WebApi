@@ -61,7 +61,7 @@ namespace KingsStoreApi.Services.Implementations
 
         public ReturnModel GetAllProducts(ProductRequestParameters requestParameter)
         {
-            var products = _repository.GetAllByCondition();
+            var products = _repository.GetAllByCondition(p => p.Price >= requestParameter.MinPrice && p.Price <= requestParameter.MaxPrice);
 
             if (products is null)
                 return new ReturnModel { Success = false, Message = "No product found in store" };
@@ -103,7 +103,7 @@ namespace KingsStoreApi.Services.Implementations
             if (!user.isVendor)
                 return new ReturnModel { Message = "This user is not a vendor", Success = false };
 
-            var products = _repository.GetAllByCondition(p => p.UserId == user.Id && !p.IsDeleted).ToList();
+            var products = _repository.GetAllByCondition(p => p.UserId == user.Id && !p.IsDeleted && p.Price >= requestParameters.MinPrice && p.Price <= requestParameters.MaxPrice).ToList();
 
             if (products is null)
                 return new ReturnModel { Message = "This vendor has not uploaded any product yet", Success = false };
@@ -125,7 +125,7 @@ namespace KingsStoreApi.Services.Implementations
             if (!user.isVendor)
                 return new ReturnModel { Message = "This user is not a vendor", Success = false };
 
-            var products = _repository.GetAllByCondition(p => p.UserId == user.Id && p.IsDeleted).ToList();
+            var products = _repository.GetAllByCondition(p => p.UserId == user.Id && p.IsDeleted && p.Price >= requestParameters.MinPrice && p.Price <= requestParameters.MaxPrice).ToList();
 
             if (products is null)
                 return new ReturnModel { Message = "This vendor does not have any disabled products yet", Success = false };
