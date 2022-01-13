@@ -93,10 +93,11 @@ namespace KingsStoreApi.Services.Implementations
 
             foreach (var item in cartItems)
             {
-                item.Product.Price += totalPrice;
+                totalPrice = item.Product.Price += totalPrice;
             }
 
-            return totalPrice;
+            return new ReturnModel { Success = true, Message = "price gotten", Object = totalPrice };
+
         }
 
     }
