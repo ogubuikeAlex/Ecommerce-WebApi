@@ -21,12 +21,7 @@ namespace KingsStoreApi.Services.Implementations
             _repository = unitOfWork.GetRepository<Cart>();
             _cartItemRepository = unitOfWork.GetRepository<CartItem>();
         }
-        /*private List<CartItem> _CartContent;
         
-        public CartService()
-        {
-            _CartContent = new List<CartItem>();
-        }*/
         public void CreateCart()
         {
 
