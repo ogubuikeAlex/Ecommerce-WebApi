@@ -2,10 +2,10 @@
 
 namespace KingsStoreApi.Model.Entities
 {
-    public class CartItem
+    public class CartItem : Entity
     {
         public Guid Id { get; set; }
-        public string CartId { get; }
+        public string CartId { get; set }
         public Product Product { get; set; }
         public int Quantity { get; set; }
     }
