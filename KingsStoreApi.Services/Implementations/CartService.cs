@@ -4,6 +4,7 @@ using KingsStoreApi.Model.DataTransferObjects.CartServiceDTO;
 using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Services.Interfaces;
 using System;
+using System.Threading.Tasks;
 
 namespace KingsStoreApi.Services.Implementations
 {
@@ -29,7 +30,7 @@ namespace KingsStoreApi.Services.Implementations
         {
 
         }
-        public ReturnModel AddCartItem(AddToCartDTO model)
+        public async Task<ReturnModel> AddCartItem(AddToCartDTO model)
         {
             var cartItem = _cartItemRepository.GetSingleByCondition(p => p.Product.Id == model.Product.Id && p.CartId == model.Cart.Id.ToString());
 
@@ -44,24 +45,24 @@ namespace KingsStoreApi.Services.Implementations
                     UpdatedAt = DateTime.Now
                 };
 
-                _cartItemRepository.AddAsync(newCartItem);
+                await _cartItemRepository.AddAsync(newCartItem);
 
                 return new ReturnModel { Success = true, Message = "Cart Item Added", Object = cartItem };
             }
 
             cartItem.Quantity++;
-            _cartItemRepository.Update();
+            await _cartItemRepository.UpdateAsync();
             return new ReturnModel { Success = false, Message = "Cart item Quantity increased" };
         }
 
-        public void RemoveCartItem(string cartItemId)
+        public async Task<ReturnModel>  RemoveCartItem(string cartItemId)
         {
             var cartItem = _cartItemRepository.GetSingleByCondition(c => c.Id.ToString() == cartItemId);
 
             if (cartItem is not null)
             {
                 cartItem.IsDeleted = true;
-                _cartItemRepository.Update();
+               await _cartItemRepository.UpdateAsync();
                 return 
             }
            return
