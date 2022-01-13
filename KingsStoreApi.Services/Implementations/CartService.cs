@@ -45,21 +45,26 @@ namespace KingsStoreApi.Services.Implementations
                 };
 
                 _cartItemRepository.AddAsync(newCartItem);
-               
-                return new ReturnModel {Success = true, Message= "Cart Item Added", Object = cartItem };
+
+                return new ReturnModel { Success = true, Message = "Cart Item Added", Object = cartItem };
             }
 
             cartItem.Quantity++;
             _cartItemRepository.Update();
-            return new ReturnModel {Success = false, Message = "Cart item Quantity increased" };
+            return new ReturnModel { Success = false, Message = "Cart item Quantity increased" };
         }
 
         public void RemoveCartItem(string cartItemId)
         {
-            /* var cartItem = _CartContent.Where(c => c.CartId == cartItemId).FirstOrDefault();
+            var cartItem = _cartItemRepository.GetSingleByCondition(c => c.Id.ToString() == cartItemId);
 
-             if (cartItem is not null)
-                 _CartContent.Remove(cartItem);*/
+            if (cartItem is not null)
+            {
+                cartItem.IsDeleted = true;
+                _cartItemRepository.Update();
+                return 
+            }
+           return
         }
 
         public void ClearCart()
