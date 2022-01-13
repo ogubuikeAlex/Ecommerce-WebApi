@@ -11,21 +11,15 @@ namespace KingsStoreApi.Services.Implementations
 {
     public class CartService : ICartService
     {
-        private readonly IUnitOfWork unitOfWork;
         private IRepository<Cart> _repository;
         private IRepository<CartItem> _cartItemRepository;
 
         public CartService(IUnitOfWork unitOfWork)
-        {
-            this.unitOfWork = unitOfWork;
+        {          
             _repository = unitOfWork.GetRepository<Cart>();
             _cartItemRepository = unitOfWork.GetRepository<CartItem>();
-        }
+        }        
         
-        public void CreateCart()
-        {
-
-        }
         public async Task<ReturnModel> AddCartItem(AddToCartDTO model)
         {
             var cartItem = _cartItemRepository.GetSingleByCondition(p => p.Product.Id == model.Product.Id && p.CartId == model.Cart.Id.ToString());
