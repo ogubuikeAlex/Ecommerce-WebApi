@@ -140,8 +140,7 @@ namespace KingsStoreApi.Services.Implementations
              return new ReturnModel { };
         }
         //Search
-        //Filter
-        //Pagination       
+               
         public async Task<ReturnModel> TemporarilyDisableAProduct(string id)
         {
             var product = _repository.GetSingleByCondition(p => p.Id.ToString() == id);
