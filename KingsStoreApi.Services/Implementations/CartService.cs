@@ -34,38 +34,38 @@ namespace KingsStoreApi.Services.Implementations
         {
             var cartItem = _cartItemRepository.GetSingleByCondition(p => p.Product.Id == model.Product.Id && p.CartId == model.Cart.Id.ToString());
 
-            if (cartItem is null)
+            if (cartItem is not null)
             {
-                var newCartItem = new CartItem
-                {
-                    Product = model.Product,
-                    Quantity = model.Quantity,
-                    CartId = model.Cart.Id.ToString(),
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now
-                };
-
-                await _cartItemRepository.AddAsync(newCartItem);
-
-                return new ReturnModel { Success = true, Message = "Cart Item Added", Object = cartItem };
+                cartItem.Quantity++;
+                await _cartItemRepository.UpdateAsync();
+                return new ReturnModel { Success = false, Message = "Cart item Quantity increased" };
             }
 
-            cartItem.Quantity++;
-            await _cartItemRepository.UpdateAsync();
-            return new ReturnModel { Success = false, Message = "Cart item Quantity increased" };
+            var newCartItem = new CartItem
+            {
+                Product = model.Product,
+                Quantity = model.Quantity,
+                CartId = model.Cart.Id.ToString(),
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
+            };
+
+            await _cartItemRepository.AddAsync(newCartItem);
+
+            return new ReturnModel { Success = true, Message = "Cart Item Added", Object = cartItem };
+
         }
 
-        public async Task<ReturnModel>  RemoveCartItem(string cartItemId)
+        public async Task<ReturnModel> RemoveCartItem(string cartItemId)
         {
             var cartItem = _cartItemRepository.GetSingleByCondition(c => c.Id.ToString() == cartItemId);
 
-            if (cartItem is not null)
-            {
-                cartItem.IsDeleted = true;
-               await _cartItemRepository.UpdateAsync();
-                return 
-            }
-           return
+            if (cartItem is null)
+                return new ReturnModel { Success = false, Message = "Cart Item not found" };
+
+            cartItem.IsDeleted = true;
+            await _cartItemRepository.UpdateAsync();
+            return new ReturnModel { Message = "CartItem removed ", Success = true };
         }
 
         public void ClearCart()
