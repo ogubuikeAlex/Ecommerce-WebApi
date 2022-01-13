@@ -88,7 +88,7 @@ namespace KingsStoreApi.Data.Implementations
             return t.IsDeleted;
         }
 
-        public async Task Update()
+        public async Task UpdateAsync()
         {
             await _context.SaveChangesAsync();
         }
