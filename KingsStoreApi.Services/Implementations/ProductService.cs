@@ -88,7 +88,7 @@ namespace KingsStoreApi.Services.Implementations
 
         public ReturnModel GetProductByName(string name)
         {
-            var products = _repository.GetAllByCondition(p => p.Title == name);
+            var products = _repository.GetAllByCondition().Search(name);
 
             if (products is null)
                 return new ReturnModel { Success = false, Message = "No product in our store has that title" };
@@ -106,7 +106,9 @@ namespace KingsStoreApi.Services.Implementations
             if (!user.isVendor)
                 return new ReturnModel { Message = "This user is not a vendor", Success = false };
 
-            var products = _repository.GetAllByCondition(p => p.UserId == user.Id && !p.IsDeleted && p.Price >= requestParameters.MinPrice && p.Price <= requestParameters.MaxPrice).ToList();
+            var products = _repository.GetAllByCondition(p => p.UserId == user.Id && !p.IsDeleted)
+                .Filter( requestParameters.MaxPrice, requestParameters.MinPrice)
+                .Search(requestParameters.SearchTerm).ToList();
 
             if (products is null)
                 return new ReturnModel { Message = "This vendor has not uploaded any product yet", Success = false };
@@ -128,7 +130,10 @@ namespace KingsStoreApi.Services.Implementations
             if (!user.isVendor)
                 return new ReturnModel { Message = "This user is not a vendor", Success = false };
 
-            var products = _repository.GetAllByCondition(p => p.UserId == user.Id && p.IsDeleted && p.Price >= requestParameters.MinPrice && p.Price <= requestParameters.MaxPrice).ToList();
+            var products = _repository.GetAllByCondition(p => p.UserId == user.Id && p.IsDeleted)
+                .Filter(requestParameters.MaxPrice, requestParameters.MinPrice)
+                .Search(requestParameters.SearchTerm)
+                .ToList();
 
             if (products is null)
                 return new ReturnModel { Message = "This vendor does not have any disabled products yet", Success = false };
