@@ -8,8 +8,8 @@ namespace KingsStoreApi.Services.Interfaces
     public interface ICartService
     {
         Task<ReturnModel> AddCartItem(AddToCartDTO model);
-        ReturnModel RemoveCartItem(string cartItemId);
-        void ClearCart();
+        Task<ReturnModel> RemoveCartItem(string cartItemId);
+        Task<ReturnModel> ClearCart();
         ReturnModel  GetTotalCartPrice();        
     }
 }
