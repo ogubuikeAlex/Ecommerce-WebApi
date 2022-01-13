@@ -73,11 +73,15 @@ namespace KingsStoreApi.Services.Implementations
         {
             var cartItems = _cartItemRepository.GetAllByCondition(c => c.CartId == cart.Id.ToString()).ToList();
 
+            if (cartItems.Count < 1)
+                return new ReturnModel { Message = "This cart does not contain any items", Success = false };
+
             foreach (var item in cartItems)
             {
                 item.IsDeleted = true;
                 await _cartItemRepository.UpdateAsync();
             }
+            return new ReturnModel { Success = true, Message = "Cart Cleared" }; 
         }
         public decimal GetTotalCartPrice()
         {
