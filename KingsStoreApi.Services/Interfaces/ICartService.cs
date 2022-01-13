@@ -1,13 +1,14 @@
 ﻿using KingsStoreApi.Helpers.Implementations;
 using KingsStoreApi.Model.DataTransferObjects.CartServiceDTO;
 using KingsStoreApi.Model.Entities;
+using System.Threading.Tasks;
 
 namespace KingsStoreApi.Services.Interfaces
 {
     public interface ICartService
     {
-        ReturnModel AddCartItem(AddToCartDTO model);
-        void RemoveCartItem(string cartItemId);
+        Task<ReturnModel> AddCartItem(AddToCartDTO model);
+        ReturnModel RemoveCartItem(string cartItemId);
         void ClearCart();
         ReturnModel  GetTotalCartPrice();        
     }
