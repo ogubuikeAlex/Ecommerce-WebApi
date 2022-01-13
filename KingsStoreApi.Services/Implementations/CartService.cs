@@ -45,9 +45,7 @@ namespace KingsStoreApi.Services.Implementations
                 };
 
                 _cartItemRepository.AddAsync(newCartItem);
-                model.Cart?.CartContent?.Add(cartItem);
-                _repository.Update();
-
+               
                 return new ReturnModel {Success = true, Message= "Cart Item Added", Object = cartItem };
             }
 
