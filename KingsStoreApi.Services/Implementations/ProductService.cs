@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using KingsStoreApi.Data.Interfaces;
 using KingsStoreApi.Helpers.Implementations;
+using KingsStoreApi.Helpers.Implementations.Extensions;
 using KingsStoreApi.Helpers.Implementations.RequestFeatures;
 using KingsStoreApi.Model.DataTransferObjects.ProductServiceDTO;
 using KingsStoreApi.Model.DataTransferObjects.SharedDTO;
@@ -61,7 +62,9 @@ namespace KingsStoreApi.Services.Implementations
 
         public ReturnModel GetAllProducts(ProductRequestParameters requestParameter)
         {
-            var products = _repository.GetAllByCondition(p => p.Price >= requestParameter.MinPrice && p.Price <= requestParameter.MaxPrice);
+            var products = _repository.GetAllByCondition()
+                .Filter(requestParameter.MaxPrice, requestParameter.MinPrice)
+                .Search(requestParameter.SearchTerm).ToList();
 
             if (products is null)
                 return new ReturnModel { Success = false, Message = "No product found in store" };
