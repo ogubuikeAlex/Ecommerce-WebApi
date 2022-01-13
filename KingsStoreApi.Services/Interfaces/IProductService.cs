@@ -1,4 +1,5 @@
 ﻿using KingsStoreApi.Helpers.Implementations;
+using KingsStoreApi.Helpers.Implementations.RequestFeatures;
 using KingsStoreApi.Model.DataTransferObjects.ProductServiceDTO;
 using KingsStoreApi.Model.DataTransferObjects.SharedDTO;
 using KingsStoreApi.Model.Entities;
@@ -10,9 +11,9 @@ namespace KingsStoreApi.Services.Interfaces
     {
         ReturnModel GetProductByName(string name);
         ReturnModel GetProductById(string id);
-        ReturnModel GetAllProducts();
-        Task<ReturnModel> GetDisabledProductsByVendor(string email);
-        Task<ReturnModel> GetProductsByVendor(string email);
+        ReturnModel GetAllProducts(ProductRequestParameters requestParameters);
+        Task<ReturnModel> GetDisabledProductsByVendor(string email, ProductRequestParameters requestParameters);
+        Task<ReturnModel> GetProductsByVendor(string email, ProductRequestParameters requestParameters);
         Task<ReturnModel> BuyNow();
         Task<ReturnModel> UploadProduct(UploadProductDTO model, User user);
         Task<ReturnModel> UplaodProductImage(UploadImageDTO model, User user);//patch
