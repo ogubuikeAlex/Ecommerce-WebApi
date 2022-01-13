@@ -83,9 +83,10 @@ namespace KingsStoreApi.Services.Implementations
             }
             return new ReturnModel { Success = true, Message = "Cart Cleared" }; 
         }
-        public decimal GetTotalCartPrice()
+        public decimal GetTotalCartPrice(Cart cart)
         {
             decimal totalPrice = 0;
+            var cartItems = _cartItemRepository.GetAllByCondition(c => c.CartId == cart.Id.ToString()).ToList();
 
             /* foreach (var item in _CartContent)
             {
