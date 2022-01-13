@@ -14,6 +14,8 @@ namespace KingsStoreApi.Model.Entities
         public DateTime PublishedAt { get; set; }
         public byte[] ProductImage { get; set; }
 
+       
+
         //Store date of isdeleted
         //if after 30 dyas product is still isdeleted
         //turn on 
