@@ -103,14 +103,6 @@ namespace KingsStoreApi.Controllers
         public IActionResult TemporarilyDisableAProduct()
         {
             return NotFound();
-        }
-
-
-
-
-
-
-
-       
+        }       
     }
 }
