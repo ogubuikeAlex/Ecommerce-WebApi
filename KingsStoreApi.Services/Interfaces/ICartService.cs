@@ -6,10 +6,10 @@ namespace KingsStoreApi.Services.Interfaces
 {
     public interface ICartService
     {
-        public ReturnModel AddCartItem(AddToCartDTO model);
-        public void RemoveCartItem(string cartItemId);
-        public void ClearCart();
-        public decimal GetTotalCartPrice();        
+        ReturnModel AddCartItem(AddToCartDTO model);
+        void RemoveCartItem(string cartItemId);
+        void ClearCart();
+        ReturnModel  GetTotalCartPrice();        
     }
 }
 
