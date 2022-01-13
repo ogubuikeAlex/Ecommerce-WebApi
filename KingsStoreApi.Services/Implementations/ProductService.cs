@@ -142,13 +142,7 @@ namespace KingsStoreApi.Services.Implementations
 
             return new ReturnModel { Message = "Successful", Object = pagedList, Success = true };
         }
-
-        public async Task<ReturnModel> BuyNow ()
-        {
-             return new ReturnModel { };
-        }
-        //Search
-               
+                      
         public async Task<ReturnModel> TemporarilyDisableAProduct(string id)
         {
             var product = _repository.GetSingleByCondition(p => p.Id.ToString() == id);
