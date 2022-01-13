@@ -5,5 +5,6 @@
         public uint MaxPrice => uint.MaxValue;
         public uint MinPrice { get; set; }
         public bool ValidPriceRange => MaxPrice > MinPrice;
+        public string SearchTerm { get; set; }
     }
 }
