@@ -69,14 +69,14 @@ namespace KingsStoreApi.Services.Implementations
             return new ReturnModel { Message = "CartItem removed ", Success = true };
         }
 
-        public void ClearCart(Cart cart)
+        public async Task<ReturnModel> ClearCart(Cart cart)
         {
             var cartItems = _cartItemRepository.GetAllByCondition(c => c.CartId == cart.Id.ToString()).ToList();
 
             foreach (var item in cartItems)
             {
                 item.IsDeleted = true;
-                await _cartItemRepository.UpdateAsync;
+                await _cartItemRepository.UpdateAsync();
             }
         }
         public decimal GetTotalCartPrice()
