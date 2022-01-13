@@ -87,5 +87,10 @@ namespace KingsStoreApi.Data.Implementations
             await _context.SaveChangesAsync();
             return t.IsDeleted;
         }
+
+        public async Task Update()
+        {
+            await _context.SaveChangesAsync();
+        }
     }
 }
