@@ -9,6 +9,12 @@ namespace KingsStoreApi.Helpers.Implementations.Extensions
         {
             return products.Where(p => p.Price >= minPrice && p.Price <= maxPrice);
         }
-        
+        public static IQueryable<Product> Search(this IQueryable<Product> products, string searchTerm)
+        {
+            if (string.IsNullOrEmpty(searchTerm))
+                return products;
+
+            return products.Where(p => p.Title.ToLower().Contains(searchTerm.Trim().ToLower()));
+        }
     }
 }
