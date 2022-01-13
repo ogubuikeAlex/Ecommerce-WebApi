@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using KingsStoreApi.Data.Interfaces;
 using KingsStoreApi.Helpers.Implementations;
+using KingsStoreApi.Helpers.Implementations.RequestFeatures;
 using KingsStoreApi.Model.DataTransferObjects.ProductServiceDTO;
 using KingsStoreApi.Model.DataTransferObjects.SharedDTO;
 using KingsStoreApi.Model.Entities;
@@ -58,14 +59,18 @@ namespace KingsStoreApi.Services.Implementations
             return new ReturnModel { Message = "Product Title Updated Successfully", Success = true };
         }
 
-        public ReturnModel GetAllProducts()
+        public ReturnModel GetAllProducts(ProductRequestParameters requestParameter)
         {
             var products = _repository.GetAllByCondition();
 
             if (products is null)
                 return new ReturnModel { Success = false, Message = "No product found in store" };
 
-            return new ReturnModel { Success = true, Object = products };
+            var pagedList = PagedList<Product>.ToPagedList(products, requestParameter.PageSize, requestParameter.PageNumber);
+
+            //Do a mapping here to a representational DTO
+
+            return new ReturnModel { Success = true, Object = pagedList };
         }
 
         public ReturnModel GetProductById(string id)
@@ -88,7 +93,7 @@ namespace KingsStoreApi.Services.Implementations
             return new ReturnModel { Success = true, Object = products };
         }
 
-        public async Task<ReturnModel> GetProductsByVendor(string email)
+        public async Task<ReturnModel> GetProductsByVendor(string email, ProductRequestParameters requestParameters)
         {
             var user = await _userManager.FindByEmailAsync(email);
 
@@ -102,11 +107,15 @@ namespace KingsStoreApi.Services.Implementations
 
             if (products is null)
                 return new ReturnModel { Message = "This vendor has not uploaded any product yet", Success = false };
+            
+            var pagedList = PagedList<Product>.ToPagedList(products, requestParameters.PageSize, requestParameters.PageNumber);
+            
+            //Map to a representational view model  
 
-            return new ReturnModel { Message = "Successful", Object = products, Success = true };
+            return new ReturnModel { Message = "Successful", Object = pagedList, Success = true };
         }
 
-        public async Task<ReturnModel> GetDisabledProductsByVendor(string email)
+        public async Task<ReturnModel> GetDisabledProductsByVendor(string email, ProductRequestParameters requestParameters)
         {
             var user = await _userManager.FindByEmailAsync(email);
 
@@ -121,12 +130,14 @@ namespace KingsStoreApi.Services.Implementations
             if (products is null)
                 return new ReturnModel { Message = "This vendor does not have any disabled products yet", Success = false };
 
-            return new ReturnModel { Message = "Successful", Object = products, Success = true };
+            var pagedList = PagedList<Product>.ToPagedList(products, requestParameters.PageSize, requestParameters.PageNumber);
+
+            return new ReturnModel { Message = "Successful", Object = pagedList, Success = true };
         }
 
         public async Task<ReturnModel> BuyNow ()
         {
-            return new ReturnModel { };
+             return new ReturnModel { };
         }
         //Search
         //Filter
