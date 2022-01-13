@@ -88,6 +88,9 @@ namespace KingsStoreApi.Services.Implementations
             decimal totalPrice = 0;
             var cartItems = _cartItemRepository.GetAllByCondition(c => c.CartId == cart.Id.ToString(), includeProperties: "Product").ToList();
 
+            if (cartItems.Count < 1)
+                return new ReturnModel { Message = "This cart does not contain any items", Success = false };
+
             foreach (var item in cartItems)
             {
                 item.Product.Price += totalPrice;
