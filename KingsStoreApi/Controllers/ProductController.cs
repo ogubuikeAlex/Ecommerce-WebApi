@@ -129,9 +129,10 @@ namespace KingsStoreApi.Controllers
             return Ok(result.Message);
         }
 
-        public IActionResult EditProductTitl()
+        public async Task<IActionResult> EditProductTitl()
         {
-            return NotFound();
+            var user = new User();
+            var result = await _productService.EditProductTitle(model, user);
         }
         public IActionResult TemporarilyDisableAProduct()
         {
