@@ -105,10 +105,12 @@ namespace KingsStoreApi.Controllers
                 return NotFound(result.Message);
             return Ok(result.Message);
         }
-
-        public IActionResult EditProductPrice()
+                
+        public async Task<IActionResult> EditProductPrice(EditProductDTO model)
         {
-            return Ok();
+            var user = new User();
+            var result = await _productService.EditProductPrice(model, user);
+
         }
         public IActionResult EditProductSummary()
         {
