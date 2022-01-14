@@ -22,7 +22,9 @@ namespace KingsStoreApi.Services.Implementations
         
         public async Task<ReturnModel> AddCartItem(AddToCartDTO model)
         {
-            var cartItem = _cartItemRepository.GetSingleByCondition(p => p.Product.Id == model.Product.Id && p.CartId == model.Cart.Id.ToString());
+            var cartItem = _cartItemRepository.GetSingleByCondition(
+                p => p.Product.Id == model.Product.Id && p.CartId == model.Cart.Id.ToString()
+                );
 
             if (cartItem is not null)
             {
