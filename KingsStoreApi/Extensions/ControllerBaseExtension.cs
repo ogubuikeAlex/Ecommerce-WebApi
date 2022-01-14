@@ -13,7 +13,7 @@ namespace KingsStoreApi.Extensions
         {
             _userManager = userManager;
         }
-        public async Task<User> GetLoggedInUserAsync()
+        protected async Task<User> GetLoggedInUserAsync()
         {
             var (userId, userEmail) = HttpContext.User.GetLoggedInUserInfo();
             var user = await _userManager.FindByNameAsync(userEmail);
