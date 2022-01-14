@@ -66,7 +66,7 @@ namespace KingsStoreApi.Services.Implementations
                 .Filter(requestParameter.MaxPrice, requestParameter.MinPrice)
                 .Search(requestParameter.SearchTerm).ToList();
 
-            if (products is null)
+            if (products.Count < 1)
                 return new ReturnModel { Success = false, Message = "No product found in store" };
 
             var pagedList = PagedList<Product>.ToPagedList(products, requestParameter.PageSize, requestParameter.PageNumber);
