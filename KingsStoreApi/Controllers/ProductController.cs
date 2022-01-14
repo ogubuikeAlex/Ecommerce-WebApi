@@ -129,6 +129,7 @@ namespace KingsStoreApi.Controllers
             return Ok(result.Message);
         }
 
+        [HttpPost("EditTitle")]
         public async Task<IActionResult> EditProductTitl(EditProductDTO model)
         {
             var user = new User();
