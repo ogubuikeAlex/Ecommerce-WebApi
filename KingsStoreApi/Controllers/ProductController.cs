@@ -141,6 +141,8 @@ namespace KingsStoreApi.Controllers
 
             return Ok(result.Message);
         }
+
+        [HttpPost]
         public async Task<IActionResult> TemporarilyDisableAProduct(string id)
         {
             var result = await _productService.TemporarilyDisableAProduct(id);
