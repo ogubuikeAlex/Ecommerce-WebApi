@@ -3,7 +3,7 @@ using KingsStoreApi.Helpers.Implementations.RequestFeatures;
 using KingsStoreApi.Model.DataTransferObjects.ProductServiceDTO;
 using KingsStoreApi.Model.DataTransferObjects.SharedDTO;
 using KingsStoreApi.Model.Entities;
-using KingsStoreApi.Services.Implementations;
+using KingsStoreApi.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -15,9 +15,9 @@ namespace KingsStoreApi.Controllers
     [ApiController]
     public class ProductController : ControllerBaseExtension
     {
-        private readonly ProductService _productService;
+        private readonly IProductService _productService;
 
-       public ProductController(ProductService productService, UserManager<User> userManager) : base(userManager)
+       public ProductController(IProductService productService, UserManager<User> userManager) : base(userManager)
         {
             _productService = productService;
         }
@@ -28,7 +28,8 @@ namespace KingsStoreApi.Controllers
             var result = _productService.GetAllProducts(requestParameter);
 
             if (!result.Success)
-                return BadRequest(result.Message);
+                return NotFound(result.Message);
+
             var products = result.Object as List<Product>;
 
             return Ok(products);
