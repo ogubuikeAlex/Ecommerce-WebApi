@@ -86,6 +86,11 @@ namespace KingsStoreApi.Controllers
         {
             var user = new User();
             var result = await _productService.UploadProduct(model, user);
+
+            if (!result.Success)
+                return BadRequest("Product not uploaded");
+
+            return Ok(result.Message);
         }
         public IActionResult UplaodProductImage()
         {
