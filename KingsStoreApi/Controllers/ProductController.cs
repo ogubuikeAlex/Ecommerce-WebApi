@@ -121,8 +121,10 @@ namespace KingsStoreApi.Controllers
         [HttpPost("EditSummary")]
         public async Task<IActionResult> EditProductSummary(EditProductDTO model)
         {
-            var user = new User();
+            var user = await GetLoggedInUserAsync();
+
             var result = await _productService.EditProductSummary(model, user);
+
             if (!result.Success)
                 return NotFound(result.Message);
 
