@@ -4,6 +4,7 @@ using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Model.Enums;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,9 +17,9 @@ namespace KingsStoreApi.Configuration
             var userManager = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<UserManager<User>>();
 
             var roleManager = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<RoleManager<Role>>();
-
-            await SeedRolesAsync(roleManager);
-            await SeedAdmin(userManager, roleManager, configuration);
+            
+            //await SeedRolesAsync(roleManager);
+            //await SeedAdmin(userManager, roleManager, configuration);
         }
 
        private async static Task SeedRolesAsync(RoleManager<Role> roleManager)
