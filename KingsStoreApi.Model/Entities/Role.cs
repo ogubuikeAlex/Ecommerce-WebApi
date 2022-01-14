@@ -7,5 +7,6 @@ namespace KingsStoreApi.Model.Entities
     {
         public bool IsDeleted { get; set; }
 
+        public bool HasBeenRemovedOver30Days { get; set; }
     }
 }
