@@ -141,9 +141,9 @@ namespace KingsStoreApi.Controllers
 
             return Ok(result.Message);
         }
-        public IActionResult TemporarilyDisableAProduct()
+        public async Task<IActionResult> TemporarilyDisableAProduct(string id)
         {
-            return NotFound();
+            var result = await _productService.TemporarilyDisableAProduct(id);
         }
     }
 }
