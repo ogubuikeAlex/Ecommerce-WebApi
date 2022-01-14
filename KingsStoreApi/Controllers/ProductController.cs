@@ -121,8 +121,11 @@ namespace KingsStoreApi.Controllers
         {
             var user = new User();
             var result = await _productService.EditProductSummary(model, user);
+            if (!result.Success)
+                return NotFound(result.Message);
 
-            
+            return Ok(result.Message);
+
         }
         public IActionResult EditProductTitl()
         {
