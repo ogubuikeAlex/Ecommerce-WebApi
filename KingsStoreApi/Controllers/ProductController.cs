@@ -134,7 +134,7 @@ namespace KingsStoreApi.Controllers
         [HttpPost("EditTitle")]
         public async Task<IActionResult> EditProductTitl(EditProductDTO model)
         {
-            var user = new User();
+            var user = await GetLoggedInUserAsync();
 
             var result = await _productService.EditProductTitle(model, user);
 
