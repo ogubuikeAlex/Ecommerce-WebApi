@@ -82,10 +82,10 @@ namespace KingsStoreApi.Controllers
             return Ok(product);
         }
 
-        public IActionResult UploadProduct(UploadProductDTO model)
+        public async Task<IActionResult> UploadProduct(UploadProductDTO model)
         {
-            var product = _IMapper<Product>(model);
-            //configure mapper!
+            var user = new User();
+            var result = await _productService.UploadProduct(model, user);
         }
         public IActionResult UplaodProductImage()
         {
