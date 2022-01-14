@@ -95,7 +95,7 @@ namespace KingsStoreApi.Controllers
             return Ok(result.Message);
         }
 
-        [HttpPost("UploadProductImage")]
+        [HttpPost("UploadImage")]
         public async Task<IActionResult> UplaodProductImage(UploadImageDTO model)
         {
             var user = new User();
@@ -105,7 +105,8 @@ namespace KingsStoreApi.Controllers
                 return NotFound(result.Message);
             return Ok(result.Message);
         }
-                
+          
+        [HttpPost("EditPrice")]
         public async Task<IActionResult> EditProductPrice(EditProductDTO model)
         {
             var user = new User();
