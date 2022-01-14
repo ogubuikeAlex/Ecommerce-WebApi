@@ -22,7 +22,7 @@ namespace KingsStoreApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetProducts([FromQuery]ProductRequestParameters requestParameter)
+        public IActionResult GetProducts([FromQuery] ProductRequestParameters requestParameter)
         {
             var result = _productService.GetAllProducts(requestParameter);
 
@@ -34,7 +34,7 @@ namespace KingsStoreApi.Controllers
         }
 
         [HttpGet("email/{email}")]
-        public async Task<IActionResult> GetProductsVendor([FromQuery]ProductRequestParameters requestParameter, string email)
+        public async Task<IActionResult> GetProductsVendor([FromQuery] ProductRequestParameters requestParameter, string email)
         {
             var result = await _productService.GetProductsByVendor(email, requestParameter);
 
@@ -45,7 +45,7 @@ namespace KingsStoreApi.Controllers
 
             return Ok(products);
         }
-        
+
         [HttpGet("name/{name}")]
         public IActionResult GetProductByName(string name)
         {
@@ -55,9 +55,10 @@ namespace KingsStoreApi.Controllers
 
             var product = result.Object as Product;
 
-            return Ok(product);            
+            return Ok(product);
         }
-       
+
+        [HttpGet("id/{id}")]
         public IActionResult GetProductById(string id)
         {
             var result = _productService.GetProductById(id);
@@ -68,9 +69,9 @@ namespace KingsStoreApi.Controllers
 
             return Ok(product);
         }
-        
-        [HttpGet("id/{id}")]
-        public IActionResult GetDisabledProductsByVendo( [FromQuery] ProductRequestParameters requestParameters, string email)
+
+        [HttpGet("{email}/disabledProducts")]
+        public async Task<IActionResult> GetDisabledProductsByVendor([FromQuery] ProductRequestParameters requestParameters, string email)
         {
             var result = await _productService.GetDisabledProductsByVendor(email, requestParameters);
             if (!result.Success)
@@ -80,7 +81,7 @@ namespace KingsStoreApi.Controllers
 
             return Ok(product);
         }
-       
+
         public IActionResult UploadProduct(UploadProductDTO model)
         {
             var product = _IMapper<Product>(model);
@@ -89,7 +90,7 @@ namespace KingsStoreApi.Controllers
         public IActionResult UplaodProductImage()
         {
             return Ok();
-        } 
+        }
         public IActionResult EditProductPrice()
         {
             return Ok();
@@ -105,6 +106,6 @@ namespace KingsStoreApi.Controllers
         public IActionResult TemporarilyDisableAProduct()
         {
             return NotFound();
-        }       
+        }
     }
 }
