@@ -86,7 +86,7 @@ namespace KingsStoreApi.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadProduct(UploadProductDTO model)
         {
-            var user = new User();
+            var user = await GetLoggedInUserAsync();
             var result = await _productService.UploadProduct(model, user);
 
             if (!result.Success)
@@ -98,7 +98,7 @@ namespace KingsStoreApi.Controllers
         [HttpPost("UploadImage")]
         public async Task<IActionResult> UplaodProductImage(UploadImageDTO model)
         {
-            var user = new User();
+            var user = await GetLoggedInUserAsync();
             var result = await _productService.UplaodProductImage(model, user);
 
             if (!result.Success)
