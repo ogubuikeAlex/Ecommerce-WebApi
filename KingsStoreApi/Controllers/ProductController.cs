@@ -117,6 +117,8 @@ namespace KingsStoreApi.Controllers
 
             return Ok(result.Message);
         }
+
+        [HttpPost("EditSummary")]
         public async Task<IActionResult> EditProductSummary(EditProductDTO model)
         {
             var user = new User();
@@ -125,8 +127,8 @@ namespace KingsStoreApi.Controllers
                 return NotFound(result.Message);
 
             return Ok(result.Message);
-
         }
+
         public IActionResult EditProductTitl()
         {
             return NotFound();
