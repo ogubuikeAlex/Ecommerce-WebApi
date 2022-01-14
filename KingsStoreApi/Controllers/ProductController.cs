@@ -1,6 +1,7 @@
 ﻿using KingsStoreApi.Extensions;
 using KingsStoreApi.Helpers.Implementations.RequestFeatures;
 using KingsStoreApi.Model.DataTransferObjects.ProductServiceDTO;
+using KingsStoreApi.Model.DataTransferObjects.SharedDTO;
 using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Services.Implementations;
 using Microsoft.AspNetCore.Identity;
@@ -92,9 +93,10 @@ namespace KingsStoreApi.Controllers
 
             return Ok(result.Message);
         }
-        public IActionResult UplaodProductImage()
+        public async Task<IActionResult> UplaodProductImage(UploadImageDTO model)
         {
-            return Ok();
+            var user = new User();
+            var result = await _productService.UplaodProductImage(model, user);
         }
         public IActionResult EditProductPrice()
         {
