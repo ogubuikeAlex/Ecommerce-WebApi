@@ -1,4 +1,5 @@
 ﻿using KingsStoreApi.Extensions;
+using KingsStoreApi.Helpers.Implementations.RequestFeatures;
 using KingsStoreApi.Model.DataTransferObjects.ProductServiceDTO;
 using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Services.Implementations;
@@ -20,9 +21,10 @@ namespace KingsStoreApi.Controllers
             _productService = productService;
         }
 
-        public IActionResult GetProducts()
+        [HttpGet]
+        public IActionResult GetProducts([FromQuery]ProductRequestParameters requestParameter)
         {
-            var result = _productService.GetAllProducts();
+            var result = _productService.GetAllProducts(requestParameter);
 
             if (!result.Success)
                 return BadRequest(result.Message);
@@ -31,9 +33,10 @@ namespace KingsStoreApi.Controllers
             return Ok(products);
         }
 
-        public async Task<IActionResult> GetProductsVendor(string email)
+        [HttpGet("email/{email}")]
+        public async Task<IActionResult> GetProductsVendor([FromQuery]ProductRequestParameters requestParameter, string email)
         {
-            var result = await _productService.GetProductsByVendor(email);
+            var result = await _productService.GetProductsByVendor(email, requestParameter);
 
             if (!result.Success)
                 return BadRequest(result.Message);
@@ -43,6 +46,7 @@ namespace KingsStoreApi.Controllers
             return Ok(products);
         }
         
+        [HttpGet("name/{name}")]
         public IActionResult GetProductByName(string name)
         {
             var result = _productService.GetProductByName(name);
@@ -51,9 +55,9 @@ namespace KingsStoreApi.Controllers
 
             var product = result.Object as Product;
 
-            return Ok(product);
-            
+            return Ok(product);            
         }
+       
         public IActionResult GetProductById(string id)
         {
             var result = _productService.GetProductById(id);
@@ -65,9 +69,10 @@ namespace KingsStoreApi.Controllers
             return Ok(product);
         }
         
-        public IActionResult GetDisabledProductsByVendo(string email)
+        [HttpGet("id/{id}")]
+        public IActionResult GetDisabledProductsByVendo( [FromQuery] ProductRequestParameters requestParameters, string email)
         {
-            var result = _productService.GetDisabledProductsByVendor(email);
+            var result = await _productService.GetDisabledProductsByVendor(email, requestParameters);
             if (!result.Success)
                 return BadRequest(result.Message);
 
@@ -75,10 +80,7 @@ namespace KingsStoreApi.Controllers
 
             return Ok(product);
         }
-        public IActionResult BuyNow()
-        {
-            return Ok();
-        }
+       
         public IActionResult UploadProduct(UploadProductDTO model)
         {
             var product = _IMapper<Product>(model);
