@@ -93,10 +93,16 @@ namespace KingsStoreApi.Controllers
 
             return Ok(result.Message);
         }
+
+        [HttpPost("UploadProductImage")]
         public async Task<IActionResult> UplaodProductImage(UploadImageDTO model)
         {
             var user = new User();
             var result = await _productService.UplaodProductImage(model, user);
+
+            if (!result.Success)
+                return NotFound(result.Message);
+            return Ok(result.Message);
         }
         public IActionResult EditProductPrice()
         {
