@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace KingsStoreApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Product")]
     [ApiController]
     public class ProductController : ControllerBaseExtension
     {
         private readonly ProductService _productService;
 
-        public ProductController(ProductService productService, UserManager<User> userManager) : base(userManager)
+       public ProductController(ProductService productService, UserManager<User> userManager) : base(userManager)
         {
             _productService = productService;
         }
@@ -105,7 +105,7 @@ namespace KingsStoreApi.Controllers
                 return NotFound(result.Message);
             return Ok(result.Message);
         }
-          
+
         [HttpPost("EditPrice")]
         public async Task<IActionResult> EditProductPrice(EditProductDTO model)
         {
