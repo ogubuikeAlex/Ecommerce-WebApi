@@ -32,7 +32,7 @@ namespace KingsStoreApi.Services.Implementations
             _authenticationManager = authenticationManager;
             _signInManager = signInManager;
             _repository = _unitOfWork.GetRepository<Product>();
-        }       
+        }
 
         public async Task<ReturnModel> EditProductPrice(EditProductDTO model, User user)
         {
@@ -96,10 +96,8 @@ namespace KingsStoreApi.Services.Implementations
             return new ReturnModel { Success = true, Object = products };
         }
 
-        public async Task<ReturnModel> GetProductsByVendor(string email, ProductRequestParameters requestParameters)
+        public ReturnModel GetProductsByVendor(User user, ProductRequestParameters requestParameters)
         {
-            var user = await _userManager.FindByEmailAsync(email);
-
             if (user is null)
                 return new ReturnModel { Message = "User not found", Success = false };
 
@@ -107,20 +105,20 @@ namespace KingsStoreApi.Services.Implementations
                 return new ReturnModel { Message = "This user is not a vendor", Success = false };
 
             var products = _repository.GetAllByCondition(p => p.UserId == user.Id && !p.IsDeleted)
-                .Filter( requestParameters.MaxPrice, requestParameters.MinPrice)
+                .Filter(requestParameters.MaxPrice, requestParameters.MinPrice)
                 .Search(requestParameters.SearchTerm).ToList();
 
             if (products is null)
                 return new ReturnModel { Message = "This vendor has not uploaded any product yet", Success = false };
-            
+
             var pagedList = PagedList<Product>.ToPagedList(products, requestParameters.PageSize, requestParameters.PageNumber);
-            
+
             //Map to a representational view model  
 
             return new ReturnModel { Message = "Successful", Object = pagedList, Success = true };
         }
 
-        public async Task<ReturnModel> GetDisabledProductsByVendor(User user, ProductRequestParameters requestParameters)
+        public ReturnModel GetDisabledProductsByVendor(User user, ProductRequestParameters requestParameters)
         {
             if (user is null)
                 return new ReturnModel { Message = "User not found", Success = false };
@@ -140,7 +138,7 @@ namespace KingsStoreApi.Services.Implementations
 
             return new ReturnModel { Message = "Successful", Object = pagedList, Success = true };
         }
-                      
+
         public async Task<ReturnModel> TemporarilyDisableAProduct(string id)
         {
             var product = _repository.GetSingleByCondition(p => p.Id.ToString() == id);
@@ -156,7 +154,7 @@ namespace KingsStoreApi.Services.Implementations
             if (!isDeleted)
                 return new ReturnModel { Message = "Product Disabling failed", Success = false };
 
-            return new ReturnModel { Message = $"Product\nName:{product.Title}\nTitle: {product.Id}\n has been deleted"};
+            return new ReturnModel { Message = $"Product\nName:{product.Title}\nTitle: {product.Id}\n has been deleted" };
         }
 
         public async Task<ReturnModel> UploadProduct(UploadProductDTO model, User user)
@@ -164,7 +162,7 @@ namespace KingsStoreApi.Services.Implementations
             var product = _repository.GetSingleByCondition(p => p.Title == model.Title && p.Summary == model.Summary);
 
             if (product is not null)
-            {                
+            {
                 return new ReturnModel { Message = "Product already exists!", Success = false, Object = product };
             }
             var newProduct = _mapper.Map<Product>(model);
