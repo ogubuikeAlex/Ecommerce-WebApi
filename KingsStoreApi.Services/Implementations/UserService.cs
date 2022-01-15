@@ -21,6 +21,7 @@ namespace KingsStoreApi.Services.Implementations
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IRepository<User> _repository;
+        private readonly IRepository<Cart> _cartrepository;
         private User _user;
 
         public UserService(IServiceFactory serviceFactory, IMapper mapper, UserManager<User> userManager,
@@ -32,6 +33,7 @@ namespace KingsStoreApi.Services.Implementations
             _userManager = userManager;
             _signInManager = signInManager;
             _repository = unitOfWork.GetRepository<User>();
+            _cartrepository = unitOfWork.GetRepository<Cart>();
         }
         public async Task<ReturnModel> MakeUserAVendorAsync(string email)
         {
@@ -131,7 +133,6 @@ namespace KingsStoreApi.Services.Implementations
 
         public async Task<ReturnModel> RegisterAsync(RegisterDTO model)
         {
-            var cartRepo = _serviceFactory.GetServices<IRepository<Cart>>();
             var newUser = _mapper.Map<User>(model);
 
             newUser.LastLogin = DateTime.Now;
@@ -147,7 +148,7 @@ namespace KingsStoreApi.Services.Implementations
                 UpdatedAt = DateTime.Now,
                 UserId = newUser.Id                
             };
-            await cartRepo.AddAsync(cart);
+            await _cartrepository.AddAsync(cart);
 
             var result = await _userManager.CreateAsync(newUser, model.Password);
 
