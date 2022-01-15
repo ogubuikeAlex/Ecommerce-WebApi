@@ -1,4 +1,5 @@
 ﻿using KingsStoreApi.Model.DataTransferObjects.CartServiceDTO;
+using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace KingsStoreApi.Controllers
 
         public async Task<IActionResult> AddCartItem(AddToCartDTO model) { return Ok(); }
         public async Task<IActionResult> RemoveCartItem(string cartItemId) { return Ok(); }
-        Task<ReturnModel> ClearCart(Cart cart);
+        public async Task<IActionResult> ClearCart(Cart cart) { return Ok(); }
         ReturnModel GetTotalCartPrice(Cart cart);
     }
 }
