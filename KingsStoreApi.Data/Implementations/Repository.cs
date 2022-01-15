@@ -43,12 +43,12 @@ namespace KingsStoreApi.Data.Implementations
             return await _dbSet.Where(_isDeleted).AnyAsync(predicate);
         }
 
-        public IQueryable<T> GetAllByCondition(Expression<Func<T, bool>> predicate = null, Func<IQueryable, IOrderedQueryable> orderBy = null, params string[] includeProperties)
+        public IQueryable<T> GetAllByCondition(Expression<Func<T, bool>> predicate = null, Func<IQueryable, IOrderedQueryable> orderBy = null, bool includeIsDeleted = false, params string[] includeProperties)
         {
             if (predicate is null)
-                return _dbSet.Where(_isDeleted);
+                return includeIsDeleted ? _dbSet : _dbSet.Where(_isDeleted);
 
-            var model = _dbSet.Where(_isDeleted).Where(predicate);
+            var model = includeIsDeleted ? _dbSet.Where(predicate) : _dbSet.Where(_isDeleted).Where(predicate);
 
             foreach (var property in includeProperties)
             {
@@ -60,17 +60,15 @@ namespace KingsStoreApi.Data.Implementations
             return model;
         }
 
-        public T GetSingleByCondition(Expression<Func<T, bool>> predicate, Func<IQueryable, IOrderedQueryable> orderBy, params string[] includeProperties)
+        public T GetSingleByCondition(Expression<Func<T, bool>> predicate, Func<IQueryable, IOrderedQueryable> orderBy, bool includeIsDeleted = false, params string[] includeProperties)
         {
-            if (predicate is null)
-                return _dbSet.Where(_isDeleted).ToList().FirstOrDefault();
-
-            var model = _dbSet.Where(_isDeleted).Where(predicate).FirstOrDefault();
+            var model = includeIsDeleted ? _dbSet.Where(predicate).FirstOrDefault() : _dbSet.Where(_isDeleted).Where(predicate).FirstOrDefault();
 
             foreach (var property in includeProperties)
             {
                 _context.Entry(model).Reference(property).Load();
             }
+
             return model;
         }
 
