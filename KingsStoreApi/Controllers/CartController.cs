@@ -16,8 +16,8 @@ namespace KingsStoreApi.Controllers
             _cartService = cartService;
         }
 
-        public async Task<IActionResult> AddCartItem(AddToCartDTO model) { return Ok()};
-        Task<ReturnModel> RemoveCartItem(string cartItemId);
+        public async Task<IActionResult> AddCartItem(AddToCartDTO model) { return Ok(); }
+        public async Task<IActionResult> RemoveCartItem(string cartItemId) { return Ok(); }
         Task<ReturnModel> ClearCart(Cart cart);
         ReturnModel GetTotalCartPrice(Cart cart);
     }
