@@ -3,6 +3,6 @@
     public class EditProductDTO
     {
         public string Id { get; set; }
-        public dynamic NewValue { get; set; }
+        public string NewValue { get; set; }
     }
 }
