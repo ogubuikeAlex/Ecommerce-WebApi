@@ -28,7 +28,7 @@ namespace KingsStoreApi.Controllers
             if (!result.Success)
                 return BadRequest();
 
-            return Ok(result.Message);            
+            return Ok(result.Message);
         }
 
         public async Task<IActionResult> RemoveCartItem(string cartItemId)
@@ -51,6 +51,18 @@ namespace KingsStoreApi.Controllers
 
             return Ok(result.Message);
         }
-  /*      public IActionResult GetTotalCartPrice(Cart cart) { return Ok(); }*/
+        public async Task<IActionResult> GetTotalCartPrice()
+        {
+            var user = await GetLoggedInUserAsync();
+
+            var result = _cartService.GetTotalCartPrice(user.Id);
+
+            if (!result.Success)
+                return NotFound(result.Message);
+
+            var totalAmount = result.Object as string;
+
+            return Ok($"Total Amount : {totalAmount}");
+        }
     }
 }
