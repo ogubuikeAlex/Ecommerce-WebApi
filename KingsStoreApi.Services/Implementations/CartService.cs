@@ -65,12 +65,14 @@ namespace KingsStoreApi.Services.Implementations
             return new ReturnModel { Message = "CartItem removed ", Success = true };
         }
 
-        public async Task<ReturnModel> ClearCart(Cart cart)
+        public async Task<ReturnModel> ClearCart(string userId)
         {
+            var cart = _repository.GetSingleByCondition(c => c.UserId == userId);
+
             var cartItems = _cartItemRepository.GetAllByCondition(c => c.CartId == cart.Id.ToString()).ToList();
 
             if (cartItems.Count < 1)
-                return new ReturnModel { Message = "This cart does not contain any items", Success = false };
+                return new ReturnModel { Message = "This cart does not contain any items. No Cart Items found", Success = false };
 
             foreach (var item in cartItems)
             {
