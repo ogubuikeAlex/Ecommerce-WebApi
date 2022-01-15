@@ -36,9 +36,10 @@ namespace KingsStoreApi.Controllers
         }
 
         [HttpGet("email/{email}")]//working
-        public async Task<IActionResult> GetProductsVendor([FromQuery] ProductRequestParameters requestParameter, string email)
+        public async Task<IActionResult> GetProductsVendor([FromQuery] ProductRequestParameters requestParameter)
         {
-            var result = await _productService.GetProductsByVendor(email, requestParameter);
+            var user = await GetLoggedInUserAsync();
+            var result =  _productService.GetProductsByVendor(user, requestParameter);
 
             if (!result.Success)
                 return BadRequest(result.Message);
@@ -76,7 +77,7 @@ namespace KingsStoreApi.Controllers
         public async Task<IActionResult> GetDisabledProductsByVendor([FromQuery] ProductRequestParameters requestParameters)
         {
             var user = await GetLoggedInUserAsync();
-            var result = await _productService.GetDisabledProductsByVendor(user.Email, requestParameters);
+            var result = _productService.GetDisabledProductsByVendor(user, requestParameters);
             if (!result.Success)
                 return BadRequest(result.Message);
 
