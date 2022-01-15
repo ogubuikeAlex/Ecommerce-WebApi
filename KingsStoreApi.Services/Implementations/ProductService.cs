@@ -126,7 +126,7 @@ namespace KingsStoreApi.Services.Implementations
             if (!user.isVendor)
                 return new ReturnModel { Message = "This user is not a vendor", Success = false };
 
-            var products = _repository.GetAllByCondition(p => p.UserId == user.Id && p.IsDeleted)
+            var products = _repository.GetAllByCondition(p => p.UserId == user.Id && p.IsDeleted, includeIsDeleted : true)
                 .Filter(requestParameters.MaxPrice, requestParameters.MinPrice)
                 .Search(requestParameters.SearchTerm)
                 .ToList();
@@ -138,6 +138,8 @@ namespace KingsStoreApi.Services.Implementations
 
             return new ReturnModel { Message = "Successful", Object = pagedList, Success = true };
         }
+
+        //In reposiotry create methods thas will allow u get all entitys in the system whethere deletd or not
 
         public async Task<ReturnModel> TemporarilyDisableAProduct(string id)
         {
