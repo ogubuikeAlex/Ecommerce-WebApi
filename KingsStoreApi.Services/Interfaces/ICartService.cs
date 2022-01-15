@@ -10,7 +10,7 @@ namespace KingsStoreApi.Services.Interfaces
         Task<ReturnModel> AddCartItem(User user, string productId, int quantity);
         Task<ReturnModel> RemoveCartItem(string cartItemId);
         Task<ReturnModel> ClearCart(string userId);
-        ReturnModel  GetTotalCartPrice(Cart cart);        
+        ReturnModel  GetTotalCartPrice(string userId);        
     }
 }
 
