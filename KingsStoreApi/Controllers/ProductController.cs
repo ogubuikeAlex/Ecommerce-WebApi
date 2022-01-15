@@ -61,7 +61,7 @@ namespace KingsStoreApi.Controllers
             return Ok(product);
         }
 
-        [HttpGet("id/{id}")]
+        [HttpGet("id/{id}")]//working
         public IActionResult GetProductById(string id)
         {
             var result = _productService.GetProductById(id);
@@ -78,10 +78,11 @@ namespace KingsStoreApi.Controllers
         {
             var user = await GetLoggedInUserAsync();
             var result = _productService.GetDisabledProductsByVendor(user, requestParameters);
+
             if (!result.Success)
                 return BadRequest(result.Message);
 
-            var product = result.Object as Product;
+            var product = result.Object as IEnumerable<Product>;
 
             return Ok(product);
         }
