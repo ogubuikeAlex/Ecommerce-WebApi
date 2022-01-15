@@ -163,15 +163,21 @@ namespace KingsStoreApi.Services.Implementations
 
         public async Task<ReturnModel> UploadProduct(UploadProductDTO model, User user)
         {
-            var product = _mapper.Map<Product>(model);
-            product.CreatedAt = DateTime.Now;
-            product.PublishedAt = DateTime.Now;
-            product.UpdatedAt = DateTime.Now;
-            product.UserId = user.Id;
+            var product = _repository.GetSingleByCondition(p => p.Title == model.Title && p.Summary == model.Summary);
 
-            await _repository.AddAsync(product);
+            if (product is not null)
+            {                
+                return new ReturnModel { Message = "Product already exists!", Success = false, Object = product };
+            }
+            var newProduct = _mapper.Map<Product>(model);
+            newProduct.CreatedAt = DateTime.Now;
+            newProduct.PublishedAt = DateTime.Now;
+            newProduct.UpdatedAt = DateTime.Now;
+            newProduct.UserId = user.Id;
 
-            return new ReturnModel { Message = "Product added successfuly", Success = true, Object = product };
+            await _repository.AddAsync(newProduct);
+
+            return new ReturnModel { Message = "Product added successfuly", Success = true, Object = newProduct };
         }
 
         public async Task<ReturnModel> UplaodProductImage(UploadImageDTO model, User user)
