@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using KingsStoreApi.Model.DataTransferObjects.CategoryServicesDTO;
+using KingsStoreApi.Model.DataTransferObjects.ProductServiceDTO;
 using KingsStoreApi.Model.DataTransferObjects.UserServiceDTO;
 using KingsStoreApi.Model.Entities;
 
@@ -12,6 +13,7 @@ namespace KingsStoreApi.Configuration
                 // CreateMap<From, To>()
                 CreateMap<RegisterDTO, User>();
                 CreateMap<CreateCategoryDTO, Category>();
+                CreateMap<UploadProductDTO, Product>();
             }       
     }
 }
