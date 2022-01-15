@@ -17,7 +17,7 @@ namespace KingsStoreApi.Controllers
     {
         private readonly IProductService _productService;
 
-       public ProductController(IProductService productService, UserManager<User> userManager) : base(userManager)
+        public ProductController(IProductService productService, UserManager<User> userManager) : base(userManager)
         {
             _productService = productService;
         }
@@ -39,7 +39,7 @@ namespace KingsStoreApi.Controllers
         public async Task<IActionResult> GetProductsVendor([FromQuery] ProductRequestParameters requestParameter)
         {
             var user = await GetLoggedInUserAsync();
-            var result =  _productService.GetProductsByVendor(user, requestParameter);
+            var result = _productService.GetProductsByVendor(user, requestParameter);
 
             if (!result.Success)
                 return BadRequest(result.Message);
@@ -99,7 +99,7 @@ namespace KingsStoreApi.Controllers
             return Ok(result.Message);
         }
 
-        [HttpPost("UploadImage")]
+        [HttpPost("UploadImage")]//working
         public async Task<IActionResult> UplaodProductImage([FromForm] UploadImageDTO model)
         {
             var user = await GetLoggedInUserAsync();
@@ -110,8 +110,8 @@ namespace KingsStoreApi.Controllers
             return Ok(result.Message);
         }
 
-        [HttpPost("EditPrice")]
-        public async Task<IActionResult> EditProductPrice(EditProductDTO model)
+        [HttpPost("EditPrice")]//working
+        public async Task<IActionResult> EditProductPrice(EditProductPriceDTO model)
         {
             var user = await GetLoggedInUserAsync();
             var result = await _productService.EditProductPrice(model, user);
@@ -122,7 +122,7 @@ namespace KingsStoreApi.Controllers
             return Ok(result.Message);
         }
 
-        [HttpPost("EditSummary")]
+        [HttpPost("EditSummary")]//working
         public async Task<IActionResult> EditProductSummary(EditProductDTO model)
         {
             var user = await GetLoggedInUserAsync();
@@ -135,7 +135,7 @@ namespace KingsStoreApi.Controllers
             return Ok(result.Message);
         }
 
-        [HttpPost("EditTitle")]
+        [HttpPost("EditTitle")]//working
         public async Task<IActionResult> EditProductTitl(EditProductDTO model)
         {
             var user = await GetLoggedInUserAsync();
@@ -148,7 +148,7 @@ namespace KingsStoreApi.Controllers
             return Ok(result.Message);
         }
 
-        [HttpPost("TempDisable")]
+        [HttpPost("TempDisable")]//working
         public async Task<IActionResult> TemporarilyDisableAProduct(string id)
         {
             var result = await _productService.TemporarilyDisableAProduct(id);
