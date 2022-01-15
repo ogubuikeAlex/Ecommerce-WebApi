@@ -120,10 +120,8 @@ namespace KingsStoreApi.Services.Implementations
             return new ReturnModel { Message = "Successful", Object = pagedList, Success = true };
         }
 
-        public async Task<ReturnModel> GetDisabledProductsByVendor(string email, ProductRequestParameters requestParameters)
+        public async Task<ReturnModel> GetDisabledProductsByVendor(User user, ProductRequestParameters requestParameters)
         {
-            var user = await _userManager.FindByEmailAsync(email);
-
             if (user is null)
                 return new ReturnModel { Message = "User not found", Success = false };
 
@@ -135,7 +133,7 @@ namespace KingsStoreApi.Services.Implementations
                 .Search(requestParameters.SearchTerm)
                 .ToList();
 
-            if (products is null)
+            if (products.Count < 1)
                 return new ReturnModel { Message = "This vendor does not have any disabled products yet", Success = false };
 
             var pagedList = PagedList<Product>.ToPagedList(products, requestParameters.PageSize, requestParameters.PageNumber);
