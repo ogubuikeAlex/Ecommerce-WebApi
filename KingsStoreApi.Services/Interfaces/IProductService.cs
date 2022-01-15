@@ -16,7 +16,7 @@ namespace KingsStoreApi.Services.Interfaces
         ReturnModel GetProductsByVendor(User user, ProductRequestParameters requestParameters);
         Task<ReturnModel> UploadProduct(UploadProductDTO model, User user);
         Task<ReturnModel> UplaodProductImage(UploadImageDTO model, User user);//patch
-        Task<ReturnModel> EditProductPrice(EditProductDTO model, User user);//patch
+        Task<ReturnModel> EditProductPrice(EditProductPriceDTO model, User user);//patch
         Task<ReturnModel> EditProductSummary(EditProductDTO model, User user);//patch
         Task<ReturnModel> EditProductTitle(EditProductDTO model, User user);//patch
         Task<ReturnModel> TemporarilyDisableAProduct(string id);
