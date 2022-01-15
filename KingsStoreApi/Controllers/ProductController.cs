@@ -73,7 +73,7 @@ namespace KingsStoreApi.Controllers
             return Ok(product);
         }
 
-        [HttpGet("disabledProducts")]
+        [HttpGet("disabledProducts")]//working
         public async Task<IActionResult> GetDisabledProductsByVendor([FromQuery] ProductRequestParameters requestParameters)
         {
             var user = await GetLoggedInUserAsync();
@@ -100,7 +100,7 @@ namespace KingsStoreApi.Controllers
         }
 
         [HttpPost("UploadImage")]
-        public async Task<IActionResult> UplaodProductImage(UploadImageDTO model)
+        public async Task<IActionResult> UplaodProductImage([FromForm] UploadImageDTO model)
         {
             var user = await GetLoggedInUserAsync();
             var result = await _productService.UplaodProductImage(model, user);
