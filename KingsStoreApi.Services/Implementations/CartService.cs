@@ -81,9 +81,12 @@ namespace KingsStoreApi.Services.Implementations
             }
             return new ReturnModel { Success = true, Message = "Cart Cleared" }; 
         }
-        public ReturnModel GetTotalCartPrice(Cart cart)
+        public ReturnModel GetTotalCartPrice(string userId)
         {
+            var cart = _repository.GetSingleByCondition(c => c.UserId == userId);
+
             decimal totalPrice = 0;
+
             var cartItems = _cartItemRepository.GetAllByCondition(c => c.CartId == cart.Id.ToString(), includeProperties: "Product").ToList();
 
             if (cartItems.Count < 1)
@@ -95,8 +98,6 @@ namespace KingsStoreApi.Services.Implementations
             }
 
             return new ReturnModel { Success = true, Message = "price gotten", Object = totalPrice };
-
         }
-
     }
 }
