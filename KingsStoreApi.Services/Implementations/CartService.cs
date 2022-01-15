@@ -13,38 +13,44 @@ namespace KingsStoreApi.Services.Implementations
     {
         private IRepository<Cart> _repository;
         private IRepository<CartItem> _cartItemRepository;
+        private IRepository<Product> _productRepository;
 
         public CartService(IUnitOfWork unitOfWork)
         {          
             _repository = unitOfWork.GetRepository<Cart>();
             _cartItemRepository = unitOfWork.GetRepository<CartItem>();
+            _productRepository = unitOfWork.GetRepository<Product>();
         }        
         
-        public async Task<ReturnModel> AddCartItem(AddToCartDTO model)
+        public async Task<ReturnModel> AddCartItem(User user, string productId, int quantity)
         {
+            var cart = _repository.GetSingleByCondition(c => c.UserId == user.Id);
+
             var cartItem = _cartItemRepository.GetSingleByCondition(
-                p => p.Product.Id == model.Product.Id && p.CartId == model.Cart.Id.ToString()
+                p => p.productId == productId && p.CartId == cart.Id.ToString()
                 );
 
             if (cartItem is not null)
             {
-                cartItem.Quantity += model.Quantity;
+                cartItem.Quantity += quantity;
                 await _cartItemRepository.UpdateAsync();
-                return new ReturnModel { Success = true, Message = $"Cart item: {model.Product.Title} Quantity increased" };
+                return new ReturnModel { Success = true, Message = $"Cart item: Quantity increased" };
             }
+            var product = _productRepository.GetSingleByCondition(a => a.Id.ToString() == productId);
 
             var newCartItem = new CartItem
             {
-                Product = model.Product,
-                Quantity = model.Quantity,
-                CartId = model.Cart.Id.ToString(),
+                Product = product, 
+                productId = productId,
+                Quantity = quantity,
+                CartId = cart.Id.ToString(),
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now
             };
 
             await _cartItemRepository.AddAsync(newCartItem);
 
-            return new ReturnModel { Success = true, Message = $"{model.Quantity} unit(s) of {model.Product.Title} Added", Object = cartItem };
+            return new ReturnModel { Success = true, Message = $"{quantity} unit(s) of item Added", Object = cartItem };
         }
 
         public async Task<ReturnModel> RemoveCartItem(string cartItemId)
