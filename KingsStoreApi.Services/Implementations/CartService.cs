@@ -28,9 +28,9 @@ namespace KingsStoreApi.Services.Implementations
 
             if (cartItem is not null)
             {
-                cartItem.Quantity++;
+                cartItem.Quantity += model.Quantity;
                 await _cartItemRepository.UpdateAsync();
-                return new ReturnModel { Success = false, Message = "Cart item Quantity increased" };
+                return new ReturnModel { Success = true, Message = $"Cart item: {model.Product.Title} Quantity increased" };
             }
 
             var newCartItem = new CartItem
@@ -44,8 +44,7 @@ namespace KingsStoreApi.Services.Implementations
 
             await _cartItemRepository.AddAsync(newCartItem);
 
-            return new ReturnModel { Success = true, Message = "Cart Item Added", Object = cartItem };
-
+            return new ReturnModel { Success = true, Message = $"{model.Quantity} unit(s) of {model.Product.Title} Added", Object = cartItem };
         }
 
         public async Task<ReturnModel> RemoveCartItem(string cartItemId)
