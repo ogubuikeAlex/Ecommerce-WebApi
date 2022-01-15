@@ -6,6 +6,7 @@ namespace KingsStoreApi.Model.Entities
     {
         public Guid Id { get; set; }
         public string CartId { get; set; }
+        public string productId { get; set; }
         public Product Product { get; set; }
         public int Quantity { get; set; }
     }
