@@ -40,8 +40,17 @@ namespace KingsStoreApi.Controllers
 
             return Ok(result.Message);
         }
-/*
-        public async Task<IActionResult> ClearCart(Cart cart) { return Ok(); }
-        public IActionResult GetTotalCartPrice(Cart cart) { return Ok(); }*/
+
+        public async Task<IActionResult> ClearCart()
+        {
+            var user = await GetLoggedInUserAsync();
+            var result = await _cartService.ClearCart(user.Id);
+
+            if (!result.Success)
+                return NotFound(result.Message);
+
+            return Ok(result.Message);
+        }
+  /*      public IActionResult GetTotalCartPrice(Cart cart) { return Ok(); }*/
     }
 }
