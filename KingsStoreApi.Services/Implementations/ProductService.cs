@@ -34,7 +34,7 @@ namespace KingsStoreApi.Services.Implementations
             _repository = _unitOfWork.GetRepository<Product>();
         }
 
-        public async Task<ReturnModel> EditProductPrice(EditProductDTO model, User user)
+        public async Task<ReturnModel> EditProductPrice(EditProductPriceDTO model, User user)
         {
             var product = _repository.GetSingleByCondition(p => p.Id.ToString() == model.Id && p.UserId == user.Id);
 
@@ -152,6 +152,8 @@ namespace KingsStoreApi.Services.Implementations
                 return new ReturnModel { Message = "This Produuct has already been Temporarily diasbled", Success = false };
 
             var isDeleted = await _repository.ToggleSoftDeleteAsync(product);
+            product.IsDeletedTimeStamp = DateTime.Now;
+            await _repository.UpdateAsync();
 
             if (!isDeleted)
                 return new ReturnModel { Message = "Product Disabling failed", Success = false };
