@@ -22,7 +22,7 @@ namespace KingsStoreApi.Controllers
             _productService = productService;
         }
 
-        [HttpGet]
+        [HttpGet]//working
         public IActionResult GetProducts([FromQuery] ProductRequestParameters requestParameter)
         {
             var result = _productService.GetAllProducts(requestParameter);
@@ -35,7 +35,7 @@ namespace KingsStoreApi.Controllers
             return Ok(products);
         }
 
-        [HttpGet("email/{email}")]
+        [HttpGet("email/{email}")]//working
         public async Task<IActionResult> GetProductsVendor([FromQuery] ProductRequestParameters requestParameter, string email)
         {
             var result = await _productService.GetProductsByVendor(email, requestParameter);
@@ -48,14 +48,14 @@ namespace KingsStoreApi.Controllers
             return Ok(products);
         }
 
-        [HttpGet("name/{name}")]
+        [HttpGet("name/{name}")]//working
         public IActionResult GetProductByName(string name)
         {
             var result = _productService.GetProductByName(name);
             if (!result.Success)
                 return BadRequest(result.Message);
 
-            var product = result.Object as Product;
+            var product = result.Object as IEnumerable<Product>;
 
             return Ok(product);
         }
@@ -72,10 +72,11 @@ namespace KingsStoreApi.Controllers
             return Ok(product);
         }
 
-        [HttpGet("{email}/disabledProducts")]
-        public async Task<IActionResult> GetDisabledProductsByVendor([FromQuery] ProductRequestParameters requestParameters, string email)
+        [HttpGet("disabledProducts")]
+        public async Task<IActionResult> GetDisabledProductsByVendor([FromQuery] ProductRequestParameters requestParameters)
         {
-            var result = await _productService.GetDisabledProductsByVendor(email, requestParameters);
+            var user = await GetLoggedInUserAsync();
+            var result = await _productService.GetDisabledProductsByVendor(user.Email, requestParameters);
             if (!result.Success)
                 return BadRequest(result.Message);
 
@@ -84,14 +85,14 @@ namespace KingsStoreApi.Controllers
             return Ok(product);
         }
 
-        [HttpPost]
+        [HttpPost]//working
         public async Task<IActionResult> UploadProduct(UploadProductDTO model)
         {
             var user = await GetLoggedInUserAsync();
             var result = await _productService.UploadProduct(model, user);
 
             if (!result.Success)
-                return BadRequest("Product not uploaded");
+                return BadRequest(result.Message);
 
             return Ok(result.Message);
         }
