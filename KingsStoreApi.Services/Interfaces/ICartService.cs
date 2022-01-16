@@ -7,7 +7,7 @@ namespace KingsStoreApi.Services.Interfaces
 {
     public interface ICartService
     {
-        Task<ReturnModel> GetCartItems(); 
+        ReturnModel GetCartItems(string userId); 
         Task<ReturnModel> AddCartItem(User user, string productId, int quantity);
         Task<ReturnModel> RemoveCartItem(string cartItemId);
         Task<ReturnModel> ClearCart(string userId);
