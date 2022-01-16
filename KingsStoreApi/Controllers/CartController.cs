@@ -19,11 +19,11 @@ namespace KingsStoreApi.Controllers
             _cartService = cartService;
         }
 
-       /* [HttpGet]
+        [HttpGet]
         public IActionResult GetAllCartItems()
         {
 
-        }*/
+        }
         [HttpPost("Add")]//working
         public async Task<IActionResult> AddCartItem(AddToCartDTO model)
         {

@@ -109,5 +109,10 @@ namespace KingsStoreApi.Services.Implementations
 
             return new ReturnModel { Success = true, Message = "price gotten", Object = totalPrice.ToString() };
         }
+
+        public Task<ReturnModel> GetCartItems()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
