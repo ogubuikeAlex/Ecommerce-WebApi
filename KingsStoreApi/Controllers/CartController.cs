@@ -19,7 +19,12 @@ namespace KingsStoreApi.Controllers
             _cartService = cartService;
         }
 
-        [HttpPost]
+        [HttpGet]
+        public IActionResult GetAllCartItems()
+        {
+
+        }
+        [HttpPost("Add")]
         public async Task<IActionResult> AddCartItem(AddToCartDTO model)
         {
             var user = await GetLoggedInUserAsync();
@@ -31,6 +36,7 @@ namespace KingsStoreApi.Controllers
             return Ok(result.Message);
         }
 
+        [HttpPost("Remove")]
         public async Task<IActionResult> RemoveCartItem(string cartItemId)
         {
             var result = await _cartService.RemoveCartItem(cartItemId);
@@ -41,6 +47,7 @@ namespace KingsStoreApi.Controllers
             return Ok(result.Message);
         }
 
+        [HttpPost("Clear")]
         public async Task<IActionResult> ClearCart()
         {
             var user = await GetLoggedInUserAsync();
@@ -51,6 +58,8 @@ namespace KingsStoreApi.Controllers
 
             return Ok(result.Message);
         }
+
+        [HttpGet]
         public async Task<IActionResult> GetTotalCartPrice()
         {
             var user = await GetLoggedInUserAsync();
