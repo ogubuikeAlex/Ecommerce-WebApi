@@ -20,6 +20,7 @@ namespace KingsStoreApi.Controllers
             _categoryService = categoryService;
         }
 
+        [HttpGet("{categoryName}")]
         public IActionResult GetCategory (string categoryName)
         {
             var result = _categoryService.GetCategory(categoryName);
@@ -30,6 +31,7 @@ namespace KingsStoreApi.Controllers
             return Ok(result.Message);
         }
 
+        [HttpGet]
         public IActionResult GetAllCategories()
         {
             var result = _categoryService.GetAllCategories();
@@ -40,6 +42,7 @@ namespace KingsStoreApi.Controllers
             return Ok(result.Message);
         }
 
+        [HttpPost]
         public async Task<IActionResult> CreateCategory(CreateCategoryDTO model)
         {
             var result = await _categoryService.CreateCategory(model);
@@ -50,6 +53,7 @@ namespace KingsStoreApi.Controllers
             return Ok(result.Message);
         }
 
+        [HttpPost("SoftDelete")]
         public async Task<IActionResult> ToggleSoftDeleteCategory(string id)
         {
             var result = await _categoryService.ToggleSoftDeleteCategory(id);
@@ -60,6 +64,7 @@ namespace KingsStoreApi.Controllers
             return Ok(result.Message);
         }
 
+        [HttpPost("titleUpdate")]
         public async Task<IActionResult> UpdateCategoryTitle(UpdateCategoryDTO model)
         {
             var result = await _categoryService.UpdateCategoryTitle(model);
@@ -70,6 +75,7 @@ namespace KingsStoreApi.Controllers
             return Ok(result.Message);
         }
           
+        [HttpPost("summaryUpdate")]
         public async Task<IActionResult> UpdateCategorySummary(UpdateCategoryDTO model)
         {
             var result = await _categoryService.UpdateCategorySummary(model);
