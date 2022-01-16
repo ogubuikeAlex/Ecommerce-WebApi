@@ -92,6 +92,7 @@ namespace KingsStoreApi.Services.Implementations
 
         public ReturnModel GetTotalCartPrice(string userId)
         {
+            //instead of querying again for cart, initialize user with cart with 
             var cart = _repository.GetSingleByCondition(c => c.UserId == userId);
 
             decimal totalPrice = 0;
@@ -103,10 +104,10 @@ namespace KingsStoreApi.Services.Implementations
 
             foreach (var item in cartItems)
             {
-                totalPrice = item.Product.Price += totalPrice;
+                totalPrice += item.Product.Price;
             }
 
-            return new ReturnModel { Success = true, Message = "price gotten", Object = totalPrice };
+            return new ReturnModel { Success = true, Message = "price gotten", Object = totalPrice.ToString() };
         }
     }
 }
