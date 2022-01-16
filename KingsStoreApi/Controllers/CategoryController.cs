@@ -24,15 +24,20 @@ namespace KingsStoreApi.Controllers
         {
             var result = _categoryService.GetCategory(categoryName);
 
-            if (result is null)
+            if (!result.Success)
                 return NotFound(result.Message);
 
             return Ok(result.Message);
         }
 
-        public IActionResult GetAllCategories(string categoryName)
+        public IActionResult GetAllCategories()
         {
-            return Ok();
+            var result = _categoryService.GetAllCategories();
+
+            if (!result.Success)
+                return NotFound(result.Message);
+
+            return Ok(result.Message);
         }
 
         public async Task<IActionResult> CreateCategory(CreateCategoryDTO model)
