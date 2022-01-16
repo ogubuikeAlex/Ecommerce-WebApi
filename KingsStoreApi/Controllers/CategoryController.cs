@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using KingsStoreApi.Model.DataTransferObjects.CategoryServicesDTO;
+using KingsStoreApi.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,11 +13,38 @@ namespace KingsStoreApi.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        /*ReturnModel GetCategory(string categoryName);
-        ReturnModel GetAllCategories();
-        Task<ReturnModel> CreateCategory(CreateCategoryDTO model);
-        Task<ReturnModel> ToggleSoftDeleteCategory(string id);
-        Task<ReturnModel> UpdateCategoryTitle(UpdateCategoryDTO model);
-        Task<ReturnModel> UpdateCategorySummary(UpdateCategoryDTO model);*/
+        private readonly ICategoryService _categoryService;
+
+        public CategoryController(ICategoryService categoryService)
+        {
+            _categoryService = categoryService;
+        }
+
+        public IActionResult GetCategory (string categoryName)
+        {
+            return Ok();
+        }
+
+        public IActionResult GetAllCategories(string categoryName)
+        {
+            return Ok();
+        }
+
+        public async Task<IActionResult> CreateCategory(CreateCategoryDTO model)
+        {
+            return Ok();
+        }
+
+        public async Task<IActionResult> ToggleSoftDeleteCategory(string id)
+        {
+            return Ok();
+        }
+
+        public async Task<IActionResult> UpdateCategoryTitle(UpdateCategoryDTO model) { return Ok(); }
+          
+        public async Task<IActionResult> UpdateCategorySummary(UpdateCategoryDTO model)
+        {
+            return Ok();
+        }
     }
 }
