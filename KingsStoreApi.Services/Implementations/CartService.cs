@@ -1,6 +1,5 @@
 ﻿using KingsStoreApi.Data.Interfaces;
 using KingsStoreApi.Helpers.Implementations;
-using KingsStoreApi.Model.DataTransferObjects.CartServiceDTO;
 using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Services.Interfaces;
 using System;
@@ -16,21 +15,29 @@ namespace KingsStoreApi.Services.Implementations
         private IRepository<Product> _productRepository;
 
         public CartService(IUnitOfWork unitOfWork)
-        {          
+        {
             _repository = unitOfWork.GetRepository<Cart>();
             _cartItemRepository = unitOfWork.GetRepository<CartItem>();
             _productRepository = unitOfWork.GetRepository<Product>();
-        }        
-        
+        }
+
         public async Task<ReturnModel> AddCartItem(User user, string productId, int quantity)
-        {
-            //do not be able to add more than is available to cart!
-            //As a vendor i should not be able to add my own product to my cart
+        {           
+            var product = _productRepository.GetSingleByCondition(a => a.Id.ToString() == productId);
+            
+            if (product is null)
+                return new ReturnModel { Success = false, Message = "Product either does not exist or has been deleted" };
+
+            if (product.UserId == user.Id)
+                return new ReturnModel { Message = "You cannot buy your own products", Success = false };
+
+            if (product.Quantity < quantity)
+                return new ReturnModel { Message = $"OOPS! Insufficient Products\nWe currently have {product.Quantity} of {product.Title} in our store, " +
+                    $"\nyour order exceeds that! \nReduce your order and try again \nor check again in a few days after restock", Success = false };
+            
             var cart = _repository.GetSingleByCondition(c => c.UserId == user.Id);
 
-            var cartItem = _cartItemRepository.GetSingleByCondition(
-                p => p.ProductId == productId && p.CartId == cart.Id.ToString()
-                );
+            var cartItem = _cartItemRepository.GetSingleByCondition( p => p.ProductId == productId && p.CartId == cart.Id.ToString());
 
             if (cartItem is not null)
             {
@@ -38,8 +45,6 @@ namespace KingsStoreApi.Services.Implementations
                 await _cartItemRepository.UpdateAsync();
                 return new ReturnModel { Success = true, Message = $"Cart item: Quantity increased" };
             }
-            var product = _productRepository.GetSingleByCondition(a => a.Id.ToString() == productId);
-            //if product is null return 
 
             var newCartItem = new CartItem
             {
@@ -82,8 +87,9 @@ namespace KingsStoreApi.Services.Implementations
                 item.IsDeleted = true;
                 await _cartItemRepository.UpdateAsync();
             }
-            return new ReturnModel { Success = true, Message = "Cart Cleared" }; 
+            return new ReturnModel { Success = true, Message = "Cart Cleared" };
         }
+
         public ReturnModel GetTotalCartPrice(string userId)
         {
             var cart = _repository.GetSingleByCondition(c => c.UserId == userId);
