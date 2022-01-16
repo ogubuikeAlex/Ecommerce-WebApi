@@ -24,10 +24,12 @@ namespace KingsStoreApi.Services.Implementations
         
         public async Task<ReturnModel> AddCartItem(User user, string productId, int quantity)
         {
+            //do not be able to add more than is available to cart!
+            //As a vendor i should not be able to add my own product to my cart
             var cart = _repository.GetSingleByCondition(c => c.UserId == user.Id);
 
             var cartItem = _cartItemRepository.GetSingleByCondition(
-                p => p.productId == productId && p.CartId == cart.Id.ToString()
+                p => p.ProductId == productId && p.CartId == cart.Id.ToString()
                 );
 
             if (cartItem is not null)
@@ -37,11 +39,12 @@ namespace KingsStoreApi.Services.Implementations
                 return new ReturnModel { Success = true, Message = $"Cart item: Quantity increased" };
             }
             var product = _productRepository.GetSingleByCondition(a => a.Id.ToString() == productId);
+            //if product is null return 
 
             var newCartItem = new CartItem
             {
-                Product = product, 
-                productId = productId,
+                Product = product,
+                ProductId = productId,
                 Quantity = quantity,
                 CartId = cart.Id.ToString(),
                 CreatedAt = DateTime.Now,
