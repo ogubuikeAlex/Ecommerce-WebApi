@@ -71,8 +71,7 @@ namespace KingsStoreApi.Services.Implementations
         }
 
         public async Task<ReturnModel> UpdateCategorySummary(UpdateCategoryDTO model)
-        {
-           
+        {           
                 var category = _repository.GetSingleByCondition(p => p.Title == model.Name);
 
                 if (category is null)
@@ -83,5 +82,18 @@ namespace KingsStoreApi.Services.Implementations
 
                 return new ReturnModel { Message = $"Category:\n {category.Title} Summary Updated Successfully", Success = true };           
         }
+
+        public async Task<ReturnModel> UpdateCategoryTitle(UpdateCategoryDTO model)
+        {
+            var category = _repository.GetSingleByCondition(p => p.Title == model.Name);
+
+            if (category is null)
+                return new ReturnModel { Message = "Category does not exist", Success = false };
+
+            category.Title = model.NewValue;
+            await _repository.UpdateDBAsync();
+
+            return new ReturnModel { Message = $"Category:\n {category.Title} Updated Successfully", Success = true };
+        }      
     }
 }
