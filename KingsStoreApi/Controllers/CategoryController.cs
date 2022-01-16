@@ -1,4 +1,5 @@
 ﻿using KingsStoreApi.Model.DataTransferObjects.CategoryServicesDTO;
+using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,7 @@ namespace KingsStoreApi.Controllers
             _categoryService = categoryService;
         }
 
-        [HttpGet("{categoryName}")]
+        [HttpGet("{categoryName}")]//working
         public IActionResult GetCategory (string categoryName)
         {
             var result = _categoryService.GetCategory(categoryName);
@@ -28,10 +29,11 @@ namespace KingsStoreApi.Controllers
             if (!result.Success)
                 return NotFound(result.Message);
 
-            return Ok(result.Message);
+            var category = result.Object as Category;
+            return Ok(category);
         }
 
-        [HttpGet]
+        [HttpGet]//working
         public IActionResult GetAllCategories()
         {
             var result = _categoryService.GetAllCategories();
@@ -39,10 +41,11 @@ namespace KingsStoreApi.Controllers
             if (!result.Success)
                 return NotFound(result.Message);
 
-            return Ok(result.Message);
+            var categories = result.Object as IEnumerable<Category>;
+            return Ok(categories);
         }
 
-        [HttpPost]
+        [HttpPost]//working
         public async Task<IActionResult> CreateCategory(CreateCategoryDTO model)
         {
             var result = await _categoryService.CreateCategory(model);
@@ -53,10 +56,10 @@ namespace KingsStoreApi.Controllers
             return Ok(result.Message);
         }
 
-        [HttpPost("SoftDelete")]
-        public async Task<IActionResult> ToggleSoftDeleteCategory(string id)
+        [HttpPost("SoftDelete")]//working
+        public async Task<IActionResult> ToggleSoftDeleteCategory(string name)
         {
-            var result = await _categoryService.ToggleSoftDeleteCategory(id);
+            var result = await _categoryService.ToggleSoftDeleteCategory(name);
 
             if (!result.Success)
                 return BadRequest(result.Message);
@@ -64,7 +67,7 @@ namespace KingsStoreApi.Controllers
             return Ok(result.Message);
         }
 
-        [HttpPost("titleUpdate")]
+        [HttpPost("titleUpdate")]//working
         public async Task<IActionResult> UpdateCategoryTitle(UpdateCategoryDTO model)
         {
             var result = await _categoryService.UpdateCategoryTitle(model);
@@ -75,7 +78,7 @@ namespace KingsStoreApi.Controllers
             return Ok(result.Message);
         }
           
-        [HttpPost("summaryUpdate")]
+        [HttpPost("summaryUpdate")]//working
         public async Task<IActionResult> UpdateCategorySummary(UpdateCategoryDTO model)
         {
             var result = await _categoryService.UpdateCategorySummary(model);
