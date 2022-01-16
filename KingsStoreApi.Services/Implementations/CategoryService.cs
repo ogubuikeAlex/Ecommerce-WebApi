@@ -70,9 +70,18 @@ namespace KingsStoreApi.Services.Implementations
             };
         }
 
-        public ReturnModel UpdateCategory(UpdateCategoryDTO model)
+        public async Task<ReturnModel> UpdateCategorySummary(UpdateCategoryDTO model)
         {
-            throw new System.NotImplementedException();
+           
+                var category = _repository.GetSingleByCondition(p => p.Title == model.Name);
+
+                if (category is null)
+                    return new ReturnModel { Message = "Category does not exist", Success = false };
+
+                category.Summary = model.NewValue;
+                await _repository.UpdateDBAsync();
+
+                return new ReturnModel { Message = $"Category:\n {category.Title} Summary Updated Successfully", Success = true };           
         }
     }
 }
