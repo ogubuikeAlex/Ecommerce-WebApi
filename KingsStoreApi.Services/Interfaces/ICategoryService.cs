@@ -10,7 +10,7 @@ namespace KingsStoreApi.Services.Interfaces
         ReturnModel GetAllCategories();
         Task<ReturnModel> CreateCategory(CreateCategoryDTO model);
         Task<ReturnModel> ToggleSoftDeleteCategory(string id);
-        ReturnModel UpdateCategory(UpdateCategoryDTO model);
-
+        ReturnModel UpdateCategoryTitle(UpdateCategoryDTO model);
+        ReturnModel UpdateCategorySummary(UpdateCategoryDTO model);
     }
 }
