@@ -137,9 +137,7 @@ namespace KingsStoreApi.Services.Implementations
             var pagedList = PagedList<Product>.ToPagedList(products, requestParameters.PageSize, requestParameters.PageNumber);
 
             return new ReturnModel { Message = "Successful", Object = pagedList, Success = true };
-        }
-
-        //In reposiotry create methods thas will allow u get all entitys in the system whethere deletd or not
+        }        
 
         public async Task<ReturnModel> TemporarilyDisableAProduct(string id)
         {
@@ -153,7 +151,7 @@ namespace KingsStoreApi.Services.Implementations
 
             var isDeleted = await _repository.ToggleSoftDeleteAsync(product);
             product.IsDeletedTimeStamp = DateTime.Now;
-            await _repository.UpdateAsync();
+            await _repository.UpdateDBAsync();
 
             if (!isDeleted)
                 return new ReturnModel { Message = "Product Disabling failed", Success = false };
