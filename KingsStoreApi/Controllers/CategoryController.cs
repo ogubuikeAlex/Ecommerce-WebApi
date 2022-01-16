@@ -42,7 +42,12 @@ namespace KingsStoreApi.Controllers
 
         public async Task<IActionResult> CreateCategory(CreateCategoryDTO model)
         {
-            return Ok();
+            var result = await _categoryService.CreateCategory(model);
+
+            if (!result.Success)
+                return BadRequest(result.Message);
+
+            return Ok(result.Message);
         }
 
         public async Task<IActionResult> ToggleSoftDeleteCategory(string id)
