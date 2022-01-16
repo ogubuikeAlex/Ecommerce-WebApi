@@ -52,10 +52,18 @@ namespace KingsStoreApi.Controllers
 
         public async Task<IActionResult> ToggleSoftDeleteCategory(string id)
         {
-            return Ok();
+            var result = await _categoryService.ToggleSoftDeleteCategory(id);
+
+            if (!result.Success)
+                return BadRequest(result.Message);
+
+            return Ok(result.Message);
         }
 
-        public async Task<IActionResult> UpdateCategoryTitle(UpdateCategoryDTO model) { return Ok(); }
+        public async Task<IActionResult> UpdateCategoryTitle(UpdateCategoryDTO model)
+        {
+            
+        }
           
         public async Task<IActionResult> UpdateCategorySummary(UpdateCategoryDTO model)
         {
