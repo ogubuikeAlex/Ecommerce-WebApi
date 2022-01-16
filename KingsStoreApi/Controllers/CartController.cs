@@ -4,6 +4,7 @@ using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace KingsStoreApi.Controllers
@@ -19,11 +20,20 @@ namespace KingsStoreApi.Controllers
             _cartService = cartService;
         }
 
-        [HttpGet]
-        public IActionResult GetAllCartItems()
+        [HttpGet]//working
+        public async Task<IActionResult> GetAllCartItems()
         {
+            var user = await GetLoggedInUserAsync();
+            var result = _cartService.GetCartItems(user.Id);
 
+            if (!result.Success)
+                return NotFound(result.Message);
+
+            var items = result.Object as IEnumerable<CartItem>;
+
+            return Ok(items);
         }
+
         [HttpPost("Add")]//working
         public async Task<IActionResult> AddCartItem(AddToCartDTO model)
         {
@@ -59,7 +69,7 @@ namespace KingsStoreApi.Controllers
             return Ok(result.Message);
         }
 
-        [HttpGet]//working
+        [HttpGet("TotalPrice")]//working
         public async Task<IActionResult> GetTotalCartPrice()
         {
             var user = await GetLoggedInUserAsync();
