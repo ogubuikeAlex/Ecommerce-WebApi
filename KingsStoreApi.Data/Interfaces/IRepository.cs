@@ -14,6 +14,6 @@ namespace KingsStoreApi.Data.Interfaces
         T GetSingleByCondition(Expression<Func<T, bool>> predicate = null, Func<IQueryable , IOrderedQueryable> orderBy = null, bool includeIsDeleted = false, params string[] includeProperties);
         IQueryable<T> GetAllByCondition(Expression<Func<T, bool>> predicate = null, Func<IQueryable, IOrderedQueryable> orderBy = null, bool includeIsDeleted = false, params string[] includeProperties);
         Task<bool> ToggleSoftDeleteAsync(T t);
-        Task UpdateAsync();
+        Task UpdateDBAsync();
     }
 }
