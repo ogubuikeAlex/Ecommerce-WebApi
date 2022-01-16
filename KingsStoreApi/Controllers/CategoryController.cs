@@ -65,14 +65,19 @@ namespace KingsStoreApi.Controllers
             var result = await _categoryService.UpdateCategoryTitle(model);
 
             if (!result.Success)
-                return BadRequest(result.Message);
+                return NotFound(result.Message);
 
             return Ok(result.Message);
         }
           
         public async Task<IActionResult> UpdateCategorySummary(UpdateCategoryDTO model)
         {
-            return Ok();
+            var result = await _categoryService.UpdateCategorySummary(model);
+
+            if (!result.Success)
+                return NotFound(result.Message);
+
+            return Ok(result.Message);
         }
     }
 }
