@@ -54,6 +54,7 @@ namespace KingsStoreApi.Services.Implementations
 
             if (category is null)
                 return new ReturnModel { Message = "No such category in database", Success = false };
+
             return new ReturnModel { Success = true, Message = "", Object = category };
         }
 
