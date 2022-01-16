@@ -110,9 +110,17 @@ namespace KingsStoreApi.Services.Implementations
             return new ReturnModel { Success = true, Message = "price gotten", Object = totalPrice.ToString() };
         }
 
-        public Task<ReturnModel> GetCartItems()
+        public ReturnModel GetCartItems(string userId)
         {
-            throw new NotImplementedException();
+            //instead of querying again for cart, initialize user with cart with 
+            var cart = _repository.GetSingleByCondition(c => c.UserId == userId);            
+
+            var cartItems = _cartItemRepository.GetAllByCondition(c => c.CartId == cart.Id.ToString(), includeProperties: "Product").ToList();
+
+            if (cartItems.Count < 1)
+                return new ReturnModel { Message = "This cart does not contain any items", Success = false };         
+
+            return new ReturnModel { Success = true, Message = "price gotten", Object = cartItems };
         }
     }
 }
