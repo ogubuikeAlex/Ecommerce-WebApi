@@ -22,7 +22,12 @@ namespace KingsStoreApi.Controllers
 
         public IActionResult GetCategory (string categoryName)
         {
-            return Ok();
+            var result = _categoryService.GetCategory(categoryName);
+
+            if (result is null)
+                return NotFound(result.Message);
+
+            return Ok(result.Message);
         }
 
         public IActionResult GetAllCategories(string categoryName)
