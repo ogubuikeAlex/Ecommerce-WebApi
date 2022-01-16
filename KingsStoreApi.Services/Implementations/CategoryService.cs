@@ -4,6 +4,7 @@ using KingsStoreApi.Helpers.Implementations;
 using KingsStoreApi.Model.DataTransferObjects.CategoryServicesDTO;
 using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Services.Interfaces;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace KingsStoreApi.Services.Implementations
@@ -25,13 +26,11 @@ namespace KingsStoreApi.Services.Implementations
             var newCategory = _mapper.Map<Category>(model);
 
             var exactReplicaOfNewCategory = _repository.GetSingleByCondition(c => c.Summary == newCategory.Summary && c.Title == newCategory.Title);
-            var categoryWithSameSummaryOrTitle = _repository.GetSingleByCondition(c => c.Summary == newCategory.Summary || c.Title == newCategory.Title);
-
-            string message;
+            var categoryWithSameSummaryOrTitle = _repository.GetSingleByCondition(c => c.Summary == newCategory.Summary || c.Title == newCategory.Title);           
 
             if (exactReplicaOfNewCategory is not null || categoryWithSameSummaryOrTitle is not null)
             {
-                message = exactReplicaOfNewCategory is null ? "A category with either the same title or summary you provided already exists." : "An exact replica of the category you are trying to create already exists!!";
+                var message = exactReplicaOfNewCategory is null ? "A category with either the same title or summary you provided already exists." : "An exact replica of the category you are trying to create already exists!!";
                 return new ReturnModel { Message = message, Success = false };
             }
             await _repository.AddAsync(newCategory);
@@ -40,9 +39,9 @@ namespace KingsStoreApi.Services.Implementations
 
         public ReturnModel GetAllCategories()
         {
-            var categories = _repository.GetAllByCondition();
+            var categories = _repository.GetAllByCondition().ToList();
 
-            if (categories is null)
+            if (categories.Count < 1)
                 return new ReturnModel { Message = "No categories in database", Success = false};
 
             return new ReturnModel { Object = categories, Success = true };
