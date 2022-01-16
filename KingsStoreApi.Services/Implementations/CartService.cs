@@ -42,7 +42,7 @@ namespace KingsStoreApi.Services.Implementations
             if (cartItem is not null)
             {
                 cartItem.Quantity += quantity;
-                await _cartItemRepository.UpdateAsync();
+                await _cartItemRepository.UpdateDBAsync();
                 return new ReturnModel { Success = true, Message = $"Cart item: Quantity increased" };
             }
 
@@ -69,7 +69,7 @@ namespace KingsStoreApi.Services.Implementations
                 return new ReturnModel { Success = false, Message = "Cart Item not found" };
 
             cartItem.IsDeleted = true;
-            await _cartItemRepository.UpdateAsync();
+            await _cartItemRepository.UpdateDBAsync();
             return new ReturnModel { Message = "CartItem removed ", Success = true };
         }
 
@@ -85,7 +85,7 @@ namespace KingsStoreApi.Services.Implementations
             foreach (var item in cartItems)
             {
                 item.IsDeleted = true;
-                await _cartItemRepository.UpdateAsync();
+                await _cartItemRepository.UpdateDBAsync();
             }
             return new ReturnModel { Success = true, Message = "Cart Cleared" };
         }
