@@ -102,6 +102,10 @@ namespace KingsStoreApi.Services.Implementations
             if (users.Count < 1)
                 return new ReturnModel { Success = false, Message = "No active users are on this system yet" };
 
+            var usersToreturn = _mapper.Map<List<UserRepresentationalDTO>>(users);
+
+            return new ReturnModel { Success = true, Object = usersToreturn };
+
             return new ReturnModel { Success = true, Object = users };
         }
 
