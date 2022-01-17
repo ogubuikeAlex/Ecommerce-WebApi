@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace KingsStoreApi.Model.DataTransferObjects.ProductServiceDTO
+﻿namespace KingsStoreApi.Model.DataTransferObjects.ProductServiceDTO
 {
-    class ProductRepresentationalDTO
-    {
+    public class ProductRepresentationalDTO
+    {        
+        public string Title { get; set; }
+        public string Summary { get; set; }
+        public decimal Price { get; set; }
+        public int Quantity { get; set; }       
     }
 }
