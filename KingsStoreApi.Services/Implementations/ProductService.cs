@@ -71,9 +71,9 @@ namespace KingsStoreApi.Services.Implementations
 
             var pagedList = PagedList<Product>.ToPagedList(products, requestParameter.PageSize, requestParameter.PageNumber);
 
-            //Do a mapping here to a representational DTO
+            var productsToreturn = _mapper.Map<PagedList<ProductRepresentationalDTO>>(pagedList);//Do a mapping here to a representational DTO
 
-            return new ReturnModel { Success = true, Object = pagedList };
+            return new ReturnModel { Success = true, Object = productsToreturn };
         }
 
         public ReturnModel GetProductById(string id)
