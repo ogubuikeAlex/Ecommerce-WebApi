@@ -83,7 +83,9 @@ namespace KingsStoreApi.Services.Implementations
             if (product is null)
                 return new ReturnModel { Success = false, Message = "Product not found" };
 
-            return new ReturnModel { Success = true, Object = product };
+            var productToreturn = _mapper.Map<ProductRepresentationalDTO>(product); 
+
+            return new ReturnModel { Success = true, Object = productToreturn };
         }
 
         public ReturnModel GetProductByName(string name)
