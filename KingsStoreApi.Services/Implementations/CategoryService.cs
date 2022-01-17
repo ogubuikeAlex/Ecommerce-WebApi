@@ -4,6 +4,7 @@ using KingsStoreApi.Helpers.Implementations;
 using KingsStoreApi.Model.DataTransferObjects.CategoryServicesDTO;
 using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Services.Interfaces;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -44,7 +45,8 @@ namespace KingsStoreApi.Services.Implementations
             if (categories.Count < 1)
                 return new ReturnModel { Message = "No categories in database", Success = false};
 
-            return new ReturnModel { Object = categories, Success = true };
+            var categoriesToreturn = _mapper.Map<List<CategoryRepresentationalDTO>>(categories);
+            return new ReturnModel { Object = categoriesToreturn, Success = true };
         }
 
         public ReturnModel GetCategory(string categoryName)
