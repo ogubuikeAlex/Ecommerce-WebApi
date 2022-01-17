@@ -88,14 +88,18 @@ namespace KingsStoreApi.Services.Implementations
             return new ReturnModel { Success = true, Object = productToreturn };
         }
 
-        public ReturnModel GetProductByName(string name)
+        public ReturnModel GetProductByName(string name, ProductRequestParameters requestParameter)
         {
             var products = _repository.GetAllByCondition().Search(name);
 
             if (products is null)
                 return new ReturnModel { Success = false, Message = "No product in our store has that title" };
 
-            return new ReturnModel { Success = true, Object = products };
+            var pagedList = PagedList<Product>.ToPagedList(products, requestParameter.PageSize, requestParameter.PageNumber);
+
+            var productsToreturn = _mapper.Map<PagedList<ProductRepresentationalDTO>>(pagedList);//
+
+            return new ReturnModel { Success = true, Object = productsToreturn };
         }
 
         public ReturnModel GetProductsByVendor(User user, ProductRequestParameters requestParameters)
