@@ -141,8 +141,9 @@ namespace KingsStoreApi.Services.Implementations
                 return new ReturnModel { Message = "This vendor does not have any disabled products yet", Success = false };
 
             var pagedList = PagedList<Product>.ToPagedList(products, requestParameters.PageSize, requestParameters.PageNumber);
+            var productsToreturn = _mapper.Map<PagedList<ProductRepresentationalDTO>>(pagedList);
 
-            return new ReturnModel { Message = "Successful", Object = pagedList, Success = true };
+            return new ReturnModel { Message = "Successful", Object = productsToreturn, Success = true };
         }        
 
         public async Task<ReturnModel> TemporarilyDisableAProduct(string id)
