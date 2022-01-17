@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace KingsStoreApi.Model.DataTransferObjects.CategoryServicesDTO
+﻿namespace KingsStoreApi.Model.DataTransferObjects.CategoryServicesDTO
 {
-    class CategoryRepresentationalDTO
+    public class CategoryRepresentationalDTO
     {
+        public string Title { get; set; }
+        public string Summary { get; set; }
     }
 }
