@@ -104,9 +104,7 @@ namespace KingsStoreApi.Services.Implementations
 
             var usersToreturn = _mapper.Map<List<UserRepresentationalDTO>>(users);
 
-            return new ReturnModel { Success = true, Object = usersToreturn };
-
-            return new ReturnModel { Success = true, Object = users };
+            return new ReturnModel { Success = true, Object = usersToreturn };          
         }
 
         public async Task<ReturnModel> GetUserAsync(string email)
