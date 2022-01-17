@@ -114,7 +114,10 @@ namespace KingsStoreApi.Services.Implementations
             if (user is null)
                 return new ReturnModel { Message = "User not found!", Success = false };
 
-            return new ReturnModel { Message = "User found", Success = true, Object = user };
+
+            var userToreturn = _mapper.Map<UserRepresentationalDTO>(user);
+
+            return new ReturnModel { Success = true, Object = userToreturn };           
         }
 
         public async Task<ReturnModel> LogIn(LogInDTO model)
