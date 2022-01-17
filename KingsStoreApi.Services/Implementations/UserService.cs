@@ -8,6 +8,7 @@ using KingsStoreApi.Model.Enums;
 using KingsStoreApi.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -64,7 +65,9 @@ namespace KingsStoreApi.Services.Implementations
             if (users.Count < 1)
                 return new ReturnModel { Success = false, Message = "No users are on this system yet" };
 
-            return new ReturnModel { Success = true, Object = users };
+            var usersToreturn = _mapper.Map<List<UserRepresentationalDTO>>(users);
+
+            return new ReturnModel { Success = true, Object = usersToreturn };
         }
 
         public ReturnModel GetAllVendors()
@@ -76,6 +79,7 @@ namespace KingsStoreApi.Services.Implementations
 
             return new ReturnModel { Success = true, Object = users };
         }
+
         public ReturnModel GetAllCustomers()
         {
             var users = _repository.GetAllByCondition(u => !u.isVendor && !u.isAdmin).ToList();
