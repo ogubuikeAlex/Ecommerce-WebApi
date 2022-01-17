@@ -3,7 +3,7 @@ using KingsStoreApi.Model.Enums;
 
 namespace KingsStoreApi.Model.Entities
 {
-    public class Transaction :Entity
+    public class Transaction : Entity
     {
         public Guid Id { get; set; }
         public Guid UserId { get; set; }       
