@@ -31,6 +31,7 @@ namespace KingsStoreApi.Controllers
 
             var category = result.Object as Category;
             return Ok(category);
+            
         }
 
         [HttpGet]//working
