@@ -1,6 +1,10 @@
 ﻿namespace KingsStoreApi.Model.DataTransferObjects.UserServiceDTO
 {
-    class UserRepresentationalDTO
+    public class UserRepresentationalDTO
     {
+        public string FullName { get; set; }
+        public bool isAdmin { get; set; }
+        public bool isVendor { get; set; }
+        public string Bio { get; set; }        
     }
 }
