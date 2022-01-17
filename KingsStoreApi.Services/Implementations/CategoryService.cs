@@ -56,7 +56,8 @@ namespace KingsStoreApi.Services.Implementations
             if (category is null)
                 return new ReturnModel { Message = "No such category in database", Success = false };
 
-            return new ReturnModel { Success = true, Message = "", Object = category };
+            var categoryToReturn = _mapper.Map<CategoryRepresentationalDTO>(category);
+            return new ReturnModel { Success = true, Message = "", Object = categoryToReturn };
         }
 
         public async Task<ReturnModel> ToggleSoftDeleteCategory(string title)
