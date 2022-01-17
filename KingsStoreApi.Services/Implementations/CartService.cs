@@ -1,8 +1,11 @@
-﻿using KingsStoreApi.Data.Interfaces;
+﻿using AutoMapper;
+using KingsStoreApi.Data.Interfaces;
 using KingsStoreApi.Helpers.Implementations;
+using KingsStoreApi.Model.DataTransferObjects.CartServiceDTO;
 using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Services.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,12 +16,14 @@ namespace KingsStoreApi.Services.Implementations
         private IRepository<Cart> _repository;
         private IRepository<CartItem> _cartItemRepository;
         private IRepository<Product> _productRepository;
+        private readonly IMapper _mapper;
 
-        public CartService(IUnitOfWork unitOfWork)
+        public CartService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _repository = unitOfWork.GetRepository<Cart>();
             _cartItemRepository = unitOfWork.GetRepository<CartItem>();
             _productRepository = unitOfWork.GetRepository<Product>();
+            _mapper = mapper;
         }
 
         public async Task<ReturnModel> AddCartItem(User user, string productId, int quantity)
@@ -118,9 +123,11 @@ namespace KingsStoreApi.Services.Implementations
             var cartItems = _cartItemRepository.GetAllByCondition(c => c.CartId == cart.Id.ToString(), includeProperties: "Product").ToList();
 
             if (cartItems.Count < 1)
-                return new ReturnModel { Message = "This cart does not contain any items", Success = false };         
+                return new ReturnModel { Message = "This cart does not contain any items", Success = false };
 
-            return new ReturnModel { Success = true, Message = "price gotten", Object = cartItems };
+            var itemsToreturn = _mapper.Map<List<CartItemRepresentationalDTO>>(cartItems);
+
+            return new ReturnModel { Success = true, Message = "price gotten", Object = itemsToreturn };
         }
     }
 }
