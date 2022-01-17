@@ -117,9 +117,9 @@ namespace KingsStoreApi.Services.Implementations
             if (products is null)
                 return new ReturnModel { Message = "This vendor has not uploaded any product yet", Success = false };
 
-            var pagedList = PagedList<Product>.ToPagedList(products, requestParameters.PageSize, requestParameters.PageNumber);
+            var pagedList = PagedList<Product>.ToPagedList(products, requestParameters.PageSize, requestParameters.PageNumber);           
 
-            //Map to a representational view model  
+            var productsToreturn = _mapper.Map<PagedList<ProductRepresentationalDTO>>(pagedList); 
 
             return new ReturnModel { Message = "Successful", Object = pagedList, Success = true };
         }
