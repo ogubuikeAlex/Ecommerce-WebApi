@@ -37,6 +37,8 @@ namespace KingsStoreApi.Services.Implementations
 
             var request = new createTransactionRequest { transactionRequest = transactionRequest };
 
+            var controller = new createTransactionController(request);
+            controller.Execute();
         }
 
         private customerAddressType CreateBillingAddress(User user, Order order)
