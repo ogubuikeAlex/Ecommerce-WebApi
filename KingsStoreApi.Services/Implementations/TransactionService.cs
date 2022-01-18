@@ -114,6 +114,17 @@ namespace KingsStoreApi.Services.Implementations
             {
                 htmlMessage += $"Item: {item.ProductName}, Quantity: {item.Quantity}</br>";
             };
+
+            //CHARGE CARD
+            Payment payment = new Payment(Configuration);
+            payment.RunPayment(cvm.Total, datOrder, user);
+
+            await _emailSender.SendEmailAsync(user.Email, "Order Information",
+                        htmlMessage);
+            // empty out basket
+            await _basketRepo.ClearOutBasket(cvm.Basket.BasketItems);
+
+            return "done";
         }
 
         private customerAddressType CreateBillingAddress(User user, Order order)
