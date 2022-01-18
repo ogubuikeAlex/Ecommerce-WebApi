@@ -2,16 +2,17 @@
 using AuthorizeNet.Api.Controllers.Bases;
 using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Services.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 namespace KingsStoreApi.Services.Implementations
 {
     public class TransactionService : ITransactionService
     {
-        private readonly IConfiguration configuration;
+        private readonly IConfiguration Configuration;
 
         public TransactionService(IConfiguration configuration)
         {
-            this.configuration = configuration;
+            Configuration = configuration;
         }
 
         public void PayForProduct(decimal amount, Order order, User user)
