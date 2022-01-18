@@ -1,4 +1,6 @@
-﻿using KingsStoreApi.Services.Interfaces;
+﻿using AuthorizeNet.Api.Contracts.V1;
+using KingsStoreApi.Model.Entities;
+using KingsStoreApi.Services.Interfaces;
 
 namespace KingsStoreApi.Services.Implementations
 {
@@ -10,7 +12,18 @@ namespace KingsStoreApi.Services.Implementations
             throw new System.NotImplementedException();
         }
         
-        private CreateBillingAddress ()
+        private customerAddressType CreateBillingAddress (User user, Order order)
+        {
+            return new customerAddressType
+            {
+                firstName = user.FullName,
+                email = user.Email,
+                country = "Nigeria",               
+                address = order.Shipping,
+                city = "Enugu",
+                zip = "100403"
+            };
+        }
 
     }
 }
