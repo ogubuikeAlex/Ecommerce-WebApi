@@ -32,6 +32,7 @@ namespace KingsStoreApi.Services.Implementations
             var creditCard = CreateCreditCard();
             var billingAddress = CreateBillingAddress(user, order);
             var paymentType = CreatePaymentType(creditCard);
+            var lineItems = CreateLineItem(order);
         }
 
         private customerAddressType CreateBillingAddress(User user, Order order)
