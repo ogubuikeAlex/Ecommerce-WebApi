@@ -2,7 +2,7 @@
 
 namespace KingsStoreApi.Model.DataTransferObjects.TransactionServiceDTO
 {
-    public class CheckoutViewModel
+    public class ConfirmTransactionDTO
     {
         public Cart Cart { get; set; }
         public decimal DiscountPercent { get; set; }
