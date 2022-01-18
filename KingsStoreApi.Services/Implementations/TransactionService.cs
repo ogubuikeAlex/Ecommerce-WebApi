@@ -16,7 +16,7 @@ namespace KingsStoreApi.Services.Implementations
             Configuration = configuration;
         }
 
-        public void PayForProduct(decimal amount, Order order, User user)
+        public string PayForProduct(decimal amount, Order order, User user)
         {
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX;
 
@@ -44,6 +44,8 @@ namespace KingsStoreApi.Services.Implementations
             var response = controller.GetApiResponse();
 
             var result = ValidateResponse(response);
+            //change to a multilevel string check!
+            return result;
         }
 
         private customerAddressType CreateBillingAddress(User user, Order order)
