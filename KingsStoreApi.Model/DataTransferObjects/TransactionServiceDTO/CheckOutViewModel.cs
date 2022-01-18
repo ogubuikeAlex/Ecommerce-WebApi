@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using KingsStoreApi.Model.Entities;
 
 namespace KingsStoreApi.Model.DataTransferObjects.TransactionServiceDTO
 {
-    class CheckOutViewModel
+    public class CheckoutViewModel
     {
+        public Cart Cart { get; set; }
+        public decimal DiscountPercent { get; set; }
+        public string DiscountName { get; set; }        
+        public string Shipping { get; set; }
+        public int TotalItemQty { get; set; }
+        public decimal Subtotal { get; set; }
+        public decimal DiscountAmt { get; set; }
+        public decimal Total { get; set; }        
     }
 }
