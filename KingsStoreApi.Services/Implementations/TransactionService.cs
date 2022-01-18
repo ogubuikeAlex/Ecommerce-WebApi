@@ -28,6 +28,8 @@ namespace KingsStoreApi.Services.Implementations
                     ItemElementName = ItemChoiceType.transactionKey,
                     Item = Configuration["AuthorizeNetItem"],
                 };
+
+            var creditCard = CreateCreditCard();
         }
 
         private customerAddressType CreateBillingAddress(User user, Order order)
