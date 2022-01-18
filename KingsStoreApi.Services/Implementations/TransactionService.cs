@@ -55,13 +55,10 @@ namespace KingsStoreApi.Services.Implementations
             //I should be able to get a cart from a user
             Cart cart = new Cart();
 
-            if (cart.CartItems.Count == 0)
-                return RedirectToAction(nameof(Index));
+            /*if (cart.CartItems.Count == 0)
+                return new ReturnModel {Success = false, Message = ""}*/
 
-            confirmTransactionModel.Basket = cart;
-
-            if (!ModelState.IsValid)
-                return RedirectToAction(nameof(Shipping));
+            confirmTransactionModel.Cart = cart;            
 
             // add address to database
             await _orderRepo.CreateAddress(confirmTransactionModel.Address);
@@ -87,6 +84,7 @@ namespace KingsStoreApi.Services.Implementations
             // I can add to the order items. Here's hoping...
             await _orderRepo.AddOrderAsync(datOrder);
 
+            //Should convert into a private method that takes a cart, convert the cartItems into orderitems and adds then to thedb 
             List<OrderItem> demOrderItems = new List<OrderItem>();
             foreach (var item in cart.BasketItems)
             {
@@ -109,14 +107,15 @@ namespace KingsStoreApi.Services.Implementations
             // attach orderitems to order
             datOrder.OrderItems = demOrderItems;
 
-            //sends a receipt of the order information
+            //sends a receipt of the order information /
+            //PRIVATE FUNCTION that takes in a order generates a message
             string htmlMessage = "Thank you for shopping with us!  You ordered: </br>";
             foreach (var item in datOrder.OrderItems)
             {
                 htmlMessage += $"Item: {item.ProductName}, Quantity: {item.Quantity}</br>";
             };
 
-            //CHARGE CARD
+            //CHARGE CARD --> private method
             Payment payment = new Payment(Configuration);
             payment.RunPayment(confirmTransactionModel.Total, datOrder, user);
 
