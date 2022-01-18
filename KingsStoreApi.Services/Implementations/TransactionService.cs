@@ -48,6 +48,8 @@ namespace KingsStoreApi.Services.Implementations
             return result;
         }
 
+        public string ConfirmOrder ()
+
         private customerAddressType CreateBillingAddress(User user, Order order)
         {
             return new customerAddressType
