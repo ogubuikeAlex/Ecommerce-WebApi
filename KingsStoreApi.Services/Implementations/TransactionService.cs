@@ -8,7 +8,7 @@ namespace KingsStoreApi.Services.Implementations
 {
     public class TransactionService : ITransactionService
     {
-        private readonly IConfiguration Configuration;
+        public IConfiguration Configuration { get; set; }
 
         public TransactionService(IConfiguration configuration)
         {
