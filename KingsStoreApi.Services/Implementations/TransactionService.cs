@@ -81,5 +81,15 @@ namespace KingsStoreApi.Services.Implementations
                 lineItems = lineItems
             };
         }
+
+        private creditCardType CreateCreditCard()
+        {
+            return new creditCardType
+            {
+                cardNumber = "4111111111111111",
+                expirationDate = "0728",
+                cardCode = "123"
+            };
+        }
     }
 }
