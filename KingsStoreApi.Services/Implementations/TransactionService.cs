@@ -1,6 +1,7 @@
 ﻿using AuthorizeNet.Api.Contracts.V1;
 using AuthorizeNet.Api.Controllers;
 using AuthorizeNet.Api.Controllers.Bases;
+using KingsStoreApi.Helpers.Implementations;
 using KingsStoreApi.Model.DataTransferObjects.TransactionServiceDTO;
 using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Services.Interfaces;
@@ -49,36 +50,36 @@ namespace KingsStoreApi.Services.Implementations
             return result;
         }
 
-        public string ConfirmOrder (ConfirmTransactionDTO cvm)
+        public ReturnModel ConfirmOrder (ConfirmTransactionDTO confirmTransactionModel, User user)
         {
-            var user = await _userManager.FindByEmailAsync(User.Identity.Name);
-            Basket datBasket = _basketRepo.GetUserBasketByEmail(user.Email).Result;
+            //I should be able to get a cart from a user
+            Cart cart = new Cart();
 
-            if (datBasket.BasketItems.Count == 0)
+            if (cart.CartItems.Count == 0)
                 return RedirectToAction(nameof(Index));
 
-            cvm.Basket = datBasket;
+            confirmTransactionModel.Basket = cart;
 
             if (!ModelState.IsValid)
                 return RedirectToAction(nameof(Shipping));
 
             // add address to database
-            await _orderRepo.CreateAddress(cvm.Address);
+            await _orderRepo.CreateAddress(confirmTransactionModel.Address);
 
             // create an new order object and load the order items onto it
             Order datOrder = new Order
             {
                 UserID = user.Id,
-                AddressID = cvm.Address.ID,
-                Address = cvm.Address,
+                AddressID = confirmTransactionModel.Address.ID,
+                Address = confirmTransactionModel.Address,
                 OrderDate = DateTime.Now.ToString("MMM d, yyyy (ddd) @ HH:mm tt"),
-                Shipping = cvm.Shipping,
-                DiscountName = cvm.DiscountName,
-                DiscountPercent = cvm.DiscountPercent,
-                DiscountAmt = cvm.DiscountAmt,
-                TotalItemQty = cvm.TotalItemQty,
-                Subtotal = cvm.Subtotal,
-                Total = cvm.Total,
+                Shipping = confirmTransactionModel.Shipping,
+                DiscountName = confirmTransactionModel.DiscountName,
+                DiscountPercent = confirmTransactionModel.DiscountPercent,
+                DiscountAmt = confirmTransactionModel.DiscountAmt,
+                TotalItemQty = confirmTransactionModel.TotalItemQty,
+                Subtotal = confirmTransactionModel.Subtotal,
+                Total = confirmTransactionModel.Total,
             };
 
             // add order to the database table
@@ -87,7 +88,7 @@ namespace KingsStoreApi.Services.Implementations
             await _orderRepo.AddOrderAsync(datOrder);
 
             List<OrderItem> demOrderItems = new List<OrderItem>();
-            foreach (var item in datBasket.BasketItems)
+            foreach (var item in cart.BasketItems)
             {
                 OrderItem tempOrderItem = new OrderItem
                 {
@@ -117,12 +118,12 @@ namespace KingsStoreApi.Services.Implementations
 
             //CHARGE CARD
             Payment payment = new Payment(Configuration);
-            payment.RunPayment(cvm.Total, datOrder, user);
+            payment.RunPayment(confirmTransactionModel.Total, datOrder, user);
 
             await _emailSender.SendEmailAsync(user.Email, "Order Information",
                         htmlMessage);
             // empty out basket
-            await _basketRepo.ClearOutBasket(cvm.Basket.BasketItems);
+            await _basketRepo.ClearOutBasket(confirmTransactionModel.Basket.BasketItems);
 
             return "done";
         }
