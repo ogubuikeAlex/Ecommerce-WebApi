@@ -91,5 +91,10 @@ namespace KingsStoreApi.Services.Implementations
                 cardCode = "123"
             };
         }
+
+        private paymentType CreatePaymentType(creditCardType creditCard)
+        {
+            return new paymentType { Item = creditCard };
+        }
     }
 }
