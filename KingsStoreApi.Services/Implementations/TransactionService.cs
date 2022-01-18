@@ -9,7 +9,8 @@ namespace KingsStoreApi.Services.Implementations
 
         public void PayForProduct(decimal amount, Order order, User user)
         {
-            
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX;
+
         }
 
         private customerAddressType CreateBillingAddress(User user, Order order)
