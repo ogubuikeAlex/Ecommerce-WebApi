@@ -85,6 +85,35 @@ namespace KingsStoreApi.Services.Implementations
             // I'm doing this first in hopes that the order generates an ID that
             // I can add to the order items. Here's hoping...
             await _orderRepo.AddOrderAsync(datOrder);
+
+            List<OrderItem> demOrderItems = new List<OrderItem>();
+            foreach (var item in datBasket.BasketItems)
+            {
+                OrderItem tempOrderItem = new OrderItem
+                {
+                    ProductID = item.ProductID,
+                    OrderID = datOrder.ID,
+                    UserID = user.Id,
+                    ProductName = item.ProductName,
+                    Quantity = item.Quantity,
+                    ImgUrl = item.ImgUrl,
+                    UnitPrice = item.UnitPrice
+                };
+
+                // add order item to the database table
+                await _orderRepo.AddOrderItemToOrderAsync(tempOrderItem);
+                demOrderItems.Add(tempOrderItem);
+            }
+
+            // attach orderitems to order
+            datOrder.OrderItems = demOrderItems;
+
+            //sends a receipt of the order information
+            string htmlMessage = "Thank you for shopping with us!  You ordered: </br>";
+            foreach (var item in datOrder.OrderItems)
+            {
+                htmlMessage += $"Item: {item.ProductName}, Quantity: {item.Quantity}</br>";
+            };
         }
 
         private customerAddressType CreateBillingAddress(User user, Order order)
