@@ -44,5 +44,15 @@ namespace KingsStoreApi.Services.Implementations
 
             return lineItems;
         }
+
+        private creditCardType CreditCardType()
+        {
+            return new creditCardType
+            {
+                cardNumber = "4111111111111111",
+                expirationDate = "0728",
+                cardCode = "123"
+            };
+        }
     }
 }
