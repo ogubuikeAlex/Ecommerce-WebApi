@@ -7,6 +7,12 @@ namespace KingsStoreApi.Services.Implementations
 {
     public class TransactionService : ITransactionService
     {
+        private readonly IConfiguration configuration;
+
+        public TransactionService(IConfiguration configuration)
+        {
+            this.configuration = configuration;
+        }
 
         public void PayForProduct(decimal amount, Order order, User user)
         {
