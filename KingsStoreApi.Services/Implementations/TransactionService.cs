@@ -11,6 +11,15 @@ namespace KingsStoreApi.Services.Implementations
         {
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX;
 
+            //connection to the API Name and Key for the sandbox
+            //define merchant information
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication =
+                new merchantAuthenticationType()
+                {
+                    name = Configuration["AuthorizeNetName"],
+                    ItemElementName = ItemChoiceType.transactionKey,
+                    Item = Configuration["AuthorizeNetItem"],
+                };
         }
 
         private customerAddressType CreateBillingAddress(User user, Order order)
