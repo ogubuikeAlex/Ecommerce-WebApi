@@ -1,6 +1,7 @@
 ﻿using AuthorizeNet.Api.Contracts.V1;
 using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Services.Interfaces;
+using System;
 
 namespace KingsStoreApi.Services.Implementations
 {
@@ -11,21 +12,21 @@ namespace KingsStoreApi.Services.Implementations
         {
             throw new System.NotImplementedException();
         }
-        
-        private customerAddressType CreateBillingAddress (User user, Order order)
+
+        private customerAddressType CreateBillingAddress(User user, Order order)
         {
             return new customerAddressType
             {
                 firstName = user.FullName,
                 email = user.Email,
-                country = "Nigeria",               
+                country = "Nigeria",
                 address = order.Shipping,
                 city = "Enugu",
                 zip = "100403"
             };
         }
 
-        private lineItemType[] CreateLineItem (Order order)
+        private lineItemType[] CreateLineItem(Order order)
         {
             var lineItems = new lineItemType[order.OrderItems.Count];
             int count = 0;
@@ -53,6 +54,20 @@ namespace KingsStoreApi.Services.Implementations
                 expirationDate = "0728",
                 cardCode = "123"
             };
+        }
+
+        private string ValidateResponse(createTransactionResponse response)
+        {
+            if (response is null)
+                return "invvlid";
+
+            if (response.messages.resultCode != messageTypeEnum.Ok)
+                return $"Transaction failed\n{response.transactionResponse.errors[0].errorText ?? response.messages.message[0].code}";
+
+            if (response.transactionResponse.messages is null)
+                return "TransactionFailed Error Text: " + response.transactionResponse.errors[0].errorText;
+            // We should be getting an OK response type.
+            return $"Successfully created transaction with Transaction ID: {response.transactionResponse.transId}\n Response Code: {response.transactionResponse.responseCode}";
         }
     }
 }
