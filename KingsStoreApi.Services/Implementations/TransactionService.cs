@@ -61,6 +61,30 @@ namespace KingsStoreApi.Services.Implementations
 
             if (!ModelState.IsValid)
                 return RedirectToAction(nameof(Shipping));
+
+            // add address to database
+            await _orderRepo.CreateAddress(cvm.Address);
+
+            // create an new order object and load the order items onto it
+            Order datOrder = new Order
+            {
+                UserID = user.Id,
+                AddressID = cvm.Address.ID,
+                Address = cvm.Address,
+                OrderDate = DateTime.Now.ToString("MMM d, yyyy (ddd) @ HH:mm tt"),
+                Shipping = cvm.Shipping,
+                DiscountName = cvm.DiscountName,
+                DiscountPercent = cvm.DiscountPercent,
+                DiscountAmt = cvm.DiscountAmt,
+                TotalItemQty = cvm.TotalItemQty,
+                Subtotal = cvm.Subtotal,
+                Total = cvm.Total,
+            };
+
+            // add order to the database table
+            // I'm doing this first in hopes that the order generates an ID that
+            // I can add to the order items. Here's hoping...
+            await _orderRepo.AddOrderAsync(datOrder);
         }
 
         private customerAddressType CreateBillingAddress(User user, Order order)
