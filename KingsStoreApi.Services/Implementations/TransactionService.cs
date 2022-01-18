@@ -42,6 +42,8 @@ namespace KingsStoreApi.Services.Implementations
             controller.Execute();
 
             var response = controller.GetApiResponse();
+
+            var result = ValidateResponse(response);
         }
 
         private customerAddressType CreateBillingAddress(User user, Order order)
