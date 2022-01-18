@@ -1,6 +1,7 @@
 ﻿using AuthorizeNet.Api.Contracts.V1;
 using AuthorizeNet.Api.Controllers;
 using AuthorizeNet.Api.Controllers.Bases;
+using KingsStoreApi.Model.DataTransferObjects.TransactionServiceDTO;
 using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
@@ -48,7 +49,19 @@ namespace KingsStoreApi.Services.Implementations
             return result;
         }
 
-        public string ConfirmOrder ()
+        public string ConfirmOrder (ConfirmTransactionDTO cvm)
+        {
+            var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+            Basket datBasket = _basketRepo.GetUserBasketByEmail(user.Email).Result;
+
+            if (datBasket.BasketItems.Count == 0)
+                return RedirectToAction(nameof(Index));
+
+            cvm.Basket = datBasket;
+
+            if (!ModelState.IsValid)
+                return RedirectToAction(nameof(Shipping));
+        }
 
         private customerAddressType CreateBillingAddress(User user, Order order)
         {
