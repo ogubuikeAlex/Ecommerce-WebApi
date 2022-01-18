@@ -1,4 +1,5 @@
 ﻿using AuthorizeNet.Api.Contracts.V1;
+using AuthorizeNet.Api.Controllers;
 using AuthorizeNet.Api.Controllers.Bases;
 using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Services.Interfaces;
