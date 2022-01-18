@@ -1,7 +1,6 @@
 ﻿using AuthorizeNet.Api.Contracts.V1;
 using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Services.Interfaces;
-using System;
 
 namespace KingsStoreApi.Services.Implementations
 {
@@ -68,6 +67,19 @@ namespace KingsStoreApi.Services.Implementations
                 return "TransactionFailed Error Text: " + response.transactionResponse.errors[0].errorText;
             // We should be getting an OK response type.
             return $"Successfully created transaction with Transaction ID: {response.transactionResponse.transId}\n Response Code: {response.transactionResponse.responseCode}";
+        }
+
+        private transactionRequestType CreateTransactionRequestType(decimal amount, paymentType paymentType, customerAddressType billingAddress, lineItemType[] lineItems)
+        {
+            return new transactionRequestType
+            {
+                transactionType = transactionTypeEnum.authCaptureTransaction.ToString(),    // charge the card
+
+                amount = amount,
+                payment = paymentType,
+                billTo = billingAddress,
+                lineItems = lineItems
+            };
         }
     }
 }
