@@ -7,9 +7,9 @@ namespace KingsStoreApi.Services.Implementations
     public class TransactionService : ITransactionService
     {
 
-        public void PayForProduct()
+        public void PayForProduct(decimal amount, Order order, User user)
         {
-            throw new System.NotImplementedException();
+            
         }
 
         private customerAddressType CreateBillingAddress(User user, Order order)
