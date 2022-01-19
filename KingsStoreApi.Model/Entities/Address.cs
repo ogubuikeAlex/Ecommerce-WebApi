@@ -2,7 +2,7 @@
 
 namespace KingsStoreApi.Model.Entities
 {
-    public class Address
+    public class Address : Entity
     {
         public Guid Id { get; set; }
         public string UserId { get; set; }
