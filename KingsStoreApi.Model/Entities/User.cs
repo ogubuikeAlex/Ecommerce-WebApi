@@ -17,5 +17,6 @@ namespace KingsStoreApi.Model.Entities
         public bool isActive { get; set; }
         public bool IsDeleted { get; set; }        
         public bool HasBeenRemovedOver30Days => throw new NotImplementedException();
+        public Cart Cart { get; set; }
     }
 }

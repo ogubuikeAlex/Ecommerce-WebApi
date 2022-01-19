@@ -9,7 +9,6 @@ namespace KingsStoreApi.Model.Entities
         public string OrderID { get; set; }
         public string ProductID { get; set; }
         public Product Product { get; set; }        
-        public int Quantity { get; set; }    
-        
+        public int Quantity { get; set; }  
     }
 }
