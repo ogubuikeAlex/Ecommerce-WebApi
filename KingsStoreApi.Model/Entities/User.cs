@@ -15,8 +15,7 @@ namespace KingsStoreApi.Model.Entities
         public byte[] ProfilePicture { get; set; }
         public string Bio { get; set; }
         public bool isActive { get; set; }
-        public bool IsDeleted { get; set; }
-
+        public bool IsDeleted { get; set; }        
         public bool HasBeenRemovedOver30Days => throw new NotImplementedException();
     }
 }
