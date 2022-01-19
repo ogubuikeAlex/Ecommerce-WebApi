@@ -6,10 +6,10 @@ namespace KingsStoreApi.Services.Interfaces
 {
     public interface IOrderService
     {
-        ReturnModel GetOrderItems(string userId);
-        Task<ReturnModel> AddOrderItem(User user, string productId, int quantity);
-        Task<ReturnModel> RemoveOrderItem(string OrderItemId);
-        Task<ReturnModel> ClearOrder(string userId);
-        ReturnModel GetTotalOrderPrice(string userId);
+        ReturnModel GetOrderItems(string orderId);
+        Task<ReturnModel> AddOrderItem(AddOrderItemDTO model);
+        Task<ReturnModel> RemoveOrderItem(string OrderItemId, string orderId);
+        Task<ReturnModel> ClearOrder(string orderId);
+        ReturnModel GetTotalOrderPrice(string orderId);
     }
 }
