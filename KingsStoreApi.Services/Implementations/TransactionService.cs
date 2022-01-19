@@ -7,12 +7,14 @@ using KingsStoreApi.Model.DataTransferObjects.TransactionServiceDTO;
 using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
+using System;
 
 namespace KingsStoreApi.Services.Implementations
 {
     public class TransactionService : ITransactionService
     {
         private readonly IRepository<Address> _addressRepository;
+        private readonly IRepository<Order> _orderRepository;
 
         public IConfiguration Configuration { get; set; }
 
@@ -20,6 +22,7 @@ namespace KingsStoreApi.Services.Implementations
         {
             Configuration = configuration;
            _addressRepository = unitOfWork.GetRepository<Address>();
+           _orderRepository = unitOfWork.GetRepository<Order>();
         }
 
         public string PayForProduct(decimal amount, Order order, User user)
@@ -62,10 +65,11 @@ namespace KingsStoreApi.Services.Implementations
             /*if (cart.CartItems.Count == 0)
                 return new ReturnModel {Success = false, Message = ""}*/
 
-            confirmTransactionModel.Cart = cart;            
+            confirmTransactionModel.Cart = cart;
 
-            // add address to database
-            await _orderRepo.CreateAddress(confirmTransactionModel.Address);
+            // add address to database if it does not already exist!
+            //await _addressRepository.AddAsync(confirmTransactionModel.Address);
+           
 
             // create an new order object and load the order items onto it
             Order datOrder = new Order
@@ -73,8 +77,7 @@ namespace KingsStoreApi.Services.Implementations
                 UserID = user.Id,
                 AddressID = confirmTransactionModel.Address.ID,
                 Address = confirmTransactionModel.Address,
-                OrderDate = DateTime.Now.ToString("MMM d, yyyy (ddd) @ HH:mm tt"),
-                Shipping = confirmTransactionModel.Shipping,
+                OrderDate = DateTime.Now.ToString("MMM d, yyyy (ddd) @ HH:mm tt"),                
                 DiscountName = confirmTransactionModel.DiscountName,
                 DiscountPercent = confirmTransactionModel.DiscountPercent,
                 DiscountAmt = confirmTransactionModel.DiscountAmt,
