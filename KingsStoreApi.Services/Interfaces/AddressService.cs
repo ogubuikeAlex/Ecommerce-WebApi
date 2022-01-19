@@ -1,4 +1,5 @@
 ﻿using KingsStoreApi.Helpers.Implementations;
+using KingsStoreApi.Model.DataTransferObjects.AddressServiceDTO;
 
 namespace KingsStoreApi.Services.Interfaces
 {
