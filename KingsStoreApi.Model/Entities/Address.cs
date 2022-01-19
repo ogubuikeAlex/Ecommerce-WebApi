@@ -10,6 +10,5 @@ namespace KingsStoreApi.Model.Entities
         public string HouseNumber { get; set; }
         public string street { get; set; }
         public string City { get; set; }
-
     }
 }
