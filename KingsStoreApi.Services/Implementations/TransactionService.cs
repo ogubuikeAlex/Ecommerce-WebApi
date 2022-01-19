@@ -8,6 +8,7 @@ using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Threading.Tasks;
 
 namespace KingsStoreApi.Services.Implementations
 {
@@ -57,7 +58,7 @@ namespace KingsStoreApi.Services.Implementations
             return result;
         }
 
-        public ReturnModel ConfirmOrder (ConfirmTransactionDTO confirmTransactionModel, User user)
+        public async Task<ReturnModel> ConfirmOrder (ConfirmTransactionDTO confirmTransactionModel, User user)
         {
             //I should be able to get a cart from a user
             Cart cart = new Cart();
@@ -68,14 +69,14 @@ namespace KingsStoreApi.Services.Implementations
             confirmTransactionModel.Cart = cart;
 
             // add address to database if it does not already exist!
-            //await _addressRepository.AddAsync(confirmTransactionModel.Address);
+            await _addressRepository.AddAsync(confirmTransactionModel.Address);
            
 
             // create an new order object and load the order items onto it
             Order datOrder = new Order
             {
                 UserID = user.Id,
-                AddressID = confirmTransactionModel.Address.ID,
+                AddressID = confirmTransactionModel.Address.Id.ToString(),
                 Address = confirmTransactionModel.Address,
                 OrderDate = DateTime.Now.ToString("MMM d, yyyy (ddd) @ HH:mm tt"),                
                 DiscountName = confirmTransactionModel.DiscountName,
