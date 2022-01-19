@@ -1,6 +1,7 @@
 ﻿using AuthorizeNet.Api.Contracts.V1;
 using AuthorizeNet.Api.Controllers;
 using AuthorizeNet.Api.Controllers.Bases;
+using KingsStoreApi.Data.Interfaces;
 using KingsStoreApi.Helpers.Implementations;
 using KingsStoreApi.Model.DataTransferObjects.TransactionServiceDTO;
 using KingsStoreApi.Model.Entities;
@@ -11,11 +12,14 @@ namespace KingsStoreApi.Services.Implementations
 {
     public class TransactionService : ITransactionService
     {
+        private readonly IRepository<Address> _addressRepository;
+
         public IConfiguration Configuration { get; set; }
 
-        public TransactionService(IConfiguration configuration)
+        public TransactionService(IConfiguration configuration, IUnitOfWork unitOfWork)
         {
             Configuration = configuration;
+           _addressRepository = unitOfWork.GetRepository<Address>();
         }
 
         public string PayForProduct(decimal amount, Order order, User user)
