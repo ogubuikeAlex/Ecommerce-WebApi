@@ -64,16 +64,15 @@ namespace KingsStoreApi.Services.Implementations
         public async Task<ReturnModel> ConfirmOrder(ConfirmTransactionDTO confirmTransactionModel, User user)
         {
             //I should be able to get a cart from a user
-            Cart cart = new Cart();
+            Cart cart = user.Cart;
 
-            /*if (cart.CartItems.Count == 0)
-                return new ReturnModel {Success = false, Message = ""}*/
+            if (cart.CartItems.Count == 0)
+                return new ReturnModel { Success = false, Message = "Your Cart is empty" };
 
-            confirmTransactionModel.Cart = cart;
+           // confirmTransactionModel.Cart = cart;
 
             // add address to database if it does not already exist!
             await _addressRepository.AddAsync(confirmTransactionModel.Address);
-
 
             // create an new order object and load the order items onto it
             Order datOrder = new Order
