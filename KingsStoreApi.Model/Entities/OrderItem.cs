@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace KingsStoreApi.Model.Entities
 {
-    public class OrderItem
+    public class OrderItem : Entity
     {
         public Guid ID { get; set; }
         public int OrderID { get; set; }
