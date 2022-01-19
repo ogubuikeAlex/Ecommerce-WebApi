@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KingsStoreApi.Model.DataTransferObjects.AddressServiceDTO
 {
-    class RemoveAddressDTO
+    public class RemoveAddressDTO
     {
     }
 }
