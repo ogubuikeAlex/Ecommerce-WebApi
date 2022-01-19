@@ -95,28 +95,8 @@ namespace KingsStoreApi.Services.Implementations
             // I can add to the order items. Here's hoping...
             await _orderRepository.AddAsync(datOrder);
 
-            //Should convert into a private method that takes a cart, convert the cartItems into orderitems and adds then to thedb 
-             List<OrderItem> convertCartItemToOrderItem(List<CartItem> cartItems)
-            {
-                List<OrderItem> demOrderItems = new List<OrderItem>();
-                foreach (var item in cartItems)
-                {
-                    OrderItem tempOrderItem = new OrderItem
-                    {
-                        ProductID = item.ProductId,
-                        OrderID = item.CartId,
-                        UserId = user.Id,
-                        Product = item.Product,
-                        Quantity = item.Quantity,                        
-                    };
-
-                    // add order item to the database table
-                    await _orderRepo.AddOrderItemToOrderAsync(tempOrderItem);
-                    demOrderItems.Add(tempOrderItem);
-                }
-            }
-
-
+            //call method to convert all cartitems to orderItems, return orderItems as demOrderItems 
+            var demOrderItems = new List<OrderItem>();
             // attach orderitems to order
             datOrder.OrderItems = demOrderItems;
 
@@ -125,19 +105,42 @@ namespace KingsStoreApi.Services.Implementations
             string htmlMessage = "Thank you for shopping with us!  You ordered: </br>";
             foreach (var item in datOrder.OrderItems)
             {
-                htmlMessage += $"Item: {item.ProductName}, Quantity: {item.Quantity}</br>";
+                htmlMessage += $"Item: {item.Product.Title}, Quantity: {item.Quantity}</br>";
             };
 
             //CHARGE CARD --> private method
-            Payment payment = new Payment(Configuration);
-            payment.RunPayment(confirmTransactionModel.Total, datOrder, user);
+            //Payment payment = new Payment(Configuration);
+            PayForProduct(confirmTransactionModel.Total, datOrder, user);
 
-            await _emailSender.SendEmailAsync(user.Email, "Order Information",
+            /*await _emailSender.SendEmailAsync(user.Email, "Order Information",
                         htmlMessage);
             // empty out basket
             await _basketRepo.ClearOutBasket(confirmTransactionModel.Basket.BasketItems);
 
-            return "done";
+            return "done";*/
+            return new ReturnModel { };
+        }
+
+        //Should convert into a private method that takes a cart, convert the cartItems into orderitems and adds then to thedb 
+        private async Task<List<OrderItem>> convertCartItemToOrderItem(List<CartItem> cartItems)
+        {
+            List<OrderItem> demOrderItems = new List<OrderItem>();
+            foreach (var item in cartItems)
+            {
+                OrderItem tempOrderItem = new OrderItem
+                {
+                    ProductID = item.ProductId,
+                    OrderID = item.CartId,
+                    Product = item.Product,
+                    Quantity = item.Quantity,
+                };
+
+                // add order item to the database table
+                await _orderItemRepository.AddAsync(tempOrderItem);
+                demOrderItems.Add(tempOrderItem);
+            }
+
+            return demOrderItems;
         }
 
         private customerAddressType CreateBillingAddress(User user, Order order)
@@ -147,9 +150,9 @@ namespace KingsStoreApi.Services.Implementations
                 firstName = user.FullName,
                 email = user.Email,
                 country = "Nigeria",
-                address = order.Shipping,
+                address = order.Address.HouseNumber + order.Address.street,
                 city = "Enugu",
-                zip = "100403"
+                zip = "100403"                
             };
         }
 
@@ -163,9 +166,9 @@ namespace KingsStoreApi.Services.Implementations
                 lineItems[count] = new lineItemType
                 {
                     itemId = (item.ProductID).ToString(),
-                    name = item.ProductName,
+                    name = item.Product.Title,
                     quantity = item.Quantity,
-                    unitPrice = item.UnitPrice
+                    unitPrice = item.Product.Price
                 };
                 count++;
             }
