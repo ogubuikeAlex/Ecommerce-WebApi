@@ -1,7 +1,13 @@
-﻿namespace KingsStoreApi.Services.Interfaces
+﻿using KingsStoreApi.Helpers.Implementations;
+using KingsStoreApi.Model.DataTransferObjects.TransactionServiceDTO;
+using KingsStoreApi.Model.Entities;
+using System.Threading.Tasks;
+
+namespace KingsStoreApi.Services.Interfaces
 {
     public interface ITransactionService
     {
-        void PayForProduct();
+        string PayForProduct(decimal amount, Order order, User user);
+        Task<ReturnModel> ConfirmOrder(ConfirmTransactionDTO confirmTransactionModel, User user);
     }
 }
