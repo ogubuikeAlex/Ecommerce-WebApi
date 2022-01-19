@@ -7,7 +7,8 @@ namespace KingsStoreApi.Model.Entities
         public int ID { get; set; }
         public List<OrderItem> OrderItems { get; set; }
         public string UserID { get; set; }
-        public string AddressID { get; set; }       
+        public string AddressID { get; set; } 
+        public Address Address { get; set; }
         public string OrderDate { get; set; }
         public int TotalItemQty { get; set; }
         public string DiscountName { get; set; }
