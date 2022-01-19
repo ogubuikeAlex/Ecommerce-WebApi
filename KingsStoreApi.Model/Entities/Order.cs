@@ -2,7 +2,7 @@
 
 namespace KingsStoreApi.Model.Entities
 {
-    public class Order
+    public class Order : Entity
     {
         public int ID { get; set; }
         public List<OrderItem> OrderItems { get; set; }
