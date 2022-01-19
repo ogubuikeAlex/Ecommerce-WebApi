@@ -11,6 +11,7 @@ namespace KingsStoreApi.Model.DataTransferObjects.TransactionServiceDTO
         public int TotalItemQty { get; set; }
         public decimal Subtotal { get; set; }
         public decimal DiscountAmt { get; set; }
-        public decimal Total { get; set; }        
+        public decimal Total { get; set; }  
+        public Address Address { get; set; }
     }
 }
