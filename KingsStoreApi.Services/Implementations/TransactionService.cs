@@ -17,6 +17,7 @@ namespace KingsStoreApi.Services.Implementations
     {
         private readonly IRepository<Address> _addressRepository;
         private readonly IRepository<Order> _orderRepository;
+        private readonly IRepository<OrderItem> _orderItemRepository;
 
         public IConfiguration Configuration { get; set; }
 
@@ -25,6 +26,7 @@ namespace KingsStoreApi.Services.Implementations
             Configuration = configuration;
             _addressRepository = unitOfWork.GetRepository<Address>();
             _orderRepository = unitOfWork.GetRepository<Order>();
+            _orderItemRepository = unitOfWork.GetRepository<OrderItem>();
         }
 
         public string PayForProduct(decimal amount, Order order, User user)
