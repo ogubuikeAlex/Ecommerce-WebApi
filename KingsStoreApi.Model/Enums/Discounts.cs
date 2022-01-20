@@ -19,6 +19,7 @@ namespace KingsStoreApi.Model.Enums
             };
 
         }
-        public int? this[string discountName] => _discounts[discountName] ??= default;       
+        public int? this[string discountName] => _discounts[discountName] ??= default; 
+        
     }
 }
