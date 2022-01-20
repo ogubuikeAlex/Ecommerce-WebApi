@@ -5,6 +5,7 @@ using KingsStoreApi.Model.DataTransferObjects.AddressServiceDTO;
 using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Services.Interfaces;
 using System;
+using System.Threading.Tasks;
 
 namespace KingsStoreApi.Services.Implementations
 {
@@ -18,12 +19,12 @@ namespace KingsStoreApi.Services.Implementations
            _addressRepoitory = addressRepoitory ?? throw new ArgumentNullException(nameof(addressRepoitory));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
-        public ReturnModel AddAddress(AddAddressDTO model, User user)
+        public async Task<ReturnModel> AddAddress(AddAddressDTO model, User user)
         {
             var address = _mapper.Map<Address>(model);
 
             address.UserId = user.Id;
-            _addressRepoitory.AddAsync(address);
+            await _addressRepoitory.AddAsync(address);
            
         }
 
