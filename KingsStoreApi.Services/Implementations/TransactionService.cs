@@ -29,6 +29,14 @@ namespace KingsStoreApi.Services.Implementations
             _orderItemRepository = unitOfWork.GetRepository<OrderItem>();
         }
 
+
+        public ReturnModel AddDiscountCode(string code)
+        {
+            throw new NotImplementedException();
+            //get code
+            //search for its equivalent in my enums
+        }
+
         public string PayForProduct(decimal amount, Order order, User user)
         {
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX;
@@ -223,5 +231,6 @@ namespace KingsStoreApi.Services.Implementations
         {
             return new paymentType { Item = creditCard };
         }
+
     }
 }
