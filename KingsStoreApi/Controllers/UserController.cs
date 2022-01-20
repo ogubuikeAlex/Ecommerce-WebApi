@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -29,9 +29,9 @@ namespace KingsStoreApi.Controllers
         {
             _environment = webHostEnvironment;
             _userManager = userManager;
-            _authenticationManager = authenticationManager;
+            _authenticationManager = authenticationManager ?? throw new ArgumentNullException(nameof(service)); ;
             _signInManager = signInManager;
-            _userService = service;
+            _userService = service ?? throw new ArgumentNullException(nameof(service));
         }
 
         [HttpGet("{email}")] //working
