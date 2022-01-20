@@ -37,13 +37,15 @@ namespace KingsStoreApi.Services.Implementations
             return new ReturnModel { Message = "Address Added Successfully", Success = true };
         }
 
-        public ReturnModel RemoveAddress(string id)
+        public async Task<ReturnModel> RemoveAddress(string id)
         {
             var address = _addressRepoitory.GetSingleByCondition(a => a.Id.ToString() == id);
-
+            
             if (address is null)
-                return new ReturnModel { Message = "Address not found" };
+                return new ReturnModel { Message = "Address not found" , Success = false};
             await _addressRepoitory.ToggleSoftDeleteAsync(address);
+
+            return new ReturnModel { Success = true, Message = "Address removed" };
         }
     }
 }
