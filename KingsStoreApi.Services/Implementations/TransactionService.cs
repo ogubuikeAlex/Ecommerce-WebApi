@@ -32,9 +32,8 @@ namespace KingsStoreApi.Services.Implementations
 
         public ReturnModel AddDiscountCode(string code)
         {
-            throw new NotImplementedException();
-            //get code
-            //search for its equivalent in my enums
+            fo 
+            
         }
 
         public string PayForProduct(decimal amount, Order order, User user)
