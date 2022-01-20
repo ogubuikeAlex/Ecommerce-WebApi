@@ -5,6 +5,7 @@ using KingsStoreApi.Data.Interfaces;
 using KingsStoreApi.Helpers.Implementations;
 using KingsStoreApi.Model.DataTransferObjects.TransactionServiceDTO;
 using KingsStoreApi.Model.Entities;
+using KingsStoreApi.Model.Enums;
 using KingsStoreApi.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -18,6 +19,7 @@ namespace KingsStoreApi.Services.Implementations
         private readonly IRepository<Address> _addressRepository;
         private readonly IRepository<Order> _orderRepository;
         private readonly IRepository<OrderItem> _orderItemRepository;
+        private readonly IRepository<Discount> _discountRepository;
 
         public IConfiguration Configuration { get; set; }
 
@@ -27,14 +29,18 @@ namespace KingsStoreApi.Services.Implementations
             _addressRepository = unitOfWork.GetRepository<Address>();
             _orderRepository = unitOfWork.GetRepository<Order>();
             _orderItemRepository = unitOfWork.GetRepository<OrderItem>();
+            _discountRepository = unitOfWork.GetRepository<Discount>();
         }
 
 
-        public ReturnModel AddDiscountCode(string code)
+        /*public ReturnModel ApplyDiscountCode(string code, User)
         {
-            fo 
+            var discount = _discountRepository.GetSingleByCondition(d => d.Name == code && d.ExpirationDate <= DateTime.Now);
+            if (discount is null)
+                return new ReturnModel { Message = "Invalid discount code!" , Success = false };
             
-        }
+            
+        }*/
 
         public string PayForProduct(decimal amount, Order order, User user)
         {
