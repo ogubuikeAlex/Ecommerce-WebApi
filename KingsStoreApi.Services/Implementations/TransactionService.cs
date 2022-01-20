@@ -31,16 +31,7 @@ namespace KingsStoreApi.Services.Implementations
             _orderItemRepository = unitOfWork.GetRepository<OrderItem>();
             _discountRepository = unitOfWork.GetRepository<Discount>();
         }
-
-
-        /*public ReturnModel ApplyDiscountCode(string code, User)
-        {
-            var discount = _discountRepository.GetSingleByCondition(d => d.Name == code && d.ExpirationDate <= DateTime.Now);
-            if (discount is null)
-                return new ReturnModel { Message = "Invalid discount code!" , Success = false };
-            
-            
-        }*/
+        
 
         public string PayForProduct(decimal amount, Order order, User user)
         {
@@ -78,6 +69,8 @@ namespace KingsStoreApi.Services.Implementations
         {
             //I should be able to get a cart from a user
             Cart cart = user.Cart;
+
+            var discount = _discountRepository.GetSingleByCondition(d => d.Name == confirmTransactionModel.DiscountName);
 
             if (cart.CartItems.Count == 0)
                 return new ReturnModel { Success = false, Message = "Your Cart is empty" };           
