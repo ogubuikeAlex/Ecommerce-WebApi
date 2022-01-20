@@ -39,8 +39,11 @@ namespace KingsStoreApi.Services.Implementations
 
         public ReturnModel RemoveAddress(string id)
         {
-            var address =_addressRepoitory
-            _addressRepoitory.ToggleSoftDeleteAsync()
+            var address = _addressRepoitory.GetSingleByCondition(a => a.Id.ToString() == id);
+
+            if (address is null)
+                return new ReturnModel { Message = "Address not found" };
+            await _addressRepoitory.ToggleSoftDeleteAsync(address);
         }
     }
 }
