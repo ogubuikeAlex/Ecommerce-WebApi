@@ -8,7 +8,6 @@ namespace KingsStoreApi.Services.Interfaces
     public interface ITransactionService
     {
         string PayForProduct(decimal amount, Order order, User user);
-        Task<ReturnModel> ConfirmOrder(ConfirmTransactionDTO confirmTransactionModel, User user);
-        ReturnModel AddDiscountCode(string code);
+        Task<ReturnModel> ConfirmOrder(ConfirmTransactionDTO confirmTransactionModel, User user);        
     }
 }
