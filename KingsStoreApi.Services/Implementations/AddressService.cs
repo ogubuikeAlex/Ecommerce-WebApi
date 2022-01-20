@@ -23,14 +23,24 @@ namespace KingsStoreApi.Services.Implementations
         {
             var address = _mapper.Map<Address>(model);
 
+            if (await _addressRepoitory.AnyAsync(
+                a => a.street == model.street
+                && a.UserId == user.Id 
+                && a.HouseNumber == model.HouseNumber 
+                && a.City == model.City 
+                && a.Country == model.Country)
+                )
+                return new ReturnModel { Message = "Address already exists", Success = false };
             address.UserId = user.Id;
             await _addressRepoitory.AddAsync(address);
-           
+
+            return new ReturnModel { Message = "Address Added Successfully", Success = true };
         }
 
-        public ReturnModel RemoveAddress(RemoveAddressDTO model)
+        public ReturnModel RemoveAddress(string id)
         {
-            throw new System.NotImplementedException();
+            var address =_addressRepoitory
+            _addressRepoitory.ToggleSoftDeleteAsync()
         }
     }
 }
