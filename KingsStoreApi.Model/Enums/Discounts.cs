@@ -1,18 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace KingsStoreApi.Model.Enums
 {
-    public enum Discounts
+    public class Discounts
     {
-        OwambeBlockChain = 5,
-        BigBoyBroom = 10 ,
-        KpomoKatrina = 15,
-        Chiefkpafuka = 20,
-        OgaKpakpata = 50,
-        OshofreeGettat = 100,
+        private Dictionary<string, int?> _discounts;
+
+        public Discounts()
+        {
+            _discounts = new Dictionary<string, int?>
+            {
+                ["OwambeBlockChain"] = 5,
+                ["BigBoyBroom"] = 10,
+                ["KpomoKatrina"] = 15,
+                ["Chiefkpafuka"] = 20,
+                ["OgaKpakpata"] = 50,
+                ["OshofreeGettat"] = 100
+            };
+
+        }
+        public int? this[string discountName] => _discounts[discountName] ??= default;       
     }
 }
