@@ -67,13 +67,10 @@ namespace KingsStoreApi.Services.Implementations
             Cart cart = user.Cart;
 
             if (cart.CartItems.Count == 0)
-                return new ReturnModel { Success = false, Message = "Your Cart is empty" };
-
-           // confirmTransactionModel.Cart = cart;
+                return new ReturnModel { Success = false, Message = "Your Cart is empty" };           
 
             // add address to database if it does not already exist!
-            await _addressRepository.AddAsync(confirmTransactionModel.Address);
-
+           // await _addressRepository.AddAsync(confirmTransactionModel.Address);
             // create an new order object and load the order items onto it
             Order datOrder = new Order
             {
