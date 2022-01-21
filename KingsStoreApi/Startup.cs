@@ -1,4 +1,5 @@
 using KingsStoreApi.Configuration;
+using KingsStoreApi.Configuration.Mail;
 using KingsStoreApi.Data.Implementations;
 using KingsStoreApi.Data.Interfaces;
 using KingsStoreApi.Extensions;
@@ -29,6 +30,11 @@ namespace KingsStoreApi
         {
             services.SetupServices(Configuration);
             services.ConfigureJWT(Configuration);
+
+            var emailConfig = Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
+
+            services.AddSingleton(emailConfig);
+
             services.AddControllers(config =>
             {
                 config.RespectBrowserAcceptHeader = true;
@@ -77,28 +83,28 @@ namespace KingsStoreApi
         }
 
 
-            // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-            public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
             {
-                if (env.IsDevelopment())
-                {
-                    app.UseDeveloperExceptionPage();
-                    app.UseSwagger();
-                    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "KingsStoreApi v1"));
-                }
-                app.ConfigureExceptionHandler();
-                app.UseHttpsRedirection();
-
-                app.UseRouting();
-                app.UseAuthentication();
-                app.UseAuthorization();
-
-                app.UseEndpoints(endpoints =>
-                {
-                    endpoints.MapControllers();
-                });
-
-                DataInitializer.RunDataInitiazer(app, Configuration);
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "KingsStoreApi v1"));
             }
+            app.ConfigureExceptionHandler();
+            app.UseHttpsRedirection();
+
+            app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+
+            DataInitializer.RunDataInitiazer(app, Configuration);
         }
     }
+}
