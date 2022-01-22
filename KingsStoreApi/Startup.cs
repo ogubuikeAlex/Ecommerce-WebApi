@@ -80,6 +80,7 @@ namespace KingsStoreApi
             services.AddTransient<ITransactionService, TransactionService>();
             services.AddTransient<IServiceFactory, ServiceFactory>();
             services.AddTransient<IUnitOfWork, UnitOfWork<KingsStoreContext>>();
+            services.AddScoped<IEmailSender, EmailSender>();
         }
 
 
