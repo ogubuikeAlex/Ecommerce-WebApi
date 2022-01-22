@@ -28,5 +28,6 @@ namespace KingsStoreApi.Model.Entities
         public DbSet<CartItem> CartItems{get;  set;}
         public DbSet<Order> Orders{get;  set;}
         public DbSet<OrderItem> OrderItems{get;  set;}
+        public DbSet<Discount> Discounts{get;  set;}
     }
 }
