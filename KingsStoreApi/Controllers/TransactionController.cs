@@ -11,15 +11,15 @@ namespace KingsStoreApi.Controllers
     [ApiController]
     public class TransactionController : ControllerBase
     {
-        private readonly ITransactionService transactionService;
+        private readonly ITransactionService _transactionService;
 
         public TransactionController(ITransactionService transactionService)
         {
-            this.transactionService = transactionService;
+            this._transactionService = transactionService;
         }
         public IActionResult PayForProduct(decimal amount, Order order, User user)
         {
-            var result 
+            var result = _transactionService.PayForProduct(amount, order, user);
 
         }
         public Task<IActionResult> ConfirmOrder(ConfirmTransactionDTO confirmTransactionModel, User user) 
