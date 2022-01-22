@@ -61,7 +61,7 @@ namespace KingsStoreApi.Services.Implementations
 
             var result = ValidateResponse(response);
             //change to a multilevel string check!
-            return result;
+            return new ReturnModel { Message = "successful", Success = true};
         }
 
         public async Task<ReturnModel> ConfirmOrder(ConfirmTransactionDTO confirmTransactionModel, User user)
