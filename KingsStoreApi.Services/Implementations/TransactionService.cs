@@ -32,7 +32,7 @@ namespace KingsStoreApi.Services.Implementations
             _discountRepository = unitOfWork.GetRepository<Discount>();
         }        
 
-        public string PayForProduct(decimal amount, Order order, User user)
+        public ReturnModel PayForProduct(decimal amount, Order order, User user)
         {
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX;
 
