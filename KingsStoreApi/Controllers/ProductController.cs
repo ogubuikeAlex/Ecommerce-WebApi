@@ -50,9 +50,9 @@ namespace KingsStoreApi.Controllers
         }
 
         [HttpGet("name/{name}")]//working
-        public IActionResult GetProductByName(string name)
+        public IActionResult GetProductByName(string name, [FromQuery] ProductRequestParameters requestParameters)
         {
-            var result = _productService.GetProductByName(name);
+            var result = _productService.GetProductByName(name, requestParameters);
             if (!result.Success)
                 return BadRequest(result.Message);
 
