@@ -11,7 +11,11 @@ namespace KingsStoreApi.Controllers
         {
 
         }
-        public IActionResult Pay()
+        public IActionResult PayForProduct(decimal amount, Order order, User user)
+        {
+
+        }
+        public Task<IActionResult> ConfirmOrder(ConfirmTransactionDTO confirmTransactionModel, User user); 
         {
 
         }
