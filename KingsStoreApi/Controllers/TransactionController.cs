@@ -21,6 +21,9 @@ namespace KingsStoreApi.Controllers
         {
             var result = _transactionService.PayForProduct(amount, order, user);
 
+            if (!result.Success)
+                return BadRequest(result.Message);
+
         }
         public Task<IActionResult> ConfirmOrder(ConfirmTransactionDTO confirmTransactionModel, User user) 
         {
