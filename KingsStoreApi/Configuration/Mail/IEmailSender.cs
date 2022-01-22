@@ -7,6 +7,6 @@ namespace KingsStoreApi.Configuration.Mail
 {
     public interface IEmailSender
     {
-        void sendEmail (Message message); 
+        void SendEmail (Message message); 
     }
 }
