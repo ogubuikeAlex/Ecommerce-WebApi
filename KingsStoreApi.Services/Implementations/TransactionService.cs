@@ -30,8 +30,7 @@ namespace KingsStoreApi.Services.Implementations
             _orderRepository = unitOfWork.GetRepository<Order>();
             _orderItemRepository = unitOfWork.GetRepository<OrderItem>();
             _discountRepository = unitOfWork.GetRepository<Discount>();
-        }
-        
+        }        
 
         public string PayForProduct(decimal amount, Order order, User user)
         {
