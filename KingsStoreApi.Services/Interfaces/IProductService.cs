@@ -9,7 +9,7 @@ namespace KingsStoreApi.Services.Interfaces
 {
     public interface IProductService
     {
-        ReturnModel GetProductByName(string name);
+        ReturnModel GetProductByName(string name, ProductRequestParameters requestParameters);
         ReturnModel GetProductById(string id);
         ReturnModel GetAllProducts(ProductRequestParameters requestParameters);
         ReturnModel GetDisabledProductsByVendor(User user, ProductRequestParameters requestParameters);
