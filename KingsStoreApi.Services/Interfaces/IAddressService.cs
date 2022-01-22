@@ -8,6 +8,6 @@ namespace KingsStoreApi.Services.Interfaces
     public interface IAddressService
     {
         Task<ReturnModel> AddAddress(AddAddressDTO model, User user);
-        ReturnModel RemoveAddress(string id);
+        Task<ReturnModel> RemoveAddress(string id);
     }
 }
