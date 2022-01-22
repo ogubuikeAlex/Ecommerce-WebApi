@@ -7,5 +7,13 @@ namespace KingsStoreApi.Controllers
     [ApiController]
     public class TransactionController : ControllerBase
     {
+        public TransactionController()
+        {
+
+        }
+        public IActionResult Pay()
+        {
+
+        }
     }
 }
