@@ -29,10 +29,15 @@ namespace KingsStoreApi.Controllers
             return Ok(result);
         }
 
-        public IActionResult ConfirmOrder(ConfirmTransactionDTO confirmTransactionModel) 
+        public async Task<IActionResult> ConfirmOrder(ConfirmTransactionDTO confirmTransactionModel) 
         {
             var user = await GetLoggedInUserAsync();
-            var result = _transactionService.ConfirmOrder(confirmTransactionModel, user);
+            var result = await _transactionService.ConfirmOrder(confirmTransactionModel, user);
+
+            if (!result.Success)
+                return result.Message.Contains("not found") ? NotFound(result.Message) : BadRequest(result.Message);
+
+            return Ok(result.Message);
         }
     }
 }
