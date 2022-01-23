@@ -4,6 +4,7 @@ using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace KingsStoreApi.Controllers
 {
@@ -17,7 +18,7 @@ namespace KingsStoreApi.Controllers
         {
             this._transactionService = transactionService;
         }
-        public IActionResult PayForProduct(PayForProductDTO model)
+        public async Task<IActionResult> PayForProduct(PayForProductDTO model)
         {
            var user = await GetLoggedInUserAsync();
             var result = _transactionService.PayForProduct(model.Amount, model.OrderId, model.userId);
