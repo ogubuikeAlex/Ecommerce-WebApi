@@ -1,11 +1,8 @@
 ﻿using KingsStoreApi.Model.DataTransferObjects.CategoryServicesDTO;
 using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace KingsStoreApi.Controllers
