@@ -1,9 +1,7 @@
 ﻿using KingsStoreApi.Model.DataTransferObjects.TransactionServiceDTO;
 using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace KingsStoreApi.Controllers
 {
@@ -27,9 +25,9 @@ namespace KingsStoreApi.Controllers
             return Ok(result);
 
         }
-        public Task<IActionResult> ConfirmOrder(ConfirmTransactionDTO confirmTransactionModel, User user) 
+        public IActionResult ConfirmOrder(ConfirmTransactionDTO confirmTransactionModel, User user) 
         {
-
+            return Ok(user);
         }
     }
 }
