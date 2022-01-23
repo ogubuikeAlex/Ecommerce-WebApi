@@ -20,6 +20,7 @@ namespace KingsStoreApi.Services.Implementations
         private readonly IRepository<Order> _orderRepository;
         private readonly IRepository<OrderItem> _orderItemRepository;
         private readonly IRepository<Discount> _discountRepository;
+        private readonly IRepository<Cart> _cartRepository;
 
         public IConfiguration Configuration { get; set; }
 
@@ -30,6 +31,7 @@ namespace KingsStoreApi.Services.Implementations
             _orderRepository = unitOfWork.GetRepository<Order>();
             _orderItemRepository = unitOfWork.GetRepository<OrderItem>();
             _discountRepository = unitOfWork.GetRepository<Discount>();
+            _cartRepository = unitOfWork.GetRepository<Cart>();
         }        
 
         public ReturnModel PayForProduct(decimal amount, string orderId, User user)
@@ -113,15 +115,16 @@ namespace KingsStoreApi.Services.Implementations
             };
 
             //CHARGE CARD --> private method
-            //Payment payment = new Payment(Configuration);
+            
             PayForProduct(confirmTransactionModel.Total, datOrder.ID.ToString(), user);
 
-            /*await _emailSender.SendEmailAsync(user.Email, "Order Information",
+            await _emailSender.SendEmailAsync(user.Email, "Order Information",
                         htmlMessage);
             // empty out basket
             await _basketRepo.ClearOutBasket(confirmTransactionModel.Basket.BasketItems);
+            _
 
-            return "done";*/
+            //return "done";
             return new ReturnModel { };
         }
 
