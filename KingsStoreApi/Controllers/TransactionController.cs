@@ -19,7 +19,7 @@ namespace KingsStoreApi.Controllers
         }
         public IActionResult PayForProduct(PayForProductDTO model)
         {
-            //get logged in user here
+           var user = await GetLoggedInUserAsync();
             var result = _transactionService.PayForProduct(model.Amount, model.OrderId, model.userId);
 
             if (!result.Success)
