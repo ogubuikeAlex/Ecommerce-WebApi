@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace KingsStoreApi.Model.DataTransferObjects.TransactionServiceDTO
+﻿namespace KingsStoreApi.Model.DataTransferObjects.TransactionServiceDTO
 {
     public class PayForProductDTO
     {
+        public decimal amount { get; set; }
+        public string orderId { get; set; }
+        public string userId { get; set; }
     }
 }
