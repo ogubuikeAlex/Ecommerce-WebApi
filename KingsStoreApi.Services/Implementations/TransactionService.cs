@@ -6,8 +6,10 @@ using KingsStoreApi.Helpers.Implementations;
 using KingsStoreApi.Model.DataTransferObjects.TransactionServiceDTO;
 using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Model.Enums;
+using KingsStoreApi.Model.ModelHelpers.Mail;
 using KingsStoreApi.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
+using MimeKit;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -21,12 +23,14 @@ namespace KingsStoreApi.Services.Implementations
         private readonly IRepository<OrderItem> _orderItemRepository;
         private readonly IRepository<Discount> _discountRepository;
         private readonly IRepository<Cart> _cartRepository;
+        private readonly IEmailSender _emailSender;
 
         public IConfiguration Configuration { get; set; }
 
         public TransactionService(IConfiguration configuration, IUnitOfWork unitOfWork, IEmailSender emailSender)
         {
             Configuration = configuration;
+            _emailSender = emailSender;
             _addressRepository = unitOfWork.GetRepository<Address>();
             _orderRepository = unitOfWork.GetRepository<Order>();
             _orderItemRepository = unitOfWork.GetRepository<OrderItem>();
@@ -118,8 +122,9 @@ namespace KingsStoreApi.Services.Implementations
             
             PayForProduct(confirmTransactionModel.Total, datOrder.ID.ToString(), user);
 
-            await _emailSender.SendEmailAsync(user.Email, "Order Information",
-                        htmlMessage);
+            var message = new Message(new string[] { user.Email}, "Order Information", htmlMessage);
+            _emailSender.SendEmail(message);
+           
             // empty out basket
             //await _basketRepo.ClearOutBasket(confirmTransactionModel.Basket.BasketItems);
             
