@@ -30,10 +30,9 @@ namespace KingsStoreApi.Services.Implementations
             _orderRepository = unitOfWork.GetRepository<Order>();
             _orderItemRepository = unitOfWork.GetRepository<OrderItem>();
             _discountRepository = unitOfWork.GetRepository<Discount>();
-        }
-        
+        }        
 
-        public string PayForProduct(decimal amount, Order order, User user)
+        public ReturnModel PayForProduct(decimal amount, Order order, User user)
         {
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX;
 
@@ -62,7 +61,7 @@ namespace KingsStoreApi.Services.Implementations
 
             var result = ValidateResponse(response);
             //change to a multilevel string check!
-            return result;
+            return new ReturnModel { Message = "successful", Success = true};
         }
 
         public async Task<ReturnModel> ConfirmOrder(ConfirmTransactionDTO confirmTransactionModel, User user)
