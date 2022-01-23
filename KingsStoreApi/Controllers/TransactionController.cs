@@ -15,9 +15,10 @@ namespace KingsStoreApi.Controllers
         {
             this._transactionService = transactionService;
         }
-        public IActionResult PayForProduct(decimal amount, Order order, User user)
+        public IActionResult PayForProduct(PayForProductDTO model)
         {
-            var result = _transactionService.PayForProduct(amount, order, user);
+            //get logged in user here
+            var result = _transactionService.PayForProduct(model.Amount, model.OrderId, model.userId);
 
             if (!result.Success)
                 return BadRequest(result.Message);
