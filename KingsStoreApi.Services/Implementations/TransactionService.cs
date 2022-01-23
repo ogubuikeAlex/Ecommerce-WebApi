@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using MimeKit;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace KingsStoreApi.Services.Implementations
@@ -112,17 +113,18 @@ namespace KingsStoreApi.Services.Implementations
 
             //sends a receipt of the order information /
             //PRIVATE FUNCTION that takes in a order generates a message
-            string htmlMessage = "Thank you for shopping with us!  You ordered: </br>";
+            var htmlMessage = new StringBuilder();
+            htmlMessage.Append("Thank you for shopping with us!  You ordered: </br>");
             foreach (var item in datOrder.OrderItems)
             {
-                htmlMessage += $"Item: {item.Product.Title}, Quantity: {item.Quantity}</br>";
+                htmlMessage.Append($"Item: {item.Product.Title}, Quantity: {item.Quantity}");
             };
 
             //CHARGE CARD --> private method
             
             PayForProduct(confirmTransactionModel.Total, datOrder.ID.ToString(), user);
 
-            var message = new Message(new string[] { user.Email}, "Order Information", htmlMessage);
+            var message = new Message(new string[] { user.Email}, "Order Information", htmlMessage.ToString());
             _emailSender.SendEmail(message);
            
             // empty out basket
