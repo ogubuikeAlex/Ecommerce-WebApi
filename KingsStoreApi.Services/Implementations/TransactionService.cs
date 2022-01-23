@@ -32,7 +32,7 @@ namespace KingsStoreApi.Services.Implementations
             _discountRepository = unitOfWork.GetRepository<Discount>();
         }        
 
-        public ReturnModel PayForProduct(decimal amount, Order order, User user)
+        public ReturnModel PayForProduct(decimal amount, string orderId, User user)
         {
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX;
 
@@ -45,6 +45,11 @@ namespace KingsStoreApi.Services.Implementations
                     ItemElementName = ItemChoiceType.transactionKey,
                     Item = Configuration["AuthorizeNetItem"],
                 };
+
+            var order = _orderRepository.GetSingleByCondition(o => o.ID.ToString() == orderId);
+
+            if (order == null)
+                return new ReturnModel { Message = "order not found", Success = false };
 
             var creditCard = CreateCreditCard();
             var billingAddress = CreateBillingAddress(user, order);
