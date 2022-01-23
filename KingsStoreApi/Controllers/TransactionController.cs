@@ -1,4 +1,5 @@
-﻿using KingsStoreApi.Model.DataTransferObjects.TransactionServiceDTO;
+﻿using KingsStoreApi.Extensions;
+using KingsStoreApi.Model.DataTransferObjects.TransactionServiceDTO;
 using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +8,7 @@ namespace KingsStoreApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TransactionController : ControllerBase
+    public class TransactionController : ControllerBaseExtension
     {
         private readonly ITransactionService _transactionService;
 
