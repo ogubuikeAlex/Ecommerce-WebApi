@@ -21,14 +21,14 @@ namespace KingsStoreApi.Controllers
         public async Task<IActionResult> PayForProduct(PayForProductDTO model)
         {
            var user = await GetLoggedInUserAsync();
-            var result = _transactionService.PayForProduct(model.Amount, model.OrderId, model.userId);
+            var result = _transactionService.PayForProduct(model.Amount, model.OrderId, user);
 
             if (!result.Success)
                 return BadRequest(result.Message);
 
             return Ok(result);
-
         }
+
         public IActionResult ConfirmOrder(ConfirmTransactionDTO confirmTransactionModel, User user) 
         {
             return Ok(user);
