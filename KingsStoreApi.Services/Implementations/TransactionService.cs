@@ -83,6 +83,9 @@ namespace KingsStoreApi.Services.Implementations
 
             var discount = _discountRepository.GetSingleByCondition(d => d.Name == confirmTransactionModel.DiscountName);
 
+            if (discount == null)
+                confirmTransactionModel.DiscountName = null;
+
             if (cart.CartItems.Count == 0)
                 return new ReturnModel { Success = false, Message = "Your Cart is empty" };           
 
@@ -119,6 +122,9 @@ namespace KingsStoreApi.Services.Implementations
             {
                 htmlMessage.Append($"Item: {item.Product.Title}, Quantity: {item.Quantity}");
             };
+
+            if (discount is not null)
+                confirmTransactionModel.Total = ApplyDiscountCode(confirmTransactionModel.Total, discount);
 
             //CHARGE CARD --> private method
             
