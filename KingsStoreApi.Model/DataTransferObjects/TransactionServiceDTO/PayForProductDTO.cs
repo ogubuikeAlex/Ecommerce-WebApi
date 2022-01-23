@@ -2,8 +2,7 @@
 {
     public class PayForProductDTO
     {
-        public decimal amount { get; set; }
-        public string orderId { get; set; }
-        public string userId { get; set; }
+        public decimal Amount { get; set; }
+        public string OrderId { get; set; }        
     }
 }
