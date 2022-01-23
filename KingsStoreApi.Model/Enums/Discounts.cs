@@ -10,6 +10,7 @@ namespace KingsStoreApi.Model.Enums
         {
             _discounts = new Dictionary<string, int?>
             {
+                
                 ["OwambeBlockChain"] = 5,
                 ["BigBoyBroom"] = 10,
                 ["KpomoKatrina"] = 15,
