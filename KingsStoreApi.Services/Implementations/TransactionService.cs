@@ -24,7 +24,7 @@ namespace KingsStoreApi.Services.Implementations
 
         public IConfiguration Configuration { get; set; }
 
-        public TransactionService(IConfiguration configuration, IUnitOfWork unitOfWork)
+        public TransactionService(IConfiguration configuration, IUnitOfWork unitOfWork, IEmailSender emailSender)
         {
             Configuration = configuration;
             _addressRepository = unitOfWork.GetRepository<Address>();
@@ -121,9 +121,8 @@ namespace KingsStoreApi.Services.Implementations
             await _emailSender.SendEmailAsync(user.Email, "Order Information",
                         htmlMessage);
             // empty out basket
-            await _basketRepo.ClearOutBasket(confirmTransactionModel.Basket.BasketItems);
-            _
-
+            //await _basketRepo.ClearOutBasket(confirmTransactionModel.Basket.BasketItems);
+            
             //return "done";
             return new ReturnModel { };
         }
