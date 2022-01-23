@@ -114,7 +114,7 @@ namespace KingsStoreApi.Services.Implementations
 
             //CHARGE CARD --> private method
             //Payment payment = new Payment(Configuration);
-            PayForProduct(confirmTransactionModel.Total, datOrder, user);
+            PayForProduct(confirmTransactionModel.Total, datOrder.ID.ToString(), user);
 
             /*await _emailSender.SendEmailAsync(user.Email, "Order Information",
                         htmlMessage);
