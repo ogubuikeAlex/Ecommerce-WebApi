@@ -2,6 +2,7 @@
 using KingsStoreApi.Model.DataTransferObjects.TransactionServiceDTO;
 using KingsStoreApi.Model.Entities;
 using KingsStoreApi.Services.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KingsStoreApi.Controllers
@@ -12,7 +13,7 @@ namespace KingsStoreApi.Controllers
     {
         private readonly ITransactionService _transactionService;
 
-        public TransactionController(ITransactionService transactionService)
+        public TransactionController(ITransactionService transactionService, UserManager<User> userManager): base(userManager)
         {
             this._transactionService = transactionService;
         }
