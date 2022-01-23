@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace KingsStoreApi.Model.ModelHelpers.Mail
 {
-    internal class Message
+    public class Message
     {
         public List<MailboxAddress> To { get; set; }
         public string Subject { get; set; }
