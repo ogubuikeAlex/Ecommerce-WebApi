@@ -8,17 +8,6 @@ namespace KingsStoreApi.Model.ModelHelpers.Mail
 {
     internal interface IEmailSender
     {
-        private readonly EmailConfiguration _emailConfig;
-
-        public EmailSender(EmailConfiguration emailConfig)
-        {
-            _emailConfig = emailConfig;
-        }
-
-        public void SendEmail(Message message)
-        {
-            var emailMessage = CreateEmailMessage(message);
-            Send(emailMessage);
-        }
+         void SendEmail (Message message); 
     }
 }
