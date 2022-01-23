@@ -135,10 +135,8 @@ namespace KingsStoreApi.Services.Implementations
         }
 
         private decimal ApplyDiscountCode(decimal initialAmount, Discount discount)
-            => discount.PercentageOff / 100 * initialAmount;   
-       
-
-        //Should convert into a private method that takes a cart, convert the cartItems into orderitems and adds then to thedb 
+            => discount.PercentageOff / 100 * initialAmount;  
+        
         private async Task<List<OrderItem>> convertCartItemToOrderItem(List<CartItem> cartItems)
         {
             List<OrderItem> demOrderItems = new List<OrderItem>();

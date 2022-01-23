@@ -29,9 +29,10 @@ namespace KingsStoreApi.Controllers
             return Ok(result);
         }
 
-        public IActionResult ConfirmOrder(ConfirmTransactionDTO confirmTransactionModel, User user) 
+        public IActionResult ConfirmOrder(ConfirmTransactionDTO confirmTransactionModel) 
         {
-            return Ok(user);
+            var user = await GetLoggedInUserAsync();
+            var result = _transactionService.ConfirmOrder(confirmTransactionModel, user);
         }
     }
 }
