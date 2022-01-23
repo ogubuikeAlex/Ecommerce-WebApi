@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KingsStoreApi.Model.ModelHelpers.Mail
 {
-    internal interface IEmailSender
+    public interface IEmailSender
     {
          void SendEmail (Message message); 
     }
