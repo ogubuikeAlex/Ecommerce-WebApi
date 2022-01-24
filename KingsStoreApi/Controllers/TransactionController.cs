@@ -30,6 +30,7 @@ namespace KingsStoreApi.Controllers
             return Ok(result);
         }
 
+        [HttpPost("confirmOrder")]
         public async Task<IActionResult> ConfirmOrder(ConfirmTransactionDTO confirmTransactionModel) 
         {
             var user = await GetLoggedInUserAsync();
