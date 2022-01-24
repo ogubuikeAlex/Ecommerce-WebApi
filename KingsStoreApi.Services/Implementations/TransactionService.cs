@@ -129,10 +129,6 @@ namespace KingsStoreApi.Services.Implementations
             var message = new Message(new string[] { user.Email}, "Order Information", htmlMessage.ToString());
             _emailSender.SendEmail(message);
            
-            // empty out basket
-            //await _basketRepo.ClearOutBasket(confirmTransactionModel.Basket.BasketItems);
-            
-            //return "done";
             return new ReturnModel { };
         }
 
