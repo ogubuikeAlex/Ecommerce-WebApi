@@ -122,7 +122,7 @@ namespace KingsStoreApi.Services.Implementations
             var message = new Message(new string[] { user.Email}, "Order Information", orderMessage);
             _emailSender.SendEmail(message);
            
-            return new ReturnModel { Message = "order completed"};
+            return new ReturnModel { Message = "order completed", Success = true};
         }
 
         private string ConstructOrderMessage(Order order)
