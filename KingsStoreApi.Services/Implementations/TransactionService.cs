@@ -135,8 +135,8 @@ namespace KingsStoreApi.Services.Implementations
             };
 
             return htmlMessage.ToString();
-
         }
+
         private decimal ApplyDiscountCode(decimal initialAmount, Discount discount)
             => discount.PercentageOff / 100 * initialAmount;  
         
