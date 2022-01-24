@@ -132,6 +132,10 @@ namespace KingsStoreApi.Services.Implementations
             return new ReturnModel { };
         }
 
+        private string ConstructOrderMessage(Order order)
+        {
+
+        }
         private decimal ApplyDiscountCode(decimal initialAmount, Discount discount)
             => discount.PercentageOff / 100 * initialAmount;  
         
