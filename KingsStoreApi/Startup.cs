@@ -1,5 +1,4 @@
 using KingsStoreApi.Configuration;
-using KingsStoreApi.Configuration.Mail;
 using KingsStoreApi.Data.Implementations;
 using KingsStoreApi.Data.Interfaces;
 using KingsStoreApi.Extensions;
