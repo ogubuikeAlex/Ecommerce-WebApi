@@ -72,7 +72,7 @@ namespace KingsStoreApi.Services.Implementations
             var result = ValidateResponse(response);
 
             if (result.Contains("invalid"))
-                result = ValidateResponse(response);
+                return new ReturnModel { Message = "Invalid response", Success =false };
             //change to a multilevel string check!
             if (result.Contains("not found"))
                 return new ReturnModel { Message = "Response content wasnt found" };
