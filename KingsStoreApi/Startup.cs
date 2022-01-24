@@ -3,6 +3,7 @@ using KingsStoreApi.Data.Implementations;
 using KingsStoreApi.Data.Interfaces;
 using KingsStoreApi.Extensions;
 using KingsStoreApi.Model.Entities;
+using KingsStoreApi.Model.ModelHelpers.Mail;
 using KingsStoreApi.Services.Implementations;
 using KingsStoreApi.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
