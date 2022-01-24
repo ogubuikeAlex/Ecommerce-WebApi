@@ -112,12 +112,7 @@ namespace KingsStoreApi.Services.Implementations
 
             //sends a receipt of the order information /
             //PRIVATE FUNCTION that takes in a order generates a message
-            var htmlMessage = new StringBuilder();
-            htmlMessage.Append("Thank you for shopping with us!  You ordered: </br>");
-            foreach (var item in datOrder.OrderItems)
-            {
-                htmlMessage.Append($"Item: {item.Product.Title}, Quantity: {item.Quantity}");
-            };
+            
 
             if (discount is not null)
                 confirmTransactionModel.Total = ApplyDiscountCode(confirmTransactionModel.Total, discount);
@@ -134,6 +129,14 @@ namespace KingsStoreApi.Services.Implementations
 
         private string ConstructOrderMessage(Order order)
         {
+            var htmlMessage = new StringBuilder();
+            htmlMessage.Append("Thank you for shopping with us!  You ordered: </br>");
+            foreach (var item in order.OrderItems)
+            {
+                htmlMessage.Append($"Item: {item.Product.Title}, Quantity: {item.Quantity}");
+            };
+
+            return htmlMessage.ToString();
 
         }
         private decimal ApplyDiscountCode(decimal initialAmount, Discount discount)
