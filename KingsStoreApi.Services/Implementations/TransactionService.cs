@@ -70,6 +70,9 @@ namespace KingsStoreApi.Services.Implementations
             var response = controller.GetApiResponse();
 
             var result = ValidateResponse(response);
+
+            if (result.Contains("invalid"))
+                result = ValidateResponse(response);
             //change to a multilevel string check!
             return new ReturnModel { Message = "successful", Success = true};
         }
