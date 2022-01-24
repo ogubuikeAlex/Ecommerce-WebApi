@@ -121,7 +121,7 @@ namespace KingsStoreApi.Services.Implementations
             
             PayForProduct(confirmTransactionModel.Total, datOrder.ID.ToString(), user);
 
-            var message = new Message(new string[] { user.Email}, "Order Information", htmlMessage.ToString());
+            var message = new Message(new string[] { user.Email}, "Order Information", orderMessage);
             _emailSender.SendEmail(message);
            
             return new ReturnModel { };
