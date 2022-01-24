@@ -13,10 +13,12 @@ namespace KingsStoreApi.Controllers
     public class TransactionController : ControllerBaseExtension
     {
         private readonly ITransactionService _transactionService;
+        private readonly ICartService cartService;
 
-        public TransactionController(ITransactionService transactionService, UserManager<User> userManager): base(userManager)
+        public TransactionController(ITransactionService transactionService, UserManager<User> userManager, ICartService cartService): base(userManager)
         {
             this._transactionService = transactionService;
+            this.cartService = cartService;
         }
         [HttpPost("pay")]
         public async Task<IActionResult> PayForProduct(PayForProductDTO model)
@@ -35,6 +37,9 @@ namespace KingsStoreApi.Controllers
         {
             var user = await GetLoggedInUserAsync();
             var result = await _transactionService.ConfirmOrder(confirmTransactionModel, user);
+
+            //empty out cart
+            cartService.ClearCart(user.Id);
 
             if (!result.Success)
                 return result.Message.Contains("not found") ? NotFound(result.Message) : BadRequest(result.Message);
