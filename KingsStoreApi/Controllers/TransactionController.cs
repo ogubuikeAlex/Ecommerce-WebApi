@@ -18,6 +18,7 @@ namespace KingsStoreApi.Controllers
         {
             this._transactionService = transactionService;
         }
+        [HttpPost("pay")]
         public async Task<IActionResult> PayForProduct(PayForProductDTO model)
         {
            var user = await GetLoggedInUserAsync();
