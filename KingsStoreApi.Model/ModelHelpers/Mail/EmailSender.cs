@@ -10,14 +10,12 @@ namespace KingsStoreApi.Model.ModelHelpers.Mail
 {
     public class EmailSender : IEmailSender
     {
-        public EmailConfiguration Config;
+        private readonly EmailConfiguration _emailConfig;
 
         public EmailSender(EmailConfiguration emailConfig)
         {
-            EmailConfig = emailConfig;
-        }
-
-        public EmailConfiguration EmailConfig { get; }
+           _emailConfig = emailConfig;
+        }        
 
         public void SendEmail(Message message)
         {
