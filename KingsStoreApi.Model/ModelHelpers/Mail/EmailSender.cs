@@ -8,14 +8,16 @@ using System.Threading.Tasks;
 
 namespace KingsStoreApi.Model.ModelHelpers.Mail
 {
-   public class EmailSender : IEmailSender
+    public class EmailSender : IEmailSender
     {
-        private readonly EmailConfiguration _emailConfig;
+        public EmailConfiguration Config;
 
         public EmailSender(EmailConfiguration emailConfig)
         {
-            _emailConfig = emailConfig;
+            EmailConfig = emailConfig;
         }
+
+        public EmailConfiguration EmailConfig { get; }
 
         public void SendEmail(Message message)
         {
