@@ -75,8 +75,7 @@ namespace KingsStoreApi.Services.Implementations
         }
 
         public async Task<ReturnModel> ConfirmOrder(ConfirmTransactionDTO confirmTransactionModel, User user)
-        {
-            //I should be able to get a cart from a user
+        {           
             Cart cart = user.Cart;
 
             var discount = _discountRepository.GetSingleByCondition(d => d.Name == confirmTransactionModel.DiscountName);
@@ -88,7 +87,7 @@ namespace KingsStoreApi.Services.Implementations
                 return new ReturnModel { Success = false, Message = "Your Cart is empty" };           
 
             // add address to database if it does not already exist!
-           // await _addressRepository.AddAsync(confirmTransactionModel.Address);
+
             // create an new order object and load the order items onto it
             Order datOrder = new Order
             {
@@ -103,8 +102,7 @@ namespace KingsStoreApi.Services.Implementations
             };
 
             // add order to the database table
-            // I'm doing this first in hopes that the order generates an ID that
-            // I can add to the order items. Here's hoping...
+          
             await _orderRepository.AddAsync(datOrder);
 
             //call method to convert all cartitems to orderItems, return orderItems as demOrderItems 
