@@ -75,7 +75,7 @@ namespace KingsStoreApi.Services.Implementations
                 result = ValidateResponse(response);
             //change to a multilevel string check!
             if (result.Contains("not found"))
-                return new ReturnModel { Message =  };
+                return new ReturnModel { Message = "Response content wasnt found" };
 
             if (result.Contains("transactionFailed"))
                 return new ReturnModel { Success = false, Message= "Transction Failed" };
