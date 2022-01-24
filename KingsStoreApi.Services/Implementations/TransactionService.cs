@@ -112,7 +112,7 @@ namespace KingsStoreApi.Services.Implementations
 
             //sends a receipt of the order information /
             //PRIVATE FUNCTION that takes in a order generates a message
-            
+            var orderMessage = ConstructOrderMessage(datOrder);
 
             if (discount is not null)
                 confirmTransactionModel.Total = ApplyDiscountCode(confirmTransactionModel.Total, discount);
