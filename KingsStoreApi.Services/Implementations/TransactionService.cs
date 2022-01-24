@@ -116,8 +116,6 @@ namespace KingsStoreApi.Services.Implementations
 
             if (discount is not null)
                 confirmTransactionModel.Total = ApplyDiscountCode(confirmTransactionModel.Total, discount);
-
-            //CHARGE CARD --> private method
             
             PayForProduct(confirmTransactionModel.Total, datOrder.ID.ToString(), user);
 
