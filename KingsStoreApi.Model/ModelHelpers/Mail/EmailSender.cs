@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace KingsStoreApi.Model.ModelHelpers.Mail
 {
-    internal class EmailSender : IEmailSender
+   public class EmailSender : IEmailSender
     {
         private readonly EmailConfiguration _emailConfig;
 
