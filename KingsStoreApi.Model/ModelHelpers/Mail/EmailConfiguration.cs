@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KingsStoreApi.Model.ModelHelpers.Mail
 {
-    internal class EmailConfiguration
+   public class EmailConfiguration
     {
         public string From { get; set; }
         public string SmtpServer { get; set; }
