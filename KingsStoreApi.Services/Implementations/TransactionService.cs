@@ -77,6 +77,9 @@ namespace KingsStoreApi.Services.Implementations
             if (result.Contains("not found"))
                 return new ReturnModel { Message = result };
 
+            if (result.Contains("transactionFailed"))
+                return new ReturnModel { Success = false };
+
             return new ReturnModel { Message = "successful", Success = true};
         }
 
